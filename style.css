@@ -1,0 +1,249 @@
+/*====================================*/
+/*Configuracion de toda la pagina*/
+body{
+    /*Color de fondo*/
+    background-color: #f5f6fa;
+
+    /*Tipo de letra*/
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*====================================*/
+/*Menu lateral*/
+.sidebar{
+    /*Color verde*/
+    background-color: #3A7307;
+
+    /*Ancho del menu*/
+    width: 250px;
+
+    /*Altura completa de pantalla*/
+    /* El 100 es el procentaje de la pantalla vertical*/
+    height: 100vh;
+
+    /*Flexbox*/
+    display: flex;
+
+    /*Elementos en columna*/
+    flex-direction: column;
+
+    /*Separar contenido arriba y abajo*/
+    justify-content: space-between;
+
+    /*Espacio interno*/
+    padding: 20px;
+}
+
+
+/*====================================*/
+/*Logo*/
+.logo{
+    /*Ancho imagen*/
+    width: 200px;
+
+    /*Bordes redondeados*/
+    border-radius: 10px;
+
+    /*Separacion inferior*/
+    margin-bottom: 10px;
+
+    /*Color de fondo blanco*/
+    background-color: white;
+
+    /*Espacio interno*/
+    padding: 10px;
+}
+
+/*====================================*/
+/*Links del menu*/
+.nav-link{
+    /*Color texto*/
+    color: white;
+
+    /*Espaciado interno*/
+    padding: 10px;
+
+    /*Separacion entre botones*/
+    margin-bottom: 10px;
+
+    /*Bordes redondeados*/
+    border-radius: 10px;
+
+    /*Velocidad de la transicion*/
+    transition: 0.5s;
+}
+
+/*====================================*/
+/*Efecto hover (al pasar el mouse sobre elementos) del menu*/
+.nav-link:hover{
+    /*Color al pasar mouse*/
+    background-color: #134A07;
+
+    /*Mantener texto blanco*/
+    color: white;
+}
+
+/*====================================*/
+/*Tarjetas*/
+.card{
+    /*Texto blanco*/
+    color: white;
+
+    /*Sin borde*/
+    border: none;
+
+    /*Bordes redondeados*/
+    border-radius: 30px;
+
+    /*Sombras*/
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+
+    /*Transicion*/
+    transition: 0.5s;
+}
+/*====================================*/
+/*Efecto hover de las tarjetas*/
+.card:hover{
+    /*Levantar tarjeta*/
+    transform: translateY(-10px);
+
+    /*Sombra mas fuerte*/
+    box-shadow: 0px 30px 30px rgba(0,0,0,0.3);
+}
+
+/*====================================*/
+/*Tarjeta de clientes*/
+.clientes-card{
+    /*Degradado verde*/
+    background: linear-gradient(
+        135deg,
+        #1E4D1A,
+        #5C8058
+    );
+}
+
+/*====================================*/
+/*Tarjeta de productos */
+.productos-card{
+    /*Degradado verde agua*/
+    background: linear-gradient(
+        135deg,
+        #0F766E,
+        #14B8A6
+    );
+}
+
+/*====================================*/
+/*Tarjeta de ventas */
+.ventas-card{
+    /*Degradado amarillo*/
+    background: linear-gradient(
+        135deg,
+        #CA8A04,
+        #FACC15
+    );
+}
+
+/*====================================*/
+/*Tabla*/
+.table{
+    /*Fondo blanco*/
+    background-color: white;
+
+    /*Bordes redondeados*/
+    border-radius: 15px;
+
+    /*Ocultar bordes sobrantes*/
+    overflow: hidden;
+}
+
+/*====================================*/
+/*Titulo dashboard */
+h2{
+    /*Negrita*/
+    font-weight: bold;
+
+    /*Color*/
+    color: #0D3B09;
+}
+
+/*====================================*/
+/*Titulo de las tarjetas */
+.card h5{
+    /*Tamaño texto*/
+    font-size: 24px;
+}
+
+/*====================================*/
+/*Numero de las tarjets */
+.card h1{
+    /*Tamaño grande*/
+    font-size: 60px;
+
+    /*Negrita*/
+    font-weight: bold;
+}
+
+/*====================================*/
+/*Tarjeta tabla */
+.tabla-card{
+    /*Fondo blanco*/
+    background-color: white;
+
+    /*Texto negro*/
+    color: black;
+
+    /*Bordes suaves*/
+    border-radius: 35px;
+
+    /*Ocultar sobrantes*/
+    overflow: hidden;
+
+    /*Sin borde*/
+    border: none;
+}
+
+/*====================================*/
+/*Encabezado de la tabla */
+.tabla-header{
+    /*Degradado verde*/
+    background: linear-gradient(
+        135deg,
+        #3A7307,
+        #5E9C3E
+    );
+
+    /*Texto blanco*/
+    color: white;
+
+    /*Espaciado*/
+    padding: 15px;
+}
+
+/*====================================*/
+/*Sub encabezado de la tabla */
+.encabezado-tabla th{
+    color: #0D3B09;
+}
+
+/*====================================*/
+/*Titulo de ultimas ventas*/
+.tabla-header h3{
+    margin: 0;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,249 +1,307 @@
-/*====================================*/
-/*Configuracion de toda la pagina*/
-body{
-    /*Color de fondo*/
+/*=====================================*/
+/* Configuración de toda la pagina */
+body {
+    /* Color de fondo */
     background-color: #f5f6fa;
-
-    /*Tipo de letra*/
+    /* Tipo de letra */
     font-family: Arial, Helvetica, sans-serif;
-}
-
-/*====================================*/
-/*Menu lateral*/
-.sidebar{
-    /*Color verde*/
-    background-color: #3A7307;
-
-    /*Ancho del menu*/
-    width: 250px;
-
-    /*Altura completa de pantalla*/
-    /* El 100 es el procentaje de la pantalla vertical*/
-    height: 100vh;
-
-    /*Flexbox*/
-    display: flex;
-
-    /*Elementos en columna*/
-    flex-direction: column;
-
-    /*Separar contenido arriba y abajo*/
-    justify-content: space-between;
-
-    /*Espacio interno*/
-    padding: 20px;
-}
-
-
-/*====================================*/
-/*Logo*/
-.logo{
-    /*Ancho imagen*/
-    width: 200px;
-
-    /*Bordes redondeados*/
-    border-radius: 10px;
-
-    /*Separacion inferior*/
-    margin-bottom: 10px;
-
-    /*Color de fondo blanco*/
-    background-color: white;
-
-    /*Espacio interno*/
-    padding: 10px;
-}
-
-/*====================================*/
-/*Links del menu*/
-.nav-link{
-    /*Color texto*/
-    color: white;
-
-    /*Espaciado interno*/
-    padding: 10px;
-
-    /*Separacion entre botones*/
-    margin-bottom: 10px;
-
-    /*Bordes redondeados*/
-    border-radius: 10px;
-
-    /*Velocidad de la transicion*/
-    transition: 0.5s;
-}
-
-/*====================================*/
-/*Efecto hover (al pasar el mouse sobre elementos) del menu*/
-.nav-link:hover{
-    /*Color al pasar mouse*/
-    background-color: #134A07;
-
-    /*Mantener texto blanco*/
-    color: white;
-}
-
-/*====================================*/
-/*Tarjetas*/
-.card{
-    /*Texto blanco*/
-    color: white;
-
-    /*Sin borde*/
-    border: none;
-
-    /*Bordes redondeados*/
-    border-radius: 30px;
-
-    /*Sombras*/
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-
-    /*Transicion*/
-    transition: 0.5s;
-}
-/*====================================*/
-/*Efecto hover de las tarjetas*/
-.card:hover{
-    /*Levantar tarjeta*/
-    transform: translateY(-10px);
-
-    /*Sombra mas fuerte*/
-    box-shadow: 0px 30px 30px rgba(0,0,0,0.3);
-}
-
-/*====================================*/
-/*Tarjeta de clientes*/
-.clientes-card{
-    /*Degradado verde*/
-    background: linear-gradient(
-        135deg,
-        #1E4D1A,
-        #5C8058
-    );
-}
-
-/*====================================*/
-/*Tarjeta de productos */
-.productos-card{
-    /*Degradado verde agua*/
-    background: linear-gradient(
-        135deg,
-        #0F766E,
-        #14B8A6
-    );
-}
-
-/*====================================*/
-/*Tarjeta de ventas */
-.ventas-card{
-    /*Degradado amarillo*/
-    background: linear-gradient(
-        135deg,
-        #CA8A04,
-        #FACC15
-    );
-}
-
-/*====================================*/
-/*Tabla*/
-.table{
-    /*Fondo blanco*/
-    background-color: white;
-
-    /*Bordes redondeados*/
-    border-radius: 15px;
-
-    /*Ocultar bordes sobrantes*/
-    overflow: hidden;
-}
-
-/*====================================*/
-/*Titulo dashboard */
-h2{
-    /*Negrita*/
-    font-weight: bold;
-
-    /*Color*/
-    color: #0D3B09;
-}
-
-/*====================================*/
-/*Titulo de las tarjetas */
-.card h5{
-    /*Tamaño texto*/
-    font-size: 24px;
-}
-
-/*====================================*/
-/*Numero de las tarjets */
-.card h1{
-    /*Tamaño grande*/
-    font-size: 60px;
-
-    /*Negrita*/
-    font-weight: bold;
-}
-
-/*====================================*/
-/*Tarjeta tabla */
-.tabla-card{
-    /*Fondo blanco*/
-    background-color: white;
-
-    /*Texto negro*/
-    color: black;
-
-    /*Bordes suaves*/
-    border-radius: 35px;
-
-    /*Ocultar sobrantes*/
-    overflow: hidden;
-
-    /*Sin borde*/
-    border: none;
-}
-
-/*====================================*/
-/*Encabezado de la tabla */
-.tabla-header{
-    /*Degradado verde*/
-    background: linear-gradient(
-        135deg,
-        #3A7307,
-        #5E9C3E
-    );
-
-    /*Texto blanco*/
-    color: white;
-
-    /*Espaciado*/
-    padding: 15px;
-}
-
-/*====================================*/
-/*Sub encabezado de la tabla */
-.encabezado-tabla th{
-    color: #0D3B09;
-}
-
-/*====================================*/
-/*Titulo de ultimas ventas*/
-.tabla-header h3{
     margin: 0;
-    font-size: 35px;
-    font-weight: bold;
+    padding: 0;
+    display: flex; /* Permite que el contenido se posicione al lado de la sidebar */
+}
+
+/*=====================================*/
+/* Menu lateral */
+.sidebar {
+    /* Color verde */
+    background-color: #3A7307;
+    /* Ancho del menu */
+    width: 250px;
+    /* Altura completa de pantalla */
+    /* El 100 es el porcentaje de la pantalla vertical */
+    height: 100vh;
+    /* Flexbox */
+    display: flex;
+    /* Elementos en columna */
+    flex-direction: column;
+    /* Separar contenido arriba y abajo */
+    justify-content: space-between;
+    /* Espacio interno */
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed; /* Mantiene la barra fija al hacer scroll */
+    left: 0;
+    top: 0;
 }
 
 
+/*=====================================*/
+/* Componentes del Catálogo de Productos (Ajustes de Felipe) */
 
+/* Contenedor principal para no ser tapado por la sidebar */
+.container {
+    margin-left: 270px; /* Desplazamiento de seguridad (250px de barra + 20px espacio) */
+    padding: 40px;
+    flex: 1;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
 
+h2 {
+    color: #1a202c;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
 
+h3 {
+    color: #4a5568;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+}
 
+/* Tarjetas Contenedoras Modernas */
+.card-form, .card-table {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
 
+/* Lógica de Formularios */
+.form-group {
+    margin-bottom: 18px;
+}
 
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #4a5568;
+}
 
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
 
+/* Efecto Focus usando el Verde Corporativo de Cinthya */
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3A7307;
+    box-shadow: 0 0 0 3px rgba(58, 115, 7, 0.15);
+}
 
+/* Botón de Envío con el Verde Corporativo de la Funeraria */
+.btn-submit {
+    background-color: #3A7307;
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 15px;
+    transition: background-color 0.2s;
+}
 
+.btn-submit:hover {
+    background-color: #2b5405; /* Un tono más oscuro del verde para el feedback visual */
+}
 
+/* Tabla de Catálogo Exclusiva */
+.table-catalog {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
 
+.table-catalog th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 14px 16px;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.table-catalog td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+/* Distintivos de Categorías y Estados (HU01 y HU02) */
+.badge-category {
+    background-color: #edf2f7;
+    color: #4a5568;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.badge-active {
+    background-color: #c6f6d5;
+    color: #22543d;
+}
+
+.badge-inactive {
+    background-color: #fed7d7;
+    color: #742a2a;
+}
+
+/* Aplicación del Borrado Lógico (Atenuación de fila inactiva - HU02) */
+.row-disabled {
+    opacity: 0.55;
+    background-color: #f7fafc;
+}
+
+/* Botonera de acciones internas de la tabla */
+.btn-action {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-right: 6px;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.btn-action:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn-edit {
+    background-color: #ecc94b; /* Amarillo sutil para edición */
+    color: #1a202c;
+}
+
+.btn-disable {
+    background-color: #e53e3e; /* Rojo para desactivación suave */
+    color: #ffffff;
+}
+
+.btn-enable {
+    background-color: #38a169; /* Verde estándar para activación */
+    color: #ffffff;
+}
+
+/* Alertas Flotantes del Sistema (Toasts de UX interactiva) */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    background-color: #3182ce;
+}
+
+.toast-success { background-color: #38a169; }
+.toast-error { background-color: #e53e3e; }
+
+/* ========================================================= */
+/* ESTRUCTURA DASHBOARD: BARRA FIJA Y CONTENIDO EMPUJADO     */
+/* ========================================================= */
+
+/* 1. Barra Lateral Fija (Inamovible a la izquierda) */
+.sidebar {
+    position: fixed !important; /* La clava en la pantalla */
+    top: 0;
+    left: 0;
+    width: 250px !important;
+    height: 100vh !important;
+    background-color: #3A7307;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    z-index: 1000; /* Garantiza que nadie se le superponga */
+}
+
+/* 2. Contenedor Principal (Respeta el espacio de la barra) */
+.container-fluid {
+    margin-left: 250px !important; /* Empuja el contenido exactamente 250px a la derecha */
+    width: calc(100% - 250px) !important; /* Calcula el ancho restante */
+    min-height: 100vh;
+    background-color: #f5f6fa; /* Fondo gris claro */
+    padding: 2rem !important; 
+}
+
+/* 3. Títulos de las Tablas ("Últimas ventas", "Lista de clientes") */
+.tabla-header {
+    padding: 15px 20px;
+    background-color: #ffffff;
+    border-bottom: 2px solid #edf2f7;
+    border-radius: 8px 8px 0 0;
+}
+
+.tabla-header h3 {
+    margin: 0 !important; 
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 4. Estilos del Logo */
+.logo {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+    background-color: white; /* Fondo blanco para que resalte el texto oscuro del logo */
+    padding: 10px;
+}
+
+/* 5. Enlaces del Menú */
+.sidebar .nav-link {
+    color: #ffffff !important;
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15); 
+}
+
+/* Evitar scroll horizontal accidental en toda la página */
+body {
+    overflow-x: hidden;
+}

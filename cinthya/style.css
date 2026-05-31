@@ -37,13 +37,12 @@ body {
 
 /*=====================================*/
 /* Componentes del Catálogo de Productos (Ajustes de Felipe) */
-
 /* Contenedor principal para no ser tapado por la sidebar */
 .container {
     margin-left: 270px; /* Desplazamiento de seguridad (250px de barra + 20px espacio) */
     padding: 40px;
     flex: 1;
-    max-width: 1200px;
+    max-width: 100%;
     box-sizing: border-box;
 }
 
@@ -62,6 +61,7 @@ h3 {
     padding-bottom: 8px;
 }
 
+/*=====================================*/
 /* Tarjetas Contenedoras Modernas */
 .card-form, .card-table {
     background-color: #ffffff;
@@ -70,7 +70,7 @@ h3 {
     margin-bottom: 30px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
-
+/*=====================================*/
 /* Lógica de Formularios */
 .form-group {
     margin-bottom: 18px;
@@ -97,6 +97,7 @@ h3 {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/*=====================================*/
 /* Efecto Focus usando el Verde Corporativo de Cinthya */
 .form-group input:focus, 
 .form-group select:focus, 
@@ -106,6 +107,7 @@ h3 {
     box-shadow: 0 0 0 3px rgba(58, 115, 7, 0.15);
 }
 
+/*=====================================*/
 /* Botón de Envío con el Verde Corporativo de la Funeraria */
 .btn-submit {
     background-color: #3A7307;
@@ -124,6 +126,7 @@ h3 {
     background-color: #2b5405; /* Un tono más oscuro del verde para el feedback visual */
 }
 
+/*=====================================*/
 /* Tabla de Catálogo Exclusiva */
 .table-catalog {
     width: 100%;
@@ -147,7 +150,7 @@ h3 {
     font-size: 14px;
     color: #2d3748;
 }
-
+/*=====================================*/
 /* Distintivos de Categorías y Estados (HU01 y HU02) */
 .badge-category {
     background-color: #edf2f7;
@@ -175,13 +178,13 @@ h3 {
     background-color: #fed7d7;
     color: #742a2a;
 }
-
+/*=====================================*/
 /* Aplicación del Borrado Lógico (Atenuación de fila inactiva - HU02) */
 .row-disabled {
     opacity: 0.55;
     background-color: #f7fafc;
 }
-
+/*=====================================*/
 /* Botonera de acciones internas de la tabla */
 .btn-action {
     padding: 6px 12px;
@@ -213,7 +216,7 @@ h3 {
     background-color: #38a169; /* Verde estándar para activación */
     color: #ffffff;
 }
-
+/*=====================================*/
 /* Alertas Flotantes del Sistema (Toasts de UX interactiva) */
 .toast-notification {
     position: fixed;
@@ -304,4 +307,73 @@ h3 {
 /* Evitar scroll horizontal accidental en toda la página */
 body {
     overflow-x: hidden;
+}
+/* ===================================== */
+/* TARJETAS DEL DASHBOARD */
+/* ===================================== */
+
+.clientes-card, 
+.productos-card,
+.ventas-card{
+    background: linear-gradient(135deg, #1E4D1A, #5C8058);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    min-height: 180px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    width: 100%;
+    min-height: 200px;
+
+}
+
+.productos-card{
+    background: linear-gradient(135deg, #0F766E, #14B8A6);
+    color: white;
+    border: none;
+    border-radius: 25px;
+}
+
+.ventas-card{
+    background: linear-gradient(135deg, #CA8A04, #FACC15);
+    color: white;
+    border: none;
+    border-radius: 25px;
+}
+
+/* Texto de las tarjetas */
+.clientes-card h1,
+.productos-card h1,
+.ventas-card h1{
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.clientes-card h1,
+.productos-card h1,
+.ventas-card h1{
+    font-size: 4rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Sombra suave */
+.clientes-card,
+.productos-card,
+.ventas-card{
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+.col{
+    flex: 1;
+}
+.row.g-4{
+    display: flex;
+}
+
+.row.g-4 .col-md-4{
+    flex: 1;
+}
+.container-fluid{
+    margin-left: 250px !important;
+    width: calc(100vw - 250px) !important;
 }

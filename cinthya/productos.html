@@ -45,6 +45,10 @@
             Ítem actualizado del catálogo.
         </div>
 
+        <div class="mb-4">
+            <input type="text" class="form-control shadow-sm p-2" id="inputBuscarProducto" placeholder="Buscar por código o nombre del producto...">
+        </div>
+
         <div class="card shadow-sm border-0 tabla-card">
             <div class="tabla-header">
                 <h3>Inventario y Oferta Comercial Vigente</h3>
@@ -330,6 +334,25 @@
                 }
             }
         });
+        // ==========================================
+// FILTRAR PRODUCTOS EN TIEMPO REAL
+// ==========================================
+document.getElementById("inputBuscarProducto").addEventListener("input", function(e) {
+    const textoBusqueda = e.target.value.toLowerCase();
+    const filas = document.querySelectorAll("#tablaProductosBody tr");
+
+    filas.forEach(fila => {
+        // Captura todo el texto de la fila (Nombre, Categoría, Precio)
+        const textoFila = fila.innerText.toLowerCase();
+        
+        // Si coincide con lo buscado lo muestra, si no, lo oculta
+        if (textoFila.includes(textoBusqueda)) {
+            fila.classList.remove("d-none"); // Muestra la fila
+        } else {
+            fila.classList.add("d-none");    // Oculta la fila
+        }
+    });
+});
     });
 </script>
 </body>

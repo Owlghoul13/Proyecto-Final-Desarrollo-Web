@@ -39,7 +39,7 @@
             <button class="btn btn-success btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaVenta">+ Nueva Venta</button>        </div>
 
         <div class="mb-4">
-            <input type="text" class="form-control shadow-sm" placeholder="Buscar venta por número de recibo o cliente...">
+            <input type="text" class="form-control  shadow-sm" id="inputBuscarVenta" placeholder="Buscar venta por número de recibo o cliente...">
         </div>
         
         <div class="card tabla-card shadow">
@@ -247,6 +247,23 @@
                 }
             }
         });
+        // ==========================================
+// FILTRAR VENTAS EN TIEMPO REAL
+// ==========================================
+document.getElementById("inputBuscarVenta").addEventListener("input", function(e) {
+    const textoBusqueda = e.target.value.toLowerCase();
+    const filas = document.querySelectorAll("#tablaVentasBody tr");
+
+    filas.forEach(fila => {
+        const textoFila = fila.innerText.toLowerCase();
+        
+        if (textoFila.includes(textoBusqueda)) {
+            fila.classList.remove("d-none");
+        } else {
+            fila.classList.add("d-none");
+        }
+    });
+});
     });
 </script>
 </body>

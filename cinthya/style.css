@@ -47,8 +47,8 @@ body {
 }
 
 h2 {
-    color: #1a202c;
-    font-size: 24px;
+    color: #18421B;
+    font-size: 40px;
     margin-bottom: 8px;
 }
 
@@ -264,19 +264,18 @@ h3 {
     padding: 2rem !important; 
 }
 
-/* 3. Títulos de las Tablas ("Últimas ventas", "Lista de clientes") */
+/* 3. Títulos de las Tablas */
 .tabla-header {
-    padding: 15px 20px;
-    background-color: #ffffff;
-    border-bottom: 2px solid #edf2f7;
-    border-radius: 8px 8px 0 0;
+    padding: 20px 25px;
+    background-color: #3A7307; /* Verde */
+    border-radius: 25px 25px 0 0;
 }
 
 .tabla-header h3 {
-    margin: 0 !important; 
-    font-size: 1.3rem;
+    margin: 0 !important;
+    font-size: 1.8rem;
     font-weight: bold;
-    color: #333;
+    color: white;
 }
 
 /* 4. Estilos del Logo */

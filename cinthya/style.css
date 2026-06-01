@@ -377,3 +377,25 @@ body {
     margin-left: 250px !important;
     width: calc(100vw - 250px) !important;
 }
+
+.header-verde{
+    background-color: #3A7307;
+}
+
+/* ===================================== */
+/* CAMPOS DEL FORMULARIO */
+/* ===================================== */
+
+.form-control,
+.form-select{
+    border: 2px solid #7D7D7D;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+/* Cuando el usuario hace clic */
+.form-control:focus,
+.form-select:focus{
+    border-color: #3A7307;
+    box-shadow: 0 0 0 4px rgba(58,115,7,0.15);
+}

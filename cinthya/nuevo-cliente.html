@@ -115,7 +115,7 @@
         <!-- DOMICILIO -->
         <div class="card shadow mb-4">
 
-            <div class="card-header header-verde text-white">
+            <div class="card-header bg-success text-white">
                 <h5 class="mb-0">Domicilio</h5>
             </div>
 
@@ -154,7 +154,7 @@
         <!-- ESTADO DEL CLIENTE -->
         <div class="card shadow mb-4">
 
-            <div class="card-header header-verde text-white">
+            <div class="card-header bg-success text-white">
                 <h5 class="mb-0">Estado del Cliente</h5>
             </div>
 
@@ -190,3 +190,62 @@
 
 </body>
 </html>
+
+
+<!--Modal-->
+<div class="modal fade" id="modalNuevoItem" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header encabezado-modal">
+                <h2 class="modal-title text-white">
+                    <i class="bi bi-box-seam-fill"></i> Nuevo Producto o Servicio
+                </h2>
+                
+                <button type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal"
+                aria-label="Close">
+            </button>
+        </div>
+            
+            <div class="modal-body px-4 pt-2 pb-4">
+                <h6 class="text-secondary border-bottom pb-2 mb-4">Formulario de Registro</h6>
+                
+                <form id="formProducto">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary" style="font-size: 0.9rem;">Nombre del Producto/Servicio:</label>
+                        <input type="text" class="form-control" id="inputNombreProd" placeholder="Ej: Plan Funerario Básico">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary" style="font-size: 0.9rem;">Categoría:</label>
+                        <select class="form-select" id="inputCategoria">
+                            <option selected value="">-- Seleccione una opción --</option>
+                            <option value="Producto">Producto</option>
+                            <option value="Servicio">Servicio</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary" style="font-size: 0.9rem;">Descripción Corta:</label>
+                        <input type="text" class="form-control" id="inputDescCorta" placeholder="Breve resumen del ítem">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary" style="font-size: 0.9rem;">Descripción Larga:</label>
+                        <textarea class="form-control" id="inputDescLarga" rows="3" placeholder="Detalles completos del producto o servicio..."></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary" style="font-size: 0.9rem;">Valor Actual ($ CLP):</label>
+                        <input type="number" class="form-control" id="inputPrecioProd" placeholder="Ej: 850000">
+                    </div>
+                    
+                    <button type="button" class="btn w-100 fw-bold text-white py-2" style="background-color: #38761d;" id="btnGuardarProducto">
+                        <i class="bi bi-arrow-repeat"></i> Guardar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

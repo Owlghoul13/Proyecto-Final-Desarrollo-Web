@@ -136,18 +136,16 @@ h3 {
 
 .table-catalog th {
     background-color: #f8fafc;
-    color: #64748b;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 14px 16px;
-    border-bottom: 2px solid #edf2f7;
+    color: #000;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: black;
 }
 
 .table-catalog td {
     padding: 14px 16px;
     border-bottom: 1px solid #edf2f7;
-    font-size: 14px;
+    font-size: 20px;
     color: #2d3748;
 }
 /*=====================================*/
@@ -322,7 +320,7 @@ body {
     padding: 25px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     width: 100%;
-    min-height: 200px;
+    min-height: 180px;
 
 }
 
@@ -397,4 +395,35 @@ body {
 .form-select:focus{
     border-color: #3A7307;
     box-shadow: 0 0 0 4px rgba(58,115,7,0.15);
+}
+
+.modal-header{
+    background-color: #3A7307;
+    border-bottom: none;
+}
+
+.modal-title{
+    color: white !important;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.modal-header .btn-close{
+    filter: brightness(0) invert(1);
+}
+
+th{
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
+.btn-success{
+    background-color: #3B7A00;
+    border-color: #3B7A00;
+}
+
+.encabezado-modal{
+    background-color: #38761d;
+    color: white;
+    padding: 20px 25px;
 }

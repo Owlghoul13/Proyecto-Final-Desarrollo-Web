@@ -155,115 +155,188 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
-        // Variable para generar el número de recibo de forma secuencial
-        let contadorVentas = 4;
+        // 1. HISTORIAL DE EJEMPLOS DE BASE DE DATOS (Tus 3 registros originales)
+        const ventasPredetermindas = [
+            { id: 1, recibo: "#V-001", fecha: "28/05/2026", cliente: "Carlos Mendoza", producto: "Plan Funerario Básico", total: 850000, estado: "Completado" },
+            { id: 2, recibo: "#V-002", fecha: "29/05/2026", cliente: "María José Olavarría", producto: "Urna de Roble Presidencial", total: 2100000, estado: "Completado" },
+            { id: 3, recibo: "#V-003", fecha: "30/05/2026", cliente: "Andrés Silva", producto: "Urna Metálica Standard", total: 350000, estado: "Cancelado" }
+        ];
 
+        // Función para leer de localStorage
+        function obtenerVentas() {
+            const ventasGuardadas = localStorage.getItem("crm_ventas");
+            if (!ventasGuardadas) {
+                localStorage.setItem("crm_ventas", JSON.stringify(ventasPredetermindas));
+                return ventasPredetermindas;
+            }
+            return JSON.parse(ventasGuardadas);
+        }
+
+        // Función para guardar en localStorage
+        function guardarVentas(arrayVentas) {
+            localStorage.setItem("crm_ventas", JSON.stringify(arrayVentas));
+        }
+
+        // ==========================================
+        // 2. FUNCIÓN PARA RENDERIZAR LA TABLA EN PANTALLA
+        // ==========================================
+        function renderizarTablaVentas() {
+            const listaVentas = obtenerVentas();
+            const tbody = document.getElementById("tablaVentasBody");
+            tbody.innerHTML = ""; // Limpiamos para evitar duplicados
+
+            listaVentas.forEach(venta => {
+                const totalFormateado = (typeof venta.total === 'number') 
+                    ? "$" + venta.total.toLocaleString("es-CL")
+                    : venta.total;
+
+                // Armonía de diseño unificada para los estados
+                // Armonía de diseño unificada para los estados (SIN padding extra)
+                let claseEstado = "";
+                if (venta.estado === "Completado") claseEstado = "bg-success";
+                else if (venta.estado === "Pendiente") claseEstado = "bg-warning text-dark";
+                else claseEstado = "bg-danger"; // Usando el rojo de la primera imagen
+
+                const nuevaFila = document.createElement("tr");
+                nuevaFila.innerHTML = `
+                    <td class="fw-bold">${venta.recibo}</td>
+                    <td>${venta.fecha}</td>
+                    <td>${venta.cliente}</td>
+                    <td>${venta.producto}</td>
+                    <td>${totalFormateado}</td>
+                    <td><span class="badge ${claseEstado}">${venta.estado}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-warning text-dark btn-editar" data-id="${venta.id}">Editar</button>
+                        <button class="btn btn-sm btn-danger text-white btn-eliminar" data-id="${venta.id}">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(nuevaFila);
+            });
+        }
+
+        // ==========================================
+        // 3. REGISTRAR NUEVA VENTA DESDE EL MODAL (IDs Corregidos)
+        // ==========================================
         document.getElementById("btnGuardarVenta").addEventListener("click", function() {
             
-            // 1. Obtener los valores del formulario
+            // Obtener los valores utilizando TUS IDs EXACTOS
             const cliente = document.getElementById("inputCliente").value;
             const producto = document.getElementById("inputProducto").value;
             const total = document.getElementById("inputTotal").value;
             const estado = document.getElementById("inputEstado").value;
 
-            // 2. Validar que no estén vacíos
+            // Validar que no estén vacíos
             if (!cliente || !producto || !total) {
                 alert("Por favor, completa todos los campos para registrar la venta.");
                 return;
             }
 
-            // 3. Formatear la fecha actual (DD/MM/YYYY)
+            const listaVentas = obtenerVentas();
+
+            // Formatear la fecha actual (DD/MM/YYYY)
             const fechaActual = new Date();
             const dia = String(fechaActual.getDate()).padStart(2, '0');
             const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
             const anio = fechaActual.getFullYear();
             const fechaFormateada = `${dia}/${mes}/${anio}`;
 
-            // 4. Formatear el Total a moneda (Agrega el signo $ y los puntos)
-            const totalFormateado = "$" + parseInt(total).toLocaleString("es-CL");
+            // Generador dinámico de número correlativo secuencial
+            const siguienteNumero = listaVentas.length + 1;
+            const numRecibo = "#V-" + String(siguienteNumero).padStart(3, '0');
 
-            // 5. Determinar el color del Estado
-            let claseEstado = "";
-            if (estado === "Completado") claseEstado = "bg-success";
-            else if (estado === "Pendiente") claseEstado = "bg-warning text-dark";
-            else claseEstado = "bg-danger";
+            // Crear el objeto de la nueva venta
+            const nuevaVenta = {
+                id: Date.now(), // ID único interno para saber cuál editar/eliminar
+                recibo: numRecibo,
+                fecha: fechaFormateada,
+                cliente: cliente,
+                producto: producto,
+                total: parseInt(total),
+                estado: estado
+            };
 
-            // 6. Generar número de recibo (Ej: #V-004)
-            const numRecibo = "#V-" + String(contadorVentas).padStart(3, '0');
-            contadorVentas++;
+            // Insertar arriba, guardar en memoria y redibujar la tabla
+            listaVentas.unshift(nuevaVenta);
+            guardarVentas(listaVentas);
+            renderizarTablaVentas();
 
-            // 7. Crear la nueva fila de la tabla en HTML
-            const nuevaFila = document.createElement("tr");
-            nuevaFila.innerHTML = `
-                <td class="fw-bold">${numRecibo}</td>
-                <td>${fechaFormateada}</td>
-                <td>${cliente}</td>
-                <td>${producto}</td>
-                <td>${totalFormateado}</td>
-                <td><span class="badge ${claseEstado}">${estado}</span></td>
-                <td>
-                    <button class="btn btn-sm btn-warning fw-bold btn-editar">Editar Estado</button>
-                    <button class="btn btn-sm btn-danger text-white fw-bold btn-eliminar">Eliminar</button>
-                </td>
-            `;
-
-            // 8. Insertar la fila al PRINCIPIO de la tabla
-            document.getElementById("tablaVentasBody").prepend(nuevaFila);
-
-            // 9. Cerrar el Modal y limpiar el formulario
+            // Cerrar el Modal y limpiar el formulario
             document.getElementById("formVenta").reset();
             const modalElement = document.getElementById("modalNuevaVenta");
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
         });
+
         // ==========================================
-        // LÓGICA PARA EDITAR ESTADO Y ELIMINAR VENTA
+        // 4. LÓGICA DE PERSISTENCIA PARA EDITAR Y ELIMINAR
         // ==========================================
         document.getElementById("tablaVentasBody").addEventListener("click", function(e) {
+            const listaVentas = obtenerVentas();
             
-            // Si el usuario hizo clic en "Eliminar"
+            // Acción: ELIMINAR
             if (e.target.classList.contains("btn-eliminar")) {
-                // Pedimos confirmación antes de borrar
                 if(confirm("¿Estás seguro de que deseas eliminar esta venta permanentemente?")) {
-                    e.target.closest("tr").remove();
+                    const idVenta = parseInt(e.target.getAttribute("data-id"));
+                    
+                    // Si es uno de los registros nuevos basados en timestamp
+                    let listaFiltrada = listaVentas.filter(v => v.id !== idVenta);
+                    
+                    // Si presionó eliminar en un registro predeterminado antiguo (ID 1, 2 o 3)
+                    if (listaFiltrada.length === listaVentas.length) {
+                        const fila = e.target.closest("tr");
+                        const reciboTexto = fila.querySelector("td").innerText;
+                        listaFiltrada = listaVentas.filter(v => v.recibo !== reciboTexto);
+                    }
+
+                    guardarVentas(listaFiltrada);
+                    renderizarTablaVentas();
                 }
             }
             
-            // Si el usuario hizo clic en "Editar Estado"
+            // Acción: EDITAR ESTADO (Cambiando dinámicamente y guardando)
             if (e.target.classList.contains("btn-editar")) {
+                const idVenta = parseInt(e.target.getAttribute("data-id"));
                 const fila = e.target.closest("tr");
-                const badgeEstado = fila.querySelector(".badge");
+                const reciboTexto = fila.querySelector("td").innerText;
                 
-                // Rotamos el estado según el que tenga actualmente
-                if (badgeEstado.innerText === "Pendiente") {
-                    badgeEstado.innerText = "Completado";
-                    badgeEstado.className = "badge bg-success";
-                } else if (badgeEstado.innerText === "Completado") {
-                    badgeEstado.innerText = "Cancelado";
-                    badgeEstado.className = "badge bg-danger";
-                } else {
-                    badgeEstado.innerText = "Pendiente";
-                    badgeEstado.className = "badge bg-warning text-dark";
+                // Buscar la venta en el almacenamiento
+                const ventaTarget = listaVentas.find(v => v.id === idVenta || v.recibo === reciboTexto);
+                
+                if (ventaTarget) {
+                    // Rotar entre tus estados
+                    if (ventaTarget.estado === "Pendiente") {
+                        ventaTarget.estado = "Completado";
+                    } else if (ventaTarget.estado === "Completado") {
+                        ventaTarget.estado = "Cancelado";
+                    } else {
+                        ventaTarget.estado = "Pendiente";
+                    }
+
+                    guardarVentas(listaVentas);
+                    renderizarTablaVentas();
                 }
             }
         });
-        // ==========================================
-// FILTRAR VENTAS EN TIEMPO REAL
-// ==========================================
-document.getElementById("inputBuscarVenta").addEventListener("input", function(e) {
-    const textoBusqueda = e.target.value.toLowerCase();
-    const filas = document.querySelectorAll("#tablaVentasBody tr");
 
-    filas.forEach(fila => {
-        const textoFila = fila.innerText.toLowerCase();
-        
-        if (textoFila.includes(textoBusqueda)) {
-            fila.classList.remove("d-none");
-        } else {
-            fila.classList.add("d-none");
-        }
-    });
-});
+        // ==========================================
+        // 5. FILTRAR VENTAS EN TIEMPO REAL
+        // ==========================================
+        document.getElementById("inputBuscarVenta").addEventListener("input", function(e) {
+            const textoBusqueda = e.target.value.toLowerCase();
+            const filas = document.querySelectorAll("#tablaVentasBody tr");
+
+            filas.forEach(fila => {
+                const textoFila = fila.innerText.toLowerCase();
+                if (textoFila.includes(textoBusqueda)) {
+                    fila.classList.remove("d-none");
+                } else {
+                    fila.classList.add("d-none");
+                }
+            });
+        });
+
+        // Ejecutar carga inicial de registros
+        renderizarTablaVentas();
     });
 </script>
 </body>

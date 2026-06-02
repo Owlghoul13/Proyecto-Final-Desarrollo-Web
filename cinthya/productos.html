@@ -252,6 +252,30 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
+        // 1. DATOS INICIALES (Por si la memoria está vacía la primera vez)
+        const productosPredeterminados = [
+            { id: 1, nombre: "Plan Funerario Básico", categoria: "Servicio", precio: 850000, estado: "Activo" },
+            { id: 2, "nombre": "Urna de Roble Presidencial", categoria: "Producto", precio: 2100000, estado: "Activo" },
+            { id: 3, "nombre": "Urna Metálica Standard", categoria: "Producto", precio: 350000, estado: "Inactivo" }
+        ];
+
+        // Función auxiliar para obtener los productos de localStorage
+        function obtenerProductos() {
+            const productosGuardados = localStorage.getItem("crm_productos");
+            if (!productosGuardados) {
+                // Si no hay nada, guardamos los predeterminados por primera vez
+                localStorage.setItem("crm_productos", JSON.stringify(productosPredeterminados));
+                return productosPredeterminados;
+            }
+            return JSON.parse(productosGuardados);
+        }
+
+        // Función auxiliar para guardar el array actualizado en localStorage
+        function guardarProductos(arrayProductos) {
+            localStorage.setItem("crm_productos", JSON.stringify(arrayProductos));
+        }
+
+        // Alerta visual flotante
         function mostrarAlerta(mensaje, colorFondo) {
             const alerta = document.getElementById("alertaAccion");
             alerta.innerText = mensaje;
@@ -265,7 +289,43 @@
         }
 
         // ==========================================
-        // GUARDAR NUEVO PRODUCTO (DESDE MODAL)
+        // 2. FUNCIÓN PARA RENDERIZAR LA TABLA
+        // ==========================================
+        function renderizarTabla() {
+            const productos = obtenerProductos();
+            const tbody = document.getElementById("tablaProductosBody");
+            tbody.innerHTML = ""; // Limpiamos la tabla antes de redibujar
+
+            productos.forEach(prod => {
+                const precioFormateado = "$" + prod.precio.toLocaleString("es-CL");
+                
+                // Definir colores de estados unificados
+                const badgeClase = prod.estado === "Activo" ? "bg-success" : "bg-secondary";
+                
+                // Botones limpios: sin fw-bold y sin íconos, idénticos a los demás módulos
+                const botonAccion = prod.estado === "Activo" 
+                    ? `<button class="btn btn-sm btn-danger btn-toggle-estado" data-id="${prod.id}">Desactivar</button>`
+                    : `<button class="btn btn-sm btn-success btn-toggle-estado" data-id="${prod.id}">Activar</button>`;
+
+                const nuevaFila = document.createElement("tr");
+                
+                // Quitamos el "py-3" del primer td para igualar el alto de la fila
+                nuevaFila.innerHTML = `
+                    <td>${prod.nombre}</td>
+                    <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">${prod.categoria}</span></td>
+                    <td class="text-secondary fw-semibold">${precioFormateado}</td>
+                    <td class="text-center"><span class="badge ${badgeClase}">${prod.estado}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-warning text-dark me-1">Editar</button>
+                        ${botonAccion}
+                    </td>
+                `;
+                tbody.appendChild(nuevaFila);
+            });
+        }
+
+        // ==========================================
+        // 3. GUARDAR NUEVO PRODUCTO (DESDE MODAL)
         // ==========================================
         document.getElementById("btnGuardarProducto").addEventListener("click", function() {
             const nombre = document.getElementById("inputNombreProd").value;
@@ -277,23 +337,24 @@
                 return;
             }
 
-            const precioFormateado = "$" + parseInt(precio).toLocaleString("es-CL");
+            const listaProductos = obtenerProductos();
+            
+            // Creamos el nuevo objeto producto con un ID único basado en tiempo
+            const nuevoProducto = {
+                id: Date.now(),
+                nombre: nombre,
+                categoria: categoria,
+                precio: parseInt(precio),
+                estado: "Activo"
+            };
 
-            const nuevaFila = document.createElement("tr");
-            nuevaFila.innerHTML = `
-                <td class="fw-bold py-3">${nombre}</td>
-                <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">${categoria}</span></td>
-                <td class="text-secondary fw-semibold">${precioFormateado}</td>
-                <td class="text-center"><span class="badge bg-success px-3 py-2">Activo</span></td>
-                <td>
-                    <button class="btn btn-sm btn-warning fw-bold text-dark me-1"><i class="bi bi-pencil-fill"></i> Editar</button>
-                    <button class="btn btn-sm btn-danger fw-bold btn-toggle-estado"><i class="bi bi-circle"></i> Desactivar</button>
-                </td>
-            `;
-
-            document.getElementById("tablaProductosBody").prepend(nuevaFila);
+            listaProductos.unshift(nuevoProducto); // Lo agregamos al inicio de la lista
+            guardarProductos(listaProductos);      // Lo mandamos a la memoria persistente
+            renderizarTabla();                     // Redibujamos la tabla automáticamente
+            
             mostrarAlerta("Ítem agregado exitosamente al catálogo.", "bg-success");
 
+            // Limpieza del formulario y cierre de modal
             document.getElementById("formProducto").reset();
             const modalElement = document.getElementById("modalNuevoItem");
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -301,58 +362,51 @@
         });
 
         // ==========================================
-        // INTERCAMBIO DE ESTADOS (ACTIVO / INACTIVO)
+        // 4. INTERCAMBIO DE ESTADOS INTERACTIVO
         // ==========================================
         document.getElementById("tablaProductosBody").addEventListener("click", function(e) {
-            const boton = e.target.closest("button");
+            const boton = e.target.closest(".btn-toggle-estado");
             if (!boton) return;
 
-            if (boton.innerText.includes("Desactivar") || boton.innerText.includes("Activar")) {
-                const fila = boton.closest("tr");
-                const badgeEstado = fila.querySelector(".badge:not(.bg-light)"); 
-                
-                if (badgeEstado.classList.contains("bg-success")) {
-                    // Cambiar Estado a Inactivo (Gris)
-                    badgeEstado.innerText = "Inactivo";
-                    badgeEstado.className = "badge bg-secondary px-3 py-2";
-                    
-                    // Cambiar Botón de Acción a Activar (Verde Bootstrap)
-                    boton.innerHTML = '<i class="bi bi-circle-fill"></i> Activar';
-                    boton.className = "btn btn-sm btn-success fw-bold btn-toggle-estado";
-                    
+            const idProducto = parseInt(boton.getAttribute("data-id"));
+            const listaProductos = obtenerProductos();
+            
+            // Buscamos el producto en nuestra base de datos local
+            const productoTarget = listaProductos.find(p => p.id === idProducto);
+
+            if (productoTarget) {
+                if (productoTarget.estado === "Activo") {
+                    productoTarget.estado = "Inactivo";
                     mostrarAlerta("Ítem desactivado del catálogo.", "bg-primary");
                 } else {
-                    // Cambiar Estado a Activo (Verde Oscuro)
-                    badgeEstado.innerText = "Activo";
-                    badgeEstado.className = "badge bg-success px-3 py-2";
-                    
-                    // Cambiar Botón de Acción a Desactivar (Rojo)
-                    boton.innerHTML = '<i class="bi bi-circle"></i> Desactivar';
-                    boton.className = "btn btn-sm btn-danger fw-bold btn-toggle-estado";
-                    
+                    productoTarget.estado = "Activo";
                     mostrarAlerta("Ítem activado en el catálogo.", "bg-success");
                 }
+
+                guardarProductos(listaProductos); // Guardamos el cambio de estado en memoria
+                renderizarTabla();                // Redibujamos para aplicar el cambio estético instantáneo
             }
         });
-        // ==========================================
-// FILTRAR PRODUCTOS EN TIEMPO REAL
-// ==========================================
-document.getElementById("inputBuscarProducto").addEventListener("input", function(e) {
-    const textoBusqueda = e.target.value.toLowerCase();
-    const filas = document.querySelectorAll("#tablaProductosBody tr");
 
-    filas.forEach(fila => {
-        // Captura todo el texto de la fila (Nombre, Categoría, Precio)
-        const textoFila = fila.innerText.toLowerCase();
-        
-        // Si coincide con lo buscado lo muestra, si no, lo oculta
-        if (textoFila.includes(textoBusqueda)) {
-            fila.classList.remove("d-none"); // Muestra la fila
-        } else {
-            fila.classList.add("d-none");    // Oculta la fila
-        }
-    });
-});
+        // ==========================================
+        // 5. LÓGICA REUTILIZABLE PARA EL BUSCADOR
+        // ==========================================
+        document.getElementById("inputBuscarProducto").addEventListener("input", function(e) {
+            const textoBusqueda = e.target.value.toLowerCase();
+            const filas = document.querySelectorAll("#tablaProductosBody tr");
+
+            filas.forEach(fila => {
+                const textoFila = fila.innerText.toLowerCase();
+                if (textoFila.includes(textoBusqueda)) {
+                    fila.classList.remove("d-none");
+                } else {
+                    fila.classList.add("d-none");
+                }
+            });
+        });
+
+        // Carga inicial de la tabla al abrir la página
+        renderizarTabla();
     });
 </script>
 </body>

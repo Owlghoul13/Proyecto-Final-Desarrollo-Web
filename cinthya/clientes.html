@@ -156,7 +156,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label>RUT</label>
-                                <input type="text" class="form-control" placeholder="12.345.678-9">
+                                <input type="text" id="inputRut" class="form-control" placeholder="Ej: 12345678-9" maxlength="10">
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -254,14 +254,35 @@
                     Cancelar
                 </button>
 
-                <button class="btn btn-success">
+                 <button id="btnGuardarCliente" class="btn btn-success">
                     Guardar Cliente
-                </button>
+                 </button>
             </div>
 
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // Atrapamos el clic del botón Guardar
+        document.getElementById("btnGuardarCliente").addEventListener("click", function() {
+            
+            const rut = document.getElementById("inputRut").value.trim();
+            const formatoRut = /^[0-9]{7,8}-[0-9Kk]{1}$/;
+            
+            // Si no cumple el formato, lanzamos la alerta y el return DETIENE esta función
+            if (!formatoRut.test(rut)) {
+                alert("Por favor, ingresa un RUT válido con el formato 12345678-9 (sin puntos y con guión).");
+                return; 
+            }
+
+            // --- AQUÍ IRÁ EL RESTO DE TU CÓDIGO PARA GUARDAR EL CLIENTE ---
+            alert("¡RUT correcto! Listo para guardar.");
+            
+        });
+    });
+</script>          
 </body>
 </html>

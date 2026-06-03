@@ -106,47 +106,76 @@
     </div>
 </div>
 <!--Modal-->
-<div class="modal fade" id="modalNuevaVenta" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header encabezado-modal">
-                <i class="bi bi-receipt"></i>
-                class="modal-title">Registrar Nueva Venta
+<div class="modal fade" id="modalNuevaVenta" tabindex="-1" aria-labelledby="modalNuevaVentaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow">
+            
+            <div class="modal-header bg-success text-white">
+                <h1 class="modal-title fs-5" id="modalNuevaVentaLabel">
+                    <i class="bi bi-receipt-cutoff"></i> Registrar Nueva Venta
+                </h1>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+
+            <div class="modal-body px-4 pt-2 pb-4 bg-light">
+                <h6 class="text-secondary border-bottom pb-2 mb-4">Información de la Transacción</h6>
+                
                 <form id="formVenta">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Cliente</label>
-                        <input type="text" class="form-control" id="inputCliente" placeholder="Nombre completo del cliente">
+
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-person-fill"></i> Información del Cliente y Servicio
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Cliente</label>
+                                    <input type="text" id="inputCliente" class="form-control" placeholder="Nombre completo del cliente">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Producto / Servicio</label>
+                                    <select id="inputProducto" class="form-select">
+                                        <option value="">Seleccione una opción...</option>
+                                        <option value="Plan Funerario Básico">Plan Funerario Básico</option>
+                                        <option value="Urna de Roble Presidencial">Urna de Roble Presidencial</option>
+                                        <option value="Urna Metálica Standard">Urna Metálica Standard</option>
+                                        <option value="Servicio de Cremación">Servicio de Cremación</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Producto / Servicio</label>
-                        <select class="form-select" id="inputProducto">
-                            <option selected value="">Seleccione una opción...</option>
-                            <option value="Plan Diamante">Plan Diamante</option>
-                            <option value="Plan Básico">Plan Básico</option>
-                            <option value="Cremación">Cremación</option>
-                            <option value="Urna Premium">Urna Premium</option>
-                        </select>
+
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-cash-stack"></i> Detalles del Pago y Estado
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Total a cobrar ($)</label>
+                                    <input type="number" id="inputTotal" class="form-control" placeholder="Ej: 500000">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Estado de la Venta</label>
+                                    <select id="inputEstado" class="form-select">
+                                        <option value="Pendiente">Pendiente</option>
+                                        <option value="Completado">Completado</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Total a cobrar ($)</label>
-                        <input type="number" class="form-control" id="inputTotal" placeholder="Ej: 500000">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Estado</label>
-                        <select class="form-select" id="inputEstado">
-                            <option value="Completado">Completado</option>
-                            <option value="Pendiente" selected>Pendiente</option>
-                        </select>
-                    </div>
+
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success fw-bold" id="btnGuardarVenta">Guardar Venta</button>
+
+            <div class="modal-footer bg-light border-top-0">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success px-4" id="btnGuardarVenta">Guardar Venta</button>
             </div>
+
         </div>
     </div>
 </div>

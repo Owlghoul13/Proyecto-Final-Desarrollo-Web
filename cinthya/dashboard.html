@@ -117,20 +117,21 @@
         // Obtenemos el contexto donde se dibujará el gráfico
         const ctx = document.getElementById('graficoMeta').getContext('2d');
         
-        // Datos para el gráfico
-        const ventasActuales = 320;
-        const metaMensual = 400;
-        const faltante = metaMensual - ventasActuales;
+        // Datos de ejemplo para el gráfico (luego los conectaremos a tu base de datos real)
+        const ventasLogradas = 320;
+        const ventasCanceladas = 30;
+        const ventasPendientes = 50;
 
         // Configuramos y creamos el gráfico de anillo (Doughnut)
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Ventas Logradas', 'Faltante'],
+                labels: ['Ventas Logradas', 'Cancelados', 'Pendiente'],
                 datasets: [{
-                    data: [ventasActuales, faltante > 0 ? faltante : 0],
-                    // Colores: Verde para lo logrado, gris clarito para lo que falta
-                    backgroundColor: ['#198754', '#e9ecef'],
+                    // 1. Agregamos las 3 variables para que calcen con las 3 etiquetas
+                    data: [ventasLogradas, ventasCanceladas, ventasPendientes],
+                    // 2. Colores: Verde (Logradas), Gris claro (Cancelados), Amarillo (Pendiente)
+                    backgroundColor: ['#198754', '#e9ecef', '#ffc107'],
                     borderWidth: 0
                 }]
             },

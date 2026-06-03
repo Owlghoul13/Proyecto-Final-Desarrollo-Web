@@ -105,26 +105,87 @@
 
     </div>
 </div>
-<!--Modal-->
 <div class="modal fade" id="modalNuevoItem" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow">
-            <div class="modal-header encabezado-modal">
-                <h2 class="modal-title text-white">
+            
+            <div class="modal-header encabezado-modal bg-success">
+                <h2 class="modal-title text-white fs-5">
                     <i class="bi bi-box-seam-fill"></i> Nuevo Producto o Servicio
                 </h2>
-                
-                <button type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close">
-            </button>
-        </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             
-            <div class="modal-body px-4 pt-2 pb-4">
+            <div class="modal-body px-4 pt-2 pb-4 bg-light">
                 <h6 class="text-secondary border-bottom pb-2 mb-4">Formulario de Registro</h6>
                 
                 <form id="formProducto">
+                    
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-box-seam"></i> Información General
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nombre del Producto/Servicio</label>
+                                    <input type="text" id="inputNombreProd" class="form-control" placeholder="Ej: Plan Funerario Básico">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Categoría</label>
+                                    <select id="inputCategoria" class="form-select">
+                                        <option value="">Seleccione...</option>
+                                        <option value="Producto">Producto</option>
+                                        <option value="Servicio">Servicio</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-card-text"></i> Descripción
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Descripción Corta</label>
+                                    <input type="text" id="inputDescCorta" class="form-control" placeholder="Ej: Servicio funerario económico">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Descripción Larga</label>
+                                    <textarea id="inputDescLarga" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-cash-coin"></i> Información Comercial
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Valor Actual ($ CLP)</label>
+                                    <input type="number" id="inputPrecioProd" class="form-control" placeholder="Ej: 850000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarProducto">Guardar Producto</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
 
         <!-- INFORMACIÓN GENERAL -->
         <div class="card mb-3">

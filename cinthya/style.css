@@ -1,57 +1,62 @@
 /*=====================================*/
-/* Configuración de toda la pagina */
+/*Coinfiguracion general de la pagina*/
+/*=====================================*/
 body {
-    /* Color de fondo */
+    /*Color de fondo*/
     background-color: #f5f6fa;
-    /* Tipo de letra */
+    /*Tipo de letra*/
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex; /* Permite que el contenido se posicione al lado de la sidebar */
+    /*Permite que el contenido se posicione al lado de la sidebar*/
+    display: flex; 
 }
 
 /*=====================================*/
-/* Menu lateral */
+/* Menu lateral fijo*/
+/*=====================================*/
 .sidebar {
-    /* Color verde */
+    /*Color verde*/
     background-color: #3A7307;
-    /* Ancho del menu */
+    /*Ancho del menu*/
     width: 250px;
-    /* Altura completa de pantalla */
-    /* El 100 es el porcentaje de la pantalla vertical */
+    /*Altura completa de pantalla*/
+    /*El 100 es el porcentaje de la pantalla vertical*/
     height: 100vh;
-    /* Flexbox */
+    /*Flexbox*/
     display: flex;
-    /* Elementos en columna */
+    /*Elementos en columna*/
     flex-direction: column;
-    /* Separar contenido arriba y abajo */
+    /*Separar contenido arriba y abajo*/
     justify-content: space-between;
-    /* Espacio interno */
+    /*Espacio interno*/
     padding: 20px;
     box-sizing: border-box;
-    position: fixed; /* Mantiene la barra fija al hacer scroll */
+    /*Mantiene la barra fija al hacer scroll*/
+    position: fixed; 
     left: 0;
     top: 0;
 }
 
-
 /*=====================================*/
-/* Componentes del Catálogo de Productos (Ajustes de Felipe) */
-/* Contenedor principal para no ser tapado por la sidebar */
+/*Componentes del catalogo de productos (Ajustes de Felipe)*/
+/*=====================================*/
+/*Contenedor principal*/
 .container {
-    margin-left: 270px; /* Desplazamiento de seguridad (250px de barra + 20px espacio) */
+    /*Desplazamiento de seguridad(250px de barra + 20px espacio)*/
+    margin-left: 270px; 
     padding: 40px;
     flex: 1;
     max-width: 100%;
     box-sizing: border-box;
 }
-
+/*Titulos principales*/
 h2 {
     color: #18421B;
     font-size: 40px;
     margin-bottom: 8px;
 }
-
+/*Subtitulos*/
 h3 {
     color: #4a5568;
     font-size: 18px;
@@ -62,7 +67,8 @@ h3 {
 }
 
 /*=====================================*/
-/* Tarjetas Contenedoras Modernas */
+/*Tarjetas pricipales */
+/*=====================================*/
 .card-form, .card-table {
     background-color: #ffffff;
     border-radius: 8px;
@@ -71,11 +77,13 @@ h3 {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 /*=====================================*/
-/* Lógica de Formularios */
+/*Logica de formularios*/
+/*=====================================*/
+/*Campos de formularios*/
 .form-group {
     margin-bottom: 18px;
 }
-
+/*Etiquetas de los campos*/
 .form-group label {
     display: block;
     margin-bottom: 8px;
@@ -83,7 +91,7 @@ h3 {
     font-size: 14px;
     color: #4a5568;
 }
-
+/*Inputs, select y textarea*/
 .form-group input, 
 .form-group select, 
 .form-group textarea {
@@ -98,7 +106,9 @@ h3 {
 }
 
 /*=====================================*/
-/* Efecto Focus usando el Verde Corporativo de Cinthya */
+/*Efecto focus usando el verde de la funeraria*/
+/*=====================================*/
+/*Efecto al seleccionar un campo*/
 .form-group input:focus, 
 .form-group select:focus, 
 .form-group textarea:focus {
@@ -108,7 +118,9 @@ h3 {
 }
 
 /*=====================================*/
-/* Botón de Envío con el Verde Corporativo de la Funeraria */
+/*Boton de envio con el verde de la funeraria*/
+/*=====================================*/
+/*Boton principal*/
 .btn-submit {
     background-color: #3A7307;
     color: #ffffff;
@@ -121,19 +133,22 @@ h3 {
     font-size: 15px;
     transition: background-color 0.2s;
 }
-
+/*Efecto al pasar el mouse*/
 .btn-submit:hover {
-    background-color: #2b5405; /* Un tono más oscuro del verde para el feedback visual */
+    /*Un tono mas oscuro del verde para el feedback visual */
+    background-color: #2b5405;
 }
 
 /*=====================================*/
-/* Tabla de Catálogo Exclusiva */
+/*Tabla de catalogo*/
+/*=====================================*/
+/*Tabla de productos*/
 .table-catalog {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
-
+/*Encabezados de la tabla*/
 .table-catalog th {
     background-color: #f8fafc;
     color: #000;
@@ -141,7 +156,7 @@ h3 {
     font-weight: bold !important;
     color: black;
 }
-
+/*Celdas de la tabla*/
 .table-catalog td {
     padding: 14px 16px;
     border-bottom: 1px solid #edf2f7;
@@ -149,7 +164,9 @@ h3 {
     color: #2d3748;
 }
 /*=====================================*/
-/* Distintivos de Categorías y Estados (HU01 y HU02) */
+/*Distintivos de categorias y estados (HU01 y HU02)*/
+/*=====================================*/
+/*Estados y categorias*/
 .badge-category {
     background-color: #edf2f7;
     color: #4a5568;
@@ -158,7 +175,7 @@ h3 {
     font-size: 12px;
     font-weight: 500;
 }
-
+/*Estado general*/
 .badge-status {
     padding: 4px 8px;
     border-radius: 4px;
@@ -166,24 +183,28 @@ h3 {
     font-weight: bold;
     display: inline-block;
 }
-
+/*Estado activo*/
 .badge-active {
     background-color: #c6f6d5;
     color: #22543d;
 }
-
+/*Estado inactivo*/
 .badge-inactive {
     background-color: #fed7d7;
     color: #742a2a;
 }
 /*=====================================*/
-/* Aplicación del Borrado Lógico (Atenuación de fila inactiva - HU02) */
+/*Aplicacion del borrado logico (Atenuación de fila inactiva - HU02)*/
+/*=====================================*/
+/*Fila deshabilitada*/
 .row-disabled {
     opacity: 0.55;
     background-color: #f7fafc;
 }
 /*=====================================*/
-/* Botonera de acciones internas de la tabla */
+/*Botones de acciones*/
+/*=====================================*/
+/*Botones de acciones*/
 .btn-action {
     padding: 6px 12px;
     font-size: 13px;
@@ -194,28 +215,30 @@ h3 {
     margin-right: 6px;
     transition: transform 0.1s, opacity 0.2s;
 }
-
+/*Efecto de botones*/
 .btn-action:hover {
     opacity: 0.9;
     transform: translateY(-1px);
 }
-
+/*Boton editar*/
 .btn-edit {
     background-color: #ecc94b; /* Amarillo sutil para edición */
     color: #1a202c;
 }
-
+/*Boton desactivar*/
 .btn-disable {
     background-color: #e53e3e; /* Rojo para desactivación suave */
     color: #ffffff;
 }
-
+/*Boton activar*/
 .btn-enable {
     background-color: #38a169; /* Verde estándar para activación */
     color: #ffffff;
 }
 /*=====================================*/
-/* Alertas Flotantes del Sistema (Toasts de UX interactiva) */
+/*Alertas flotantes del sistema (Toasts de UX interactiva)*/
+/*=====================================*/
+/*Alertas flotantes*/
 .toast-notification {
     position: fixed;
     top: 20px;
@@ -230,17 +253,18 @@ h3 {
     transition: opacity 0.3s ease;
     background-color: #3182ce;
 }
-
+/*Alerta de exito*/
 .toast-success { background-color: #38a169; }
+/*Alerta de erorr*/
 .toast-error { background-color: #e53e3e; }
 
 /* ========================================================= */
-/* ESTRUCTURA DASHBOARD: BARRA FIJA Y CONTENIDO EMPUJADO     */
+/*Estructura Dashboard: barra fija y contenido empujado*/
 /* ========================================================= */
-
-/* 1. Barra Lateral Fija (Inamovible a la izquierda) */
+/*1.Barra lateral fija (Inamovible a la izquierda)*/
 .sidebar {
-    position: fixed !important; /* La clava en la pantalla */
+    /*La clava en la pantalla*/
+    position: fixed !important; 
     top: 0;
     left: 0;
     width: 250px !important;
@@ -250,25 +274,28 @@ h3 {
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-    z-index: 1000; /* Garantiza que nadie se le superponga */
+    /*Garantiza que nadie se le superponga */
+    z-index: 1000; 
 }
 
-/* 2. Contenedor Principal (Respeta el espacio de la barra) */
+/*2.Contenedor principal del dahboard (Respeta el espacio de la barra)*/
 .container-fluid {
-    margin-left: 250px !important; /* Empuja el contenido exactamente 250px a la derecha */
-    width: calc(100% - 250px) !important; /* Calcula el ancho restante */
+    /*Empuja el contenido exactamente 250px a la derecha*/
+    margin-left: 250px !important;
+    /* Calcula el ancho restante */ 
+    width: calc(100% - 250px) !important; 
     min-height: 100vh;
     background-color: #f5f6fa; /* Fondo gris claro */
     padding: 2rem !important; 
 }
 
-/* 3. Títulos de las Tablas */
+/*3.Encabezado de las tablas */
 .tabla-header {
     padding: 20px 25px;
     background-color: #3A7307; /* Verde */
     border-radius: 25px 25px 0 0;
 }
-
+/*4.Titulo dentro del encabezado*/
 .tabla-header h3 {
     margin: 0 !important;
     font-size: 1.8rem;
@@ -276,7 +303,7 @@ h3 {
     color: white;
 }
 
-/* 4. Estilos del Logo */
+/*5.Logo de la funeraria*/
 .logo {
     width: 100%;
     max-width: 180px;
@@ -284,11 +311,12 @@ h3 {
     display: block;
     margin: 0 auto;
     border-radius: 12px;
-    background-color: white; /* Fondo blanco para que resalte el texto oscuro del logo */
+    /*Fondo blanco para que resalte el texto oscuro del logo*/
+    background-color: white;
     padding: 10px;
 }
 
-/* 5. Enlaces del Menú */
+/*6.Enlaces del menu*/
 .sidebar .nav-link {
     color: #ffffff !important;
     margin-bottom: 5px;
@@ -296,19 +324,19 @@ h3 {
     border-radius: 6px;
     transition: background-color 0.2s;
 }
-
+/*7.Efecto hover del menu*/
 .sidebar .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.15); 
 }
 
-/* Evitar scroll horizontal accidental en toda la página */
+/*Evitar el scroll horizontal accidental en toda la pagina*/
 body {
     overflow-x: hidden;
 }
 /* ===================================== */
-/* TARJETAS DEL DASHBOARD */
+/*Tarjetas del dashboard*/
 /* ===================================== */
-
+/*Tarjetas del dashboard*/
 .clientes-card, 
 .productos-card,
 .ventas-card{
@@ -323,29 +351,21 @@ body {
     min-height: 180px;
 
 }
-
+/*Tarjeta de productos*/
 .productos-card{
     background: linear-gradient(135deg, #0F766E, #14B8A6);
     color: white;
     border: none;
     border-radius: 25px;
 }
-
+/*Tarjeta de ventas*/
 .ventas-card{
     background: linear-gradient(135deg, #CA8A04, #FACC15);
     color: white;
     border: none;
     border-radius: 25px;
 }
-
-/* Texto de las tarjetas */
-.clientes-card h1,
-.productos-card h1,
-.ventas-card h1{
-    font-size: 4rem;
-    font-weight: bold;
-}
-
+/*Numeros principales de las tarjetas y ajuste separacion superior*/
 .clientes-card h1,
 .productos-card h1,
 .ventas-card h1{
@@ -353,75 +373,75 @@ body {
     font-weight: bold;
     margin-top: 10px;
 }
-
-/* Sombra suave */
+/*Sombra suave*/
 .clientes-card,
 .productos-card,
 .ventas-card{
     box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
 }
+/*Columnas con mismo tamaño*/
 .col{
     flex: 1;
 }
+/*Distribucion horizontal de tarjetas*/
 .row.g-4{
     display: flex;
 }
-
+/*Cada tarjeta ocupa el mismo espacio*/
 .row.g-4 .col-md-4{
     flex: 1;
 }
+/*Ajuste del ancho del contenido principal*/
 .container-fluid{
     margin-left: 250px !important;
     width: calc(100vw - 250px) !important;
 }
-
+/*Fondo verde reutilizable*/
 .header-verde{
     background-color: #3A7307;
 }
-
 /* ===================================== */
-/* CAMPOS DEL FORMULARIO */
+/* Campos del formulario*/
 /* ===================================== */
-
+/*Inputs, y listas desplegables*/
 .form-control,
 .form-select{
     border: 2px solid #7D7D7D;
     border-radius: 10px;
     padding: 12px;
 }
-
-/* Cuando el usuario hace clic */
+/*Cuando el usuario hace clic*/
 .form-control:focus,
 .form-select:focus{
     border-color: #3A7307;
     box-shadow: 0 0 0 4px rgba(58,115,7,0.15);
 }
-
+/*Encabezado del modal*/
 .modal-header{
     background-color: #3A7307;
     border-bottom: none;
 }
-
+/*Titulo del modal*/
 .modal-title{
     color: white !important;
     font-weight: bold;
     font-size: 2rem;
 }
-
+/*Boton para cerrar el modal*/
 .modal-header .btn-close{
     filter: brightness(0) invert(1);
 }
-
+/*Encabezados de las tablas*/
 th{
     font-size: 20px !important;
     font-weight: bold !important;
 }
-
+/*Boton verde principal*/
 .btn-success{
     background-color: #3B7A00;
     border-color: #3B7A00;
 }
-
+/*Encabezado personalizado de los modales*/
 .encabezado-modal{
     background-color: #38761d;
     color: white;

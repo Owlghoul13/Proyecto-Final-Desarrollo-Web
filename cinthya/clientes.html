@@ -378,16 +378,16 @@
       // ==========================================
       // 3. Eventos y registro de clientes
       // ==========================================
-      //Ejecutar al cargar completamente la pagina
+      //Ejecuta al cargar completamente la pagina
       document.addEventListener("DOMContentLoaded", function () {
-        //Mostrar clientes existentes en la tabla(clientes almacenados)
+        //Muestra clientes existentes en la tabla(clientes almacenados)
         renderizarTabla();
-        //Obtener boton guardar cliente
+        //Obtiene boton guardar cliente
         const btnGuardar = document.getElementById("btnGuardarCliente");
         if (btnGuardar) {
-          //Escuchar clic de boton guardar
+          //Escucha el clic de boton guardar
           btnGuardar.addEventListener("click", function () {
-            //Obtener y validar el formato del RUT ingresado
+            //Obtiene y validar el formato del RUT ingresado
             const rut = document.getElementById("inputRut").value.trim();
             const formatoRut = /^[0-9]{7,8}-[0-9Kk]{1}$/;
             if (!formatoRut.test(rut)) {
@@ -396,7 +396,7 @@
               );
               return;
             }
-            //Obtener datos del formulario
+            //Obtiene datos del formulario
             const nombres = document
               .getElementById("inputNombres")
               .value.trim();
@@ -412,12 +412,12 @@
               alert("Por favor, ingresa el nombre y el apellido paterno.");
               return;
             }
-            //Construir nombre completo del cliente
+            //Construye nombre completo del cliente
             const nombreCompleto = nombres + " " + apellidoP;
-            //Recuperar clientes almacenados
+            //Recupera clientes almacenados
             let clientes =
               JSON.parse(localStorage.getItem("crm_clientes")) || [];
-            //Crear nuevo objeto cliente
+            //Crea nuevo objeto cliente
             const nuevoCliente = {
               id: Date.now().toString(),
               nombre: nombreCompleto,
@@ -425,16 +425,16 @@
               correo: correo,
               estado: estado,
             };
-            //Agregar cliente a la lista
+            //Agrega cliente a la lista
             clientes.push(nuevoCliente);
-            //Guardar cambios en localstorage
+            //Guarda cambios en localstorage
             localStorage.setItem("crm_clientes", JSON.stringify(clientes));
             const modalAbierto = document.querySelector(".modal.show");
             if (modalAbierto) {
               const modalInstance = bootstrap.Modal.getInstance(modalAbierto);
               modalInstance.hide();
             }
-            //Recargar la pagina para actualizar la tabla
+            //Recarga la pagina para actualizar la tabla
             location.reload();
           });
         }

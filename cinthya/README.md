@@ -1,1 +1,477 @@
 # Carpeta de Cinthya
+
+Texto duplicado de productos, pero sigue funcionando guardado porsiacaso
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!--Configuracion basica de la pagina-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ventas - Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-light">
+
+<div class="d-flex">
+    <!--Barra lateral-->
+    <div class="sidebar text-white p-3 d-flex flex-column" style="min-height: 100vh;">
+        <div>
+            <h1 class="mb-4">CRM</h1>
+            <h1 class="mb-4">Productos</h1>
+            <!--Menu principal con referencia a sus html-->
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link text-white">Dashboard</a></li>
+                <li class="nav-item"><a href="clientes.html" class="nav-link text-white">Clientes</a></li>
+                <li class="nav-item" id="menu-productos"><a href="productos.html" class="nav-link text-white fw-bold">Productos</a></li>
+                <li class="nav-item"><a href="ventas.html" class="nav-link text-white">Ventas</a></li>
+            </ul>
+        </div>
+        <!--Boton de cerrar sesion + logo de la funeraria-->
+        <div class="mt-auto text-center pt-4">
+            <button onclick="cerrarSesion()" class="btn btn-danger w-100 fw-bold mb-3" style="border-radius: 6px;">
+                Cerrar Sesión
+            </button>
+            <img src="logo.jpeg" alt="Logo CRM" class="logo">
+        </div>
+    </div>
+    <!--Contenido principal de la pagian web-->
+    <div class="container-fluid p-4">
+        <!--Encabezado y boton + nuevo producto-->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2> Inventario y Oferta Comercial</h2>
+            <button class="btn btn-success btn-lg shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalNuevoItem">
+                + Nuevo Producto
+            </button>
+        </div>
+        <!--Mensaje de confirmacion-->
+        <div id="alertaAccion" class="alert alert-primary d-none shadow-sm fw-bold" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1055;">
+            Ítem actualizado del catálogo.
+        </div>
+        <!--Buscador de productos-->
+        <div class="mb-4">
+            <input type="text" class="form-control shadow-sm p-2" id="inputBuscarProducto" placeholder="Buscar por código o nombre del producto...">
+        </div>
+        <!--Tabla de productos-->
+        <div class="card shadow-sm border-0 tabla-card">
+            <!--Titulo principal de la tabla-->
+            <div class="tabla-header">
+                <h3>Inventario y Oferta Comercial Vigente</h3>
+            </div>
+            <div class="card-body p-4">
+                
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <!--Encabezados de la tabla-->
+                        <thead class="text-secondary" style="font-size: 0.85rem; letter-spacing: normal;">
+                            <tr>
+                                <th class="border-0 pb-3">Nombre</th>
+                                <th class="border-0 pb-3 text-center">Categoría</th>
+                                <th class="border-0 pb-3">Precio Actual</th>
+                                <th class="border-0 pb-3 text-center">Estado</th>
+                                <th class="border-0 pb-3">Acciones</th>
+                            </tr>
+                        </thead>
+                        <!--Productos de ejemplos-->
+                        <tbody id="tablaProductosBody" class="border-top">
+                            <!--Producto 1 de ejemplo-->
+                            <tr>
+                                <td class="fw-bold py-3">Plan Funerario Básico</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">Servicio</span></td>
+                                <td class="text-secondary fw-semibold">$850.000</td>
+                                <td class="text-center"><span class="badge bg-success px-3 py-2">Activo</span></td>
+                                <!--Boton de editar y activar/desactivar-->
+                                <td>
+                                    <button class="btn btn-sm btn-warning fw-bold text-dark me-1"><i class="bi bi-pencil-fill"></i> Editar</button>
+                                    <button class="btn btn-sm btn-danger fw-bold btn-toggle-estado"><i class="bi bi-circle"></i> Desactivar</button>
+                                </td>
+                            </tr>
+                            <!--Producto 2 de ejemplo-->
+                            <tr>
+                                <td class="fw-bold py-3">Urna de Roble Presidencial</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">Producto</span></td>
+                                <td class="text-secondary fw-semibold">$2.100.000</td>
+                                <td class="text-center"><span class="badge bg-success px-3 py-2">Activo</span></td>
+                                <!--Boton de editar y activar/desactivar-->
+                                <td>
+                                    <button class="btn btn-sm btn-warning fw-bold text-dark me-1"><i class="bi bi-pencil-fill"></i> Editar</button>
+                                    <button class="btn btn-sm btn-danger fw-bold btn-toggle-estado"><i class="bi bi-circle"></i> Desactivar</button>
+                                </td>
+                            </tr>
+                            <!--Producto 3 de ejemplo-->
+                            <tr>
+                                <td class="fw-bold py-3">Urna Metálica Standard</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">Producto</span></td>
+                                <td class="text-secondary fw-semibold">$350.000</td>
+                                <td class="text-center"><span class="badge bg-secondary px-3 py-2">Inactivo</span></td>
+                                <!--Boton de editar y activar/desactivar-->
+                                <td>
+                                    <button class="btn btn-sm btn-warning fw-bold text-dark me-1"><i class="bi bi-pencil-fill"></i> Editar</button>
+                                    <button class="btn btn-sm btn-success fw-bold btn-toggle-estado"><i class="bi bi-circle-fill"></i> Activar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal de nuevo producto-->
+<div class="modal fade" id="modalNuevoItem" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header encabezado-modal bg-success">
+                <h2 class="modal-title text-white fs-5">
+                    <i class="bi bi-box-seam-fill"></i> Nuevo Producto o Servicio
+                </h2>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 pt-2 pb-4 bg-light">
+                <h6 class="text-secondary border-bottom pb-2 mb-4">Formulario de Registro</h6>
+                <form id="formProducto">
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-box-seam"></i> Información General
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nombre del Producto/Servicio</label>
+                                    <input type="text" id="inputNombreProd" class="form-control" placeholder="Ej: Plan Funerario Básico">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Categoría</label>
+                                    <select id="inputCategoria" class="form-select">
+                                        <option value="">Seleccione...</option>
+                                        <option value="Producto">Producto</option>
+                                        <option value="Servicio">Servicio</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-card-text"></i> Descripción
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Descripción Corta</label>
+                                    <input type="text" id="inputDescCorta" class="form-control" placeholder="Ej: Servicio funerario económico">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Descripción Larga</label>
+                                    <textarea id="inputDescLarga" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <i class="bi bi-cash-coin"></i> Información Comercial
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Valor Actual ($ CLP)</label>
+                                    <input type="number" id="inputPrecioProd" class="form-control" placeholder="Ej: 850000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarProducto">Guardar Producto</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header bg-success text-white">
+        Información General
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <label class="form-label">
+                    Nombre del Producto/Servicio
+                </label>
+                <input
+                type="text"
+                class="form-control"
+                id="inputNombreProd"
+                placeholder="Ej: Plan Funerario Básico">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">
+                    Categoría
+                </label>
+                <select
+                            class="form-select"
+                            id="inputCategoria">
+                            <option selected value="">
+                                Seleccione
+                            </option>
+                            <option value="Producto">
+                                Producto
+                            </option>
+                            <option value="Servicio">
+                                Servicio
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- DESCRIPCIÓN -->
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+                 Descripción
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Descripción Corta
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="inputDescCorta"
+                        placeholder="Ej: Servicio funerario económico">
+                </div>
+
+                <div>
+                    <label class="form-label">
+                        Descripción Larga
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="inputDescLarga"
+                        rows="4"
+                        placeholder="Ej: Servicio funerario completo con ceremonia y traslado">
+                    </textarea>
+                </div>
+
+            </div>
+        </div>
+        <!-- INFORMACIÓN COMERCIAL -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                 Información Comercial
+            </div>
+
+            <div class="card-body">
+
+                <label class="form-label">
+                    Valor Actual ($ CLP)
+                </label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    id="inputPrecioProd"
+                    placeholder="Ej: 850.000">
+
+            </div>
+        </div>
+        <!-- BOTONES -->
+        <div class="d-flex justify-content-end gap-2">
+
+            <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                class="btn text-white"
+                style="background-color:#38761d;"
+                id="btnGuardarProducto">
+                 Guardar Producto
+            </button>
+
+        </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="../felipe/auth.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // 1. DATOS INICIALES (Por si la memoria está vacía la primera vez)
+        const productosPredeterminados = [
+            { id: 1, nombre: "Plan Funerario Básico", categoria: "Servicio", precio: 850000, estado: "Activo" },
+            { id: 2, "nombre": "Urna de Roble Presidencial", categoria: "Producto", precio: 2100000, estado: "Activo" },
+            { id: 3, "nombre": "Urna Metálica Standard", categoria: "Producto", precio: 350000, estado: "Inactivo" }
+        ];
+
+        // Función auxiliar para obtener los productos de localStorage
+        function obtenerProductos() {
+            const productosGuardados = localStorage.getItem("crm_productos");
+            if (!productosGuardados) {
+                // Si no hay nada, guardamos los predeterminados por primera vez
+                localStorage.setItem("crm_productos", JSON.stringify(productosPredeterminados));
+                return productosPredeterminados;
+            }
+            return JSON.parse(productosGuardados);
+        }
+
+        // Función auxiliar para guardar el array actualizado en localStorage
+        function guardarProductos(arrayProductos) {
+            localStorage.setItem("crm_productos", JSON.stringify(arrayProductos));
+        }
+
+        // Alerta visual flotante
+        function mostrarAlerta(mensaje, colorFondo) {
+            const alerta = document.getElementById("alertaAccion");
+            alerta.innerText = mensaje;
+            alerta.className = `alert shadow-sm fw-bold ${colorFondo}`;
+            alerta.style.color = "white";
+            alerta.classList.remove("d-none");
+            
+            setTimeout(() => {
+                alerta.classList.add("d-none");
+            }, 3000);
+        }
+
+        // ==========================================
+        // 2. FUNCIÓN PARA RENDERIZAR LA TABLA
+        // ==========================================
+        function renderizarTabla() {
+            const productos = obtenerProductos();
+            const tbody = document.getElementById("tablaProductosBody");
+            tbody.innerHTML = ""; // Limpiamos la tabla antes de redibujar
+
+            productos.forEach(prod => {
+                const precioFormateado = "$" + prod.precio.toLocaleString("es-CL");
+                
+                // Definir colores de estados unificados
+                const badgeClase = prod.estado === "Activo" ? "bg-success" : "bg-secondary";
+                
+                // Botones limpios: sin fw-bold y sin íconos, idénticos a los demás módulos
+                const botonAccion = prod.estado === "Activo" 
+                    ? `<button class="btn btn-sm btn-danger btn-toggle-estado" data-id="${prod.id}">Desactivar</button>`
+                    : `<button class="btn btn-sm btn-success btn-toggle-estado" data-id="${prod.id}">Activar</button>`;
+
+                const nuevaFila = document.createElement("tr");
+                
+                // Quitamos el "py-3" del primer td para igualar el alto de la fila
+                nuevaFila.innerHTML = `
+                    <td>${prod.nombre}</td>
+                    <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">${prod.categoria}</span></td>
+                    <td class="text-secondary fw-semibold">${precioFormateado}</td>
+                    <td class="text-center"><span class="badge ${badgeClase}">${prod.estado}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-warning text-dark me-1">Editar</button>
+                        ${botonAccion}
+                    </td>
+                `;
+                tbody.appendChild(nuevaFila);
+            });
+        }
+
+        // ==========================================
+        // 3. GUARDAR NUEVO PRODUCTO (DESDE MODAL)
+        // ==========================================
+        document.getElementById("btnGuardarProducto").addEventListener("click", function() {
+            const nombre = document.getElementById("inputNombreProd").value;
+            const categoria = document.getElementById("inputCategoria").value;
+            const precio = document.getElementById("inputPrecioProd").value;
+
+            if (!nombre || !categoria || !precio) {
+                alert("Por favor, completa los campos obligatorios.");
+                return;
+            }
+
+            const listaProductos = obtenerProductos();
+            
+            // Creamos el nuevo objeto producto con un ID único basado en tiempo
+            const nuevoProducto = {
+                id: Date.now(),
+                nombre: nombre,
+                categoria: categoria,
+                precio: parseInt(precio),
+                estado: "Activo"
+            };
+
+            listaProductos.unshift(nuevoProducto); // Lo agregamos al inicio de la lista
+            guardarProductos(listaProductos);      // Lo mandamos a la memoria persistente
+            renderizarTabla();                     // Redibujamos la tabla automáticamente
+            
+            mostrarAlerta("Ítem agregado exitosamente al catálogo.", "bg-success");
+
+            // Limpieza del formulario y cierre de modal
+            document.getElementById("formProducto").reset();
+            const modalElement = document.getElementById("modalNuevoItem");
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+        });
+
+        // ==========================================
+        // 4. INTERCAMBIO DE ESTADOS INTERACTIVO
+        // ==========================================
+        document.getElementById("tablaProductosBody").addEventListener("click", function(e) {
+            const boton = e.target.closest(".btn-toggle-estado");
+            if (!boton) return;
+
+            const idProducto = parseInt(boton.getAttribute("data-id"));
+            const listaProductos = obtenerProductos();
+            
+            // Buscamos el producto en nuestra base de datos local
+            const productoTarget = listaProductos.find(p => p.id === idProducto);
+
+            if (productoTarget) {
+                if (productoTarget.estado === "Activo") {
+                    productoTarget.estado = "Inactivo";
+                    mostrarAlerta("Ítem desactivado del catálogo.", "bg-primary");
+                } else {
+                    productoTarget.estado = "Activo";
+                    mostrarAlerta("Ítem activado en el catálogo.", "bg-success");
+                }
+
+                guardarProductos(listaProductos); // Guardamos el cambio de estado en memoria
+                renderizarTabla();                // Redibujamos para aplicar el cambio estético instantáneo
+            }
+        });
+
+        // ==========================================
+        // 5. LÓGICA REUTILIZABLE PARA EL BUSCADOR
+        // ==========================================
+        document.getElementById("inputBuscarProducto").addEventListener("input", function(e) {
+            const textoBusqueda = e.target.value.toLowerCase();
+            const filas = document.querySelectorAll("#tablaProductosBody tr");
+
+            filas.forEach(fila => {
+                const textoFila = fila.innerText.toLowerCase();
+                if (textoFila.includes(textoBusqueda)) {
+                    fila.classList.remove("d-none");
+                } else {
+                    fila.classList.add("d-none");
+                }
+            });
+        });
+
+        // Carga inicial de la tabla al abrir la página
+        renderizarTabla();
+    });
+</script>
+</body>
+</html>

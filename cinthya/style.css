@@ -349,6 +349,7 @@ body {
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     width: 100%;
     min-height: 180px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 
 }
 /*Tarjeta de productos*/
@@ -379,6 +380,12 @@ body {
 .ventas-card{
     box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
 }
+/*Tarjetas se mueven al pasar el mouse(hover)*/
+.clientes-card:hover,
+.productos-card:hover,
+.ventas-card:hover{
+    transform: translateY(-5px);
+}
 /*Columnas con mismo tamaño*/
 .col{
     flex: 1;
@@ -401,7 +408,7 @@ body {
     background-color: #3A7307;
 }
 /* ===================================== */
-/* Campos del formulario*/
+/*Campos del formulario*/
 /* ===================================== */
 /*Inputs, y listas desplegables*/
 .form-control,
@@ -446,5 +453,28 @@ th{
     background-color: #38761d;
     color: white;
     padding: 20px 25px;
+}
+/*Encabezados de secciones internas*/
+.header-verde-secundario{
+    background-color: #38761d !important;
+    color: white;
+}
+/* ===================================== */
+/*Botones mismo ancho*/
+/* ===================================== */
+/*Botones desactivar/activar con el mismo tamaño*/
+.btn-toggle-estado{
+    width: 110px;
+}
+/*Botones de estado del mismo largo*/
+.badge{
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+/*Botones de modal se mueven hacia arriba al pasar el mouse*/
+.btn-success:hover{
+    transform: translateY(-5px);
+    transition: transform 0.5s ease;
 }
 

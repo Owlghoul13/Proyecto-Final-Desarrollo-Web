@@ -51,7 +51,7 @@
       </div>
       <!--Contenedor de gestion de clientes-->
       <div class="container-fluid p-4">
-         <!--Encabezado de la pagina y boton + nuevo cliente-->
+        <!--Encabezado de la pagina y boton + nuevo cliente-->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2>Gestión de Clientes</h2>
           <button
@@ -62,7 +62,7 @@
             + Nuevo Cliente
           </button>
         </div>
-         <!--Campo de busqueda(clientes)-->
+        <!--Campo de busqueda(clientes)-->
         <div class="mb-4">
           <input
             type="text"
@@ -70,7 +70,7 @@
             placeholder="Buscar cliente..."
           />
         </div>
-         <!--Tabla con listado de clientes-->
+        <!--Tabla con listado de clientes-->
         <div class="card tabla-card shadow">
           <div class="tabla-header">
             <h3>Lista de Clientes</h3>
@@ -86,7 +86,7 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
-               <!--Clientes de ejemplo-->
+              <!--Clientes de ejemplo-->
               <tbody id="tablaClientesBody">
                 <!--Cliente 1 ejemplo-->
                 <tr>
@@ -162,7 +162,7 @@
               <!--Comienzo contenido de la seccion de datos perosnales-->
               <div class="card-body">
                 <div class="row">
-                    <!--Nombres, placeholder lo que aparece textual en el recuadrado-->
+                  <!--Nombres, placeholder lo que aparece textual en el recuadrado-->
                   <div class="col-md-4 mb-3">
                     <label>Nombres</label>
                     <input
@@ -220,8 +220,8 @@
               <!--Comienzo contenido de la seccion de datos de contacto-->
               <div class="card-body">
                 <div class="row">
-                    <!--Correo electronico-->
-                    <div class="col-md-6 mb-3">
+                  <!--Correo electronico-->
+                  <div class="col-md-6 mb-3">
                     <label>Correo Electrónico</label>
                     <input
                       type="text"
@@ -304,7 +304,6 @@
       // ==========================================
       // 1. Obtener clientes desde localstorage
       // ==========================================
-
       //Funcion para recuperar la lista de clientes almacenados
       function obtenerClientes() {
         const clientesGuardados = localStorage.getItem("crm_clientes");
@@ -387,7 +386,7 @@
         const btnGuardar = document.getElementById("btnGuardarCliente");
         if (btnGuardar) {
           //Escuchar clic de boton guardar
-            btnGuardar.addEventListener("click", function () {
+          btnGuardar.addEventListener("click", function () {
             //Obtener y validar el formato del RUT ingresado
             const rut = document.getElementById("inputRut").value.trim();
             const formatoRut = /^[0-9]{7,8}-[0-9Kk]{1}$/;
@@ -408,7 +407,7 @@
             const telefono = document
               .getElementById("inputTelefono")
               .value.trim();
-            const estado = document.getElementById("inputEstado").value; 
+            const estado = document.getElementById("inputEstado").value;
             if (nombres === "" || apellidoP === "") {
               alert("Por favor, ingresa el nombre y el apellido paterno.");
               return;

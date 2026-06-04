@@ -1,309 +1,367 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <!--Confiuracion basica de la pagina-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Tiitulo que aparece en la pestaña del navegador-->
     <title>Clientes CRM</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body>
+    <!--Bootstrap para estilos y componentes-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!--Hoja de estilos y componentes-->
+    <link rel="stylesheet" href="style.css" />
+    <!--Hoja de estilos personalizada-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body>
+    <!--Contenedor principal de la pagina web-->
     <div class="d-flex">
-        
-        <div class="sidebar text-white p-3">
-            <div>
-                <h1 class="mb-4">CRM</h1>
-                <h1 class="mb-4">Clientes</h1>
-                
-                <div class="nav flex-column">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
-                    <a href="clientes.html" class="nav-link">Clientes</a>
-                    <a href="productos.html" class="nav-link" id="menu-productos">Productos</a>
-                    <a href="ventas.html" class="nav-link">Ventas</a>
-                </div>
-            </div>
-            
-            <div class="mt-auto text-center">
-                <button onclick="cerrarSesion()" class="btn btn-danger w-100 fw-bold mb-3" style="border-radius: 6px;">
-                    Cerrar Sesión
-                </button>
-                <img src="logo.jpeg" alt="Logo CRM" class="logo">
-            </div>
+      <!--Barra lateral de navegacion-->
+      <div class="sidebar text-white p-3">
+        <div>
+          <h1 class="mb-4">CRM</h1>
+          <h1 class="mb-4">Clientes</h1>
+          <!--Menu de la barra lateral, con referencia a su html-->
+          <div class="nav flex-column">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="clientes.html" class="nav-link">Clientes</a>
+            <a href="productos.html" class="nav-link" id="menu-productos"
+              >Productos</a
+            >
+            <a href="ventas.html" class="nav-link">Ventas</a>
+          </div>
         </div>
-
-        <div class="container-fluid p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Gestión de Clientes</h2>
-                <button class="btn btn-success btn-lg"
-                data-bs-toggle="modal"
-                data-bs-target="#modalCliente">
-                + Nuevo Cliente
-            </button>
-            </div>
-            
-            <div class="mb-4">
-                <input 
-                    type="text"
-                    class="form-control"
-                    placeholder="Buscar cliente..."
-                >
-            </div>
-            
-            <div class="card tabla-card shadow">
-                <div class="tabla-header">
-                    <h3>Lista de Clientes</h3>
-                </div>
-                
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="encabezado-tabla">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Correo</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody id="tablaClientesBody">
-                            <tr>
-                                <td>Juan Pérez</td>
-                                <td>+56 9 1234 5678</td>
-                                <td>juan@gmail.com</td>
-                                <td>
-                                    <span class="badge bg-success">Activo</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Editar</button>
-                                    <button class="btn btn-danger btn-sm">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>María Soto</td>
-                                <td>+56 9 9876 5432</td>
-                                <td>maria@gmail.com</td>
-                                <td>
-                                    <span class="badge bg-secondary">Inactivo</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Editar</button>
-                                    <button class="btn btn-danger btn-sm">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Carlos Reyes</td>
-                                <td>+56 9 4455 7788</td>
-                                <td>carlos@gmail.com</td>
-                                <td>
-                                    <span class="badge bg-success">Activo</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Editar</button>
-                                    <button class="btn btn-danger btn-sm">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!--Boton para cerrar sesion + el logo de la funeraria-->
+        <div class="mt-auto text-center">
+          <button
+            onclick="cerrarSesion()"
+            class="btn btn-danger w-100 fw-bold mb-3"
+            style="border-radius: 6px"
+          >
+            Cerrar Sesión
+          </button>
+          <img src="logo.jpeg" alt="Logo CRM" class="logo" />
         </div>
+      </div>
+      <!--Contenedor de gestion de clientes-->
+      <div class="container-fluid p-4">
+         <!--Encabezado de la pagina y boton + nuevo cliente-->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>Gestión de Clientes</h2>
+          <button
+            class="btn btn-success btn-lg"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCliente"
+          >
+            + Nuevo Cliente
+          </button>
+        </div>
+         <!--Campo de busqueda(clientes)-->
+        <div class="mb-4">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar cliente..."
+          />
+        </div>
+         <!--Tabla con listado de clientes-->
+        <div class="card tabla-card shadow">
+          <div class="tabla-header">
+            <h3>Lista de Clientes</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="encabezado-tabla">
+                <tr>
+                  <th>Nombre</th>
+                  <th>Teléfono</th>
+                  <th>Correo</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+               <!--Clientes de ejemplo-->
+              <tbody id="tablaClientesBody">
+                <!--Cliente 1 ejemplo-->
+                <tr>
+                  <td>Juan Pérez</td>
+                  <td>+56 9 1234 5678</td>
+                  <td>juan@gmail.com</td>
+                  <!--Boton de estado-->
+                  <td>
+                    <span class="badge bg-success">Activo</span>
+                  </td>
+                  <!--Boton de editar y eliminar-->
+                  <td>
+                    <button class="btn btn-warning btn-sm">Editar</button>
+                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                  </td>
+                </tr>
+                <!--Cliente 2 ejemplo(idem)-->
+                <tr>
+                  <td>María Soto</td>
+                  <td>+56 9 9876 5432</td>
+                  <td>maria@gmail.com</td>
+                  <td>
+                    <span class="badge bg-secondary">Inactivo</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-warning btn-sm">Editar</button>
+                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                  </td>
+                </tr>
+                <!--Cliente 3 ejemplo(idem)-->
+                <tr>
+                  <td>Carlos Reyes</td>
+                  <td>+56 9 4455 7788</td>
+                  <td>carlos@gmail.com</td>
+                  <td>
+                    <span class="badge bg-success">Activo</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-warning btn-sm">Editar</button>
+                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="../felipe/auth.js"></script>
-    <!-- Modal Nuevo Cliente -->
-<div class="modal fade" id="modalCliente" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <!--Modal para registarr un nuevo cliente-->
+    <div class="modal fade" id="modalCliente" tabindex="-1">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
+          <div class="modal-header fondo-verde">
+            <h2 class="modal-title text-white">
+              <i class="bi bi-person-plus-fill"></i> Nuevo Cliente
+            </h2>
 
-            <div class="modal-header fondo-verde">
-                <h2 class="modal-title text-white">
-                    <i class="bi bi-person-plus-fill"></i> Nuevo Cliente
-                </h2>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
 
-                <button type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal">
-                </button>
+          <div class="modal-body">
+            <!--Seccion de datos personales-->
+            <div class="card mb-3">
+              <div class="card-header bg-success text-white">
+                <i class="bi bi-person-vcard-fill"></i> Datos Personales
+              </div>
+              <!--Comienzo contenido de la seccion de datos perosnales-->
+              <div class="card-body">
+                <div class="row">
+                    <!--Nombres, placeholder lo que aparece textual en el recuadrado-->
+                  <div class="col-md-4 mb-3">
+                    <label>Nombres</label>
+                    <input
+                      type="text"
+                      id="inputNombres"
+                      class="form-control"
+                      placeholder="Ej: Ana María"
+                    />
+                  </div>
+                  <!--Apellido paterno-->
+                  <div class="col-md-4 mb-3">
+                    <label>Apellido Paterno</label>
+                    <input
+                      type="text"
+                      id="inputApellidoP"
+                      class="form-control"
+                      placeholder="Ej: Pérez"
+                    />
+                  </div>
+                  <!--Apellido materno-->
+                  <div class="col-md-4 mb-3">
+                    <label>Apellido Materno</label>
+                    <input
+                      type="text"
+                      id="inputApellidoM"
+                      class="form-control"
+                      placeholder="Ej: González"
+                    />
+                  </div>
+                  <!--Rut-->
+                  <div class="col-md-6 mb-3">
+                    <label>RUT</label>
+                    <input
+                      type="text"
+                      id="inputRut"
+                      class="form-control"
+                      placeholder="Ej: 12345678-9"
+                      maxlength="10"
+                    />
+                  </div>
+                  <!--Fecha de nacimiento-->
+                  <div class="col-md-6 mb-3">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="modal-body">
-
-                <!-- Datos Personales -->
-                <div class="card mb-3">
-                    <div class="card-header bg-success text-white">
-                        <i class="bi bi-person-vcard-fill"></i> Datos Personales
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row">
-
-                            <div class="col-md-4 mb-3">
-                                <label>Nombres</label>
-                                <input type="text" id="inputNombres" class="form-control"placeholder="Ej: Ana María">
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label>Apellido Paterno</label>
-                                <input type="text" id="inputApellidoP" class="form-control"placeholder="Ej: Pérez">
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label>Apellido Materno</label>
-                                <input type="text" id="inputApellidoM" class="form-control"placeholder="Ej: González">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>RUT</label>
-                                <input type="text" id="inputRut" class="form-control" placeholder="Ej: 12345678-9" maxlength="10">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Fecha de Nacimiento</label>
-                                <input type="date" class="form-control">
-                            </div>
-
-                        </div>
-                    </div>
+            <!--Seccion de datos de contacto-->
+            <div class="card mb-3">
+              <div class="card-header bg-success text-white">
+                <i class="bi bi-telephone-fill"></i> Datos de Contacto
+              </div>
+              <!--Comienzo contenido de la seccion de datos de contacto-->
+              <div class="card-body">
+                <div class="row">
+                    <!--Correo electronico-->
+                    <div class="col-md-6 mb-3">
+                    <label>Correo Electrónico</label>
+                    <input
+                      type="text"
+                      id="inputCorreo"
+                      class="form-control"
+                      placeholder="Ej: ana.maria@gmail.com"
+                    />
+                  </div>
+                  <!--Telefono-->
+                  <div class="col-md-6 mb-3">
+                    <label>Teléfono</label>
+                    <input
+                      type="text"
+                      id="inputTelefono"
+                      class="form-control"
+                      placeholder="+56 9 1234 5678"
+                    />
+                  </div>
                 </div>
-
-                <!-- Contacto -->
-                <div class="card mb-3">
-                    <div class="card-header bg-success text-white">
-                        <i class="bi bi-telephone-fill"></i> Datos de Contacto
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label>Correo Electrónico</label>
-                                <input type="text" id="inputCorreo" class="form-control" placeholder="Ej: ana.maria@gmail.com">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Teléfono</label>
-                                <input type="text" id="inputTelefono" class="form-control" placeholder="+56 9 1234 5678">
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Dirección -->
-                <div class="card mb-3">
-                    <div class="card-header bg-success text-white">
-                        <i class="bi bi-geo-alt-fill"></i> Domicilio
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <div class="col-md-4 mb-3">
-                                <label>Región</label>
-                                <select class="form-select">
-                                    <option selected>Seleccione Región</option>
-                                    <option>Región Metropolitana</option>
-                                    <option>Valparaíso</option>
-                                    <option>Biobío</option>
-                                    <option>O'Higgins</option>
-                                    <option>Maule</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label>Comuna</label>
-                                <input type="text" class="form-control"placeholder="Ej: Puente Alto">
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label>Dirección</label>
-                                <input type="text" class="form-control"placeholder="Ej: Av. Concha y Toro 1234">
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Estado -->
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <i class="bi bi-check-circle-fill"></i> Estado del Cliente
-                    </div>
-
-                    <div class="card-body">
-
-                        <select id="inputEstado" class="form-select">
-                            <option>Activo</option>
-                            <option>Inactivo</option>
-                        </select>
-
-                    </div>
-                </div>
-
+              </div>
             </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-
-                 <button id="btnGuardarCliente" class="btn btn-success">
-                    Guardar Cliente
-                 </button>
+            <!--Seccion de datos del domicilio-->
+            <div class="card mb-3">
+              <div class="card-header bg-success text-white">
+                <i class="bi bi-geo-alt-fill"></i> Domicilio
+              </div>
+              <!--Comienzo contenido de la seccion de datos del domicilio-->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 mb-3">
+                    <label>Región</label>
+                    <!--Opciones para selecionar region-->
+                    <select class="form-select">
+                      <option selected>Seleccione Región</option>
+                      <option>Región Metropolitana</option>
+                      <option>Valparaíso</option>
+                      <option>Biobío</option>
+                      <option>O'Higgins</option>
+                      <option>Maule</option>
+                    </select>
+                  </div>
+                  <!--Comuna-->
+                  <div class="col-md-4 mb-3">
+                    <label>Comuna</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Ej: Puente Alto"
+                    />
+                  </div>
+                  <!--Direccion-->
+                  <div class="col-md-4 mb-3">
+                    <label>Dirección</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Ej: Av. Concha y Toro 1234"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-
+          </div>
+          <!--Botones de accion del formulario(cancelar y guardar cliente)-->
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+            <button id="btnGuardarCliente" class="btn btn-success">
+              Guardar Cliente
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // ==========================================
-    // 1. OBTENER CLIENTES DESDE LOCALSTORAGE
-    // ==========================================
-    function obtenerClientes() {
+    <!--JavaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // ==========================================
+      // 1. Obtener clientes desde localstorage
+      // ==========================================
+
+      //Funcion para recuperar la lista de clientes almacenados
+      function obtenerClientes() {
         const clientesGuardados = localStorage.getItem("crm_clientes");
-
+        //Si, no existen clientes guardados, se crean clientes de prueba
         if (clientesGuardados) {
-            return JSON.parse(clientesGuardados);
+          return JSON.parse(clientesGuardados);
         } else {
-            // Tus mismos clientes iniciales de prueba con sus estados reales
-            const clientesDePrueba = [
-                { id: "1", nombre: "Juan Pérez", telefono: "+56 9 1234 5678", correo: "juan@gmail.com", estado: "Activo" },
-                { id: "2", nombre: "María Soto", telefono: "+56 9 9876 5432", correo: "maria@gmail.com", estado: "Inactivo" },
-                { id: "3", nombre: "Carlos Reyes", telefono: "+56 9 4455 7788", correo: "carlos@gmail.com", estado: "Activo" }
-            ];
-            localStorage.setItem("crm_clientes", JSON.stringify(clientesDePrueba));
-            return clientesDePrueba;
+          //Los mismos clientes iniciales de prueba con sus estados reales
+          const clientesDePrueba = [
+            {
+              id: "1",
+              nombre: "Juan Pérez",
+              telefono: "+56 9 1234 5678",
+              correo: "juan@gmail.com",
+              estado: "Activo",
+            },
+            {
+              id: "2",
+              nombre: "María Soto",
+              telefono: "+56 9 9876 5432",
+              correo: "maria@gmail.com",
+              estado: "Inactivo",
+            },
+            {
+              id: "3",
+              nombre: "Carlos Reyes",
+              telefono: "+56 9 4455 7788",
+              correo: "carlos@gmail.com",
+              estado: "Activo",
+            },
+          ];
+          localStorage.setItem(
+            "crm_clientes",
+            JSON.stringify(clientesDePrueba),
+          );
+          return clientesDePrueba;
         }
-    }
-
-    // ==========================================
-    // 2. RENDERIZAR TABLA CON TUS ESTILOS EXACTOS (REVISADA)
-    // ==========================================
-    function renderizarTabla() {
+      }
+      // ==========================================
+      // 2. Renderizar tabla de clientes(mostrar informacion en pantalla, en la tabla)
+      // ==========================================
+      function renderizarTabla() {
         const listaClientes = obtenerClientes();
         const tbody = document.getElementById("tablaClientesBody");
-        
+
         if (!tbody) return;
-        tbody.innerHTML = ""; 
-
-        listaClientes.forEach(cliente => {
-            const nuevaFila = document.createElement("tr");
-            
-            // SALVAVIDAS: Si el cliente no tiene estado (registro viejo), por defecto será "Activo"
-            const estadoActual = cliente.estado || "Activo";
-            
-            // Definimos el color del badge según el estado verificado
-            const badgeClass = estadoActual === "Activo" ? "bg-success" : "bg-secondary";
-
-            nuevaFila.innerHTML = `
+        //Limpia la tabla actual
+        tbody.innerHTML = "";
+        //Recorre todos los clientes y crea una fila por cada uno de llos
+        listaClientes.forEach((cliente) => {
+          const nuevaFila = document.createElement("tr");
+          //SALVAVIDAS: Si el cliente no tiene estado (registro viejo), por defecto será "Activo"
+          const estadoActual = cliente.estado || "Activo";
+          //Define el color del badge según el estado que corresponde
+          const badgeClass =
+            estadoActual === "Activo" ? "bg-success" : "bg-secondary";
+          nuevaFila.innerHTML = `
                 <td>${cliente.nombre}</td>
                 <td>${cliente.telefono}</td>
                 <td>${cliente.correo}</td>
@@ -315,70 +373,73 @@
                     <button class="btn btn-danger btn-sm">Eliminar</button>
                 </td>
             `;
-            tbody.appendChild(nuevaFila);
+          tbody.appendChild(nuevaFila);
         });
-    }
-
-    // ==========================================
-    // 3. CAPTURA DEL FORMULARIO Y EVENTOS
-    // ==========================================
-    document.addEventListener("DOMContentLoaded", function() {
-        
-        // Renderizar apenas abra la página
+      }
+      // ==========================================
+      // 3. Eventos y registro de clientes
+      // ==========================================
+      //Ejecutar al cargar completamente la pagina
+      document.addEventListener("DOMContentLoaded", function () {
+        //Mostrar clientes existentes en la tabla(clientes almacenados)
         renderizarTabla();
-
-        // Escuchar el clic de guardar
+        //Obtener boton guardar cliente
         const btnGuardar = document.getElementById("btnGuardarCliente");
         if (btnGuardar) {
-            btnGuardar.addEventListener("click", function() {
-                
-                // Validar RUT
-                const rut = document.getElementById("inputRut").value.trim();
-                const formatoRut = /^[0-9]{7,8}-[0-9Kk]{1}$/;
-                
-                if (!formatoRut.test(rut)) {
-                    alert("Por favor, ingresa un RUT válido con el formato 12345678-9 (sin puntos y con guión).");
-                    return; 
-                }
-
-                // Capturar campos
-                const nombres = document.getElementById("inputNombres").value.trim();
-                const apellidoP = document.getElementById("inputApellidoP").value.trim();
-                const correo = document.getElementById("inputCorreo").value.trim();
-                const telefono = document.getElementById("inputTelefono").value.trim();
-                const estado = document.getElementById("inputEstado").value; // Captura Activo/Inactivo
-
-                if (nombres === "" || apellidoP === "") {
-                    alert("Por favor, ingresa el nombre y el apellido paterno.");
-                    return;
-                }
-
-                const nombreCompleto = nombres + " " + apellidoP;
-                let clientes = JSON.parse(localStorage.getItem("crm_clientes")) || [];
-
-                // Crear objeto idéntico a tu estructura
-                const nuevoCliente = {
-                    id: Date.now().toString(),
-                    nombre: nombreCompleto,
-                    telefono: telefono,
-                    correo: correo,
-                    estado: estado
-                };
-
-                // Guardar y refrescar
-                clientes.push(nuevoCliente);
-                localStorage.setItem("crm_clientes", JSON.stringify(clientes));
-
-                const modalAbierto = document.querySelector('.modal.show');
-                if (modalAbierto) {
-                    const modalInstance = bootstrap.Modal.getInstance(modalAbierto);
-                    modalInstance.hide();
-                }
-
-                location.reload();
-            });
+          //Escuchar clic de boton guardar
+            btnGuardar.addEventListener("click", function () {
+            //Obtener y validar el formato del RUT ingresado
+            const rut = document.getElementById("inputRut").value.trim();
+            const formatoRut = /^[0-9]{7,8}-[0-9Kk]{1}$/;
+            if (!formatoRut.test(rut)) {
+              alert(
+                "Por favor, ingresa un RUT válido con el formato 12345678-9 (sin puntos y con guión).",
+              );
+              return;
+            }
+            //Obtener datos del formulario
+            const nombres = document
+              .getElementById("inputNombres")
+              .value.trim();
+            const apellidoP = document
+              .getElementById("inputApellidoP")
+              .value.trim();
+            const correo = document.getElementById("inputCorreo").value.trim();
+            const telefono = document
+              .getElementById("inputTelefono")
+              .value.trim();
+            const estado = document.getElementById("inputEstado").value; 
+            if (nombres === "" || apellidoP === "") {
+              alert("Por favor, ingresa el nombre y el apellido paterno.");
+              return;
+            }
+            //Construir nombre completo del cliente
+            const nombreCompleto = nombres + " " + apellidoP;
+            //Recuperar clientes almacenados
+            let clientes =
+              JSON.parse(localStorage.getItem("crm_clientes")) || [];
+            //Crear nuevo objeto cliente
+            const nuevoCliente = {
+              id: Date.now().toString(),
+              nombre: nombreCompleto,
+              telefono: telefono,
+              correo: correo,
+              estado: estado,
+            };
+            //Agregar cliente a la lista
+            clientes.push(nuevoCliente);
+            //Guardar cambios en localstorage
+            localStorage.setItem("crm_clientes", JSON.stringify(clientes));
+            const modalAbierto = document.querySelector(".modal.show");
+            if (modalAbierto) {
+              const modalInstance = bootstrap.Modal.getInstance(modalAbierto);
+              modalInstance.hide();
+            }
+            //Recargar la pagina para actualizar la tabla
+            location.reload();
+          });
         }
-    });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>

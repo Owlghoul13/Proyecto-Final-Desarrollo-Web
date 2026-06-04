@@ -1,233 +1,350 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <!--Confiuracion basica de la pagina-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CRM Ventas - Gestión</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body>
-
-<div class="d-flex">
-    
-    <div class="sidebar text-white p-3 d-flex flex-column">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body>
+    <div class="d-flex">
+      <div class="sidebar text-white p-3 d-flex flex-column">
         <div>
-            <h1 class="mb-4">CRM</h1>
-            <h1 class="mb-4">Ventas</h1>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a href="dashboard.html" class="nav-link text-white">Dashboard</a></li>
-                <li class="nav-item"><a href="clientes.html" class="nav-link text-white">Clientes</a></li>
-                <li class="nav-item" id="menu-productos"><a href="productos.html" class="nav-link text-white">Productos</a></li>
-                <li class="nav-item"><a href="ventas.html" class="nav-link text-white fw-bold">Ventas</a></li>
-            </ul>
+          <h1 class="mb-4">CRM</h1>
+          <h1 class="mb-4">Ventas</h1>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="dashboard.html" class="nav-link text-white">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a href="clientes.html" class="nav-link text-white">Clientes</a>
+            </li>
+            <li class="nav-item" id="menu-productos">
+              <a href="productos.html" class="nav-link text-white">Productos</a>
+            </li>
+            <li class="nav-item">
+              <a href="ventas.html" class="nav-link text-white fw-bold"
+                >Ventas</a
+              >
+            </li>
+          </ul>
         </div>
-        
-        <div class="mt-auto text-center pt-4">
-            <button onclick="cerrarSesion()" class="btn btn-danger w-100 fw-bold mb-3" style="border-radius: 6px;">
-                Cerrar Sesión
-            </button>
-            <img src="logo.jpeg" alt="Logo CRM" class="logo">
-        </div>
-    </div>
 
-    <div class="container-fluid p-4">
-        
+        <div class="mt-auto text-center pt-4">
+          <button
+            onclick="cerrarSesion()"
+            class="btn btn-danger w-100 fw-bold mb-3"
+            style="border-radius: 6px"
+          >
+            Cerrar Sesión
+          </button>
+          <img src="logo.jpeg" alt="Logo CRM" class="logo" />
+        </div>
+      </div>
+
+      <div class="container-fluid p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Gestión de Ventas</h2>
-            <button class="btn btn-success btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaVenta">+ Nueva Venta</button>        </div>
+          <h2>Gestión de Ventas</h2>
+          <button
+            class="btn btn-success btn-lg shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#modalNuevaVenta"
+          >
+            + Nueva Venta
+          </button>
+        </div>
 
         <div class="mb-4">
-            <input type="text" class="form-control  shadow-sm" id="inputBuscarVenta" placeholder="Buscar venta por número de recibo o cliente...">
+          <input
+            type="text"
+            class="form-control shadow-sm"
+            id="inputBuscarVenta"
+            placeholder="Buscar venta por número de recibo o cliente..."
+          />
         </div>
-        
+
         <div class="card tabla-card shadow">
-            <div class="card-body p-0">
-                <div class="tabla-header">
-                    <h3>Historial de Transacciones</h3>
-                </div>
-                <div class="table-responsive p-3">
-                    <table class="table table-hover mb-0 align-middle">
-                        <thead class="encabezado-tabla">
-                            <tr>
-                                <th>N° Recibo</th>
-                                <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Producto / Servicio</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaVentasBody">
-                            <tr>
-                                <td class="fw-bold">#V-003</td>
-                                <td>28/05/2026</td>
-                                <td>Juan Pérez</td>
-                                <td>Plan Diamante</td>
-                                <td>$1.500.000</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning fw-bold btn-editar">Editar Estado</button>
-                                    <button class="btn btn-sm btn-danger text-white fw-bold btn-eliminar">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fw-bold">#V-002</td>
-                                <td>27/05/2026</td>
-                                <td>Ana Silva</td>
-                                <td>Plan Básico</td>
-                                <td>$500.000</td>
-                                <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning fw-bold btn-editar">Editar Estado</button>
-                                    <button class="btn btn-sm btn-danger text-white fw-bold btn-eliminar">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fw-bold">#V-001</td>
-                                <td>25/05/2026</td>
-                                <td>Carlos López</td>
-                                <td>Cremación</td>
-                                <td>$850.000</td>
-                                <td><span class="badge bg-danger">Cancelado</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning fw-bold btn-editar">Editar Estado</button>
-                                    <button class="btn btn-sm btn-danger text-white fw-bold btn-eliminar">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+          <div class="card-body p-0">
+            <div class="tabla-header">
+              <h3>Historial de Transacciones</h3>
             </div>
+            <div class="table-responsive p-3">
+              <table class="table table-hover mb-0 align-middle">
+                <thead class="encabezado-tabla">
+                  <tr>
+                    <th>N° Recibo</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Producto / Servicio</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaVentasBody">
+                  <tr>
+                    <td class="fw-bold">#V-003</td>
+                    <td>28/05/2026</td>
+                    <td>Juan Pérez</td>
+                    <td>Plan Diamante</td>
+                    <td>$1.500.000</td>
+                    <td><span class="badge bg-success">Completado</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-warning fw-bold btn-editar">
+                        Editar Estado
+                      </button>
+                      <button
+                        class="btn btn-sm btn-danger text-white fw-bold btn-eliminar"
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">#V-002</td>
+                    <td>27/05/2026</td>
+                    <td>Ana Silva</td>
+                    <td>Plan Básico</td>
+                    <td>$500.000</td>
+                    <td>
+                      <span class="badge bg-warning text-dark">Pendiente</span>
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-warning fw-bold btn-editar">
+                        Editar Estado
+                      </button>
+                      <button
+                        class="btn btn-sm btn-danger text-white fw-bold btn-eliminar"
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">#V-001</td>
+                    <td>25/05/2026</td>
+                    <td>Carlos López</td>
+                    <td>Cremación</td>
+                    <td>$850.000</td>
+                    <td><span class="badge bg-danger">Cancelado</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-warning fw-bold btn-editar">
+                        Editar Estado
+                      </button>
+                      <button
+                        class="btn btn-sm btn-danger text-white fw-bold btn-eliminar"
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
-</div>
-<!--Modal-->
-<div class="modal fade" id="modalNuevaVenta" tabindex="-1" aria-labelledby="modalNuevaVentaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <!--Modal-->
+    <div
+      class="modal fade"
+      id="modalNuevaVenta"
+      tabindex="-1"
+      aria-labelledby="modalNuevaVentaLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow">
-            
-            <div class="modal-header bg-success text-white">
-                <h1 class="modal-title fs-5" id="modalNuevaVentaLabel">
-                    <i class="bi bi-receipt-cutoff"></i> Registrar Nueva Venta
-                </h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+          <div class="modal-header bg-success text-white">
+            <h1 class="modal-title fs-5" id="modalNuevaVentaLabel">
+              <i class="bi bi-receipt-cutoff"></i> Registrar Nueva Venta
+            </h1>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
 
-            <div class="modal-body px-4 pt-2 pb-4 bg-light">
-                <h6 class="text-secondary border-bottom pb-2 mb-4">Información de la Transacción</h6>
-                
-                <form id="formVenta">
+          <div class="modal-body px-4 pt-2 pb-4 bg-light">
+            <h6 class="text-secondary border-bottom pb-2 mb-4">
+              Información de la Transacción
+            </h6>
 
-                    <div class="card mb-3 shadow-sm border-0">
-                        <div class="card-header bg-success text-white">
-                            <i class="bi bi-person-fill"></i> Información del Cliente y Servicio
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Cliente</label>
-                                    <input type="text" id="inputCliente" class="form-control" placeholder="Nombre completo del cliente">
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Producto / Servicio</label>
-                                    <select id="inputProducto" class="form-select">
-                                        <option value="">Seleccione una opción...</option>
-                                        <option value="Plan Funerario Básico">Plan Funerario Básico</option>
-                                        <option value="Urna de Roble Presidencial">Urna de Roble Presidencial</option>
-                                        <option value="Urna Metálica Standard">Urna Metálica Standard</option>
-                                        <option value="Servicio de Cremación">Servicio de Cremación</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+            <form id="formVenta">
+              <div class="card mb-3 shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                  <i class="bi bi-person-fill"></i> Información del Cliente y
+                  Servicio
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Cliente</label>
+                      <input
+                        type="text"
+                        id="inputCliente"
+                        class="form-control"
+                        placeholder="Nombre completo del cliente"
+                      />
                     </div>
-
-                    <div class="card mb-3 shadow-sm border-0">
-                        <div class="card-header bg-success text-white">
-                            <i class="bi bi-cash-stack"></i> Detalles del Pago y Estado
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Total a cobrar ($)</label>
-                                    <input type="number" id="inputTotal" class="form-control" placeholder="Ej: 500000">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Estado de la Venta</label>
-                                    <select id="inputEstado" class="form-select">
-                                        <option value="Pendiente">Pendiente</option>
-                                        <option value="Completado">Completado</option>
-                                        <option value="Cancelado">Cancelado</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Producto / Servicio</label>
+                      <select id="inputProducto" class="form-select">
+                        <option value="">Seleccione una opción...</option>
+                        <option value="Plan Funerario Básico">
+                          Plan Funerario Básico
+                        </option>
+                        <option value="Urna de Roble Presidencial">
+                          Urna de Roble Presidencial
+                        </option>
+                        <option value="Urna Metálica Standard">
+                          Urna Metálica Standard
+                        </option>
+                        <option value="Servicio de Cremación">
+                          Servicio de Cremación
+                        </option>
+                      </select>
                     </div>
+                  </div>
+                </div>
+              </div>
 
-                </form>
-            </div>
+              <div class="card mb-3 shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                  <i class="bi bi-cash-stack"></i> Detalles del Pago y Estado
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Total a cobrar ($)</label>
+                      <input
+                        type="number"
+                        id="inputTotal"
+                        class="form-control"
+                        placeholder="Ej: 500000"
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Estado de la Venta</label>
+                      <select id="inputEstado" class="form-select">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Completado">Completado</option>
+                        <option value="Cancelado">Cancelado</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
 
-            <div class="modal-footer bg-light border-top-0">
-                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success px-4" id="btnGuardarVenta">Guardar Venta</button>
-            </div>
-
+          <div class="modal-footer bg-light border-top-0">
+            <button
+              type="button"
+              class="btn btn-secondary px-4"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-success px-4"
+              id="btnGuardarVenta"
+            >
+              Guardar Venta
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<script src="../felipe/auth.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        
+    <script src="../felipe/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         // 1. HISTORIAL DE EJEMPLOS DE BASE DE DATOS (Tus 3 registros originales)
         const ventasPredetermindas = [
-            { id: 1, recibo: "#V-001", fecha: "28/05/2026", cliente: "Carlos Mendoza", producto: "Plan Funerario Básico", total: 850000, estado: "Completado" },
-            { id: 2, recibo: "#V-002", fecha: "29/05/2026", cliente: "María José Olavarría", producto: "Urna de Roble Presidencial", total: 2100000, estado: "Completado" },
-            { id: 3, recibo: "#V-003", fecha: "30/05/2026", cliente: "Andrés Silva", producto: "Urna Metálica Standard", total: 350000, estado: "Cancelado" }
+          {
+            id: 1,
+            recibo: "#V-001",
+            fecha: "28/05/2026",
+            cliente: "Carlos Mendoza",
+            producto: "Plan Funerario Básico",
+            total: 850000,
+            estado: "Completado",
+          },
+          {
+            id: 2,
+            recibo: "#V-002",
+            fecha: "29/05/2026",
+            cliente: "María José Olavarría",
+            producto: "Urna de Roble Presidencial",
+            total: 2100000,
+            estado: "Completado",
+          },
+          {
+            id: 3,
+            recibo: "#V-003",
+            fecha: "30/05/2026",
+            cliente: "Andrés Silva",
+            producto: "Urna Metálica Standard",
+            total: 350000,
+            estado: "Cancelado",
+          },
         ];
 
         // Función para leer de localStorage
         function obtenerVentas() {
-            const ventasGuardadas = localStorage.getItem("crm_ventas");
-            if (!ventasGuardadas) {
-                localStorage.setItem("crm_ventas", JSON.stringify(ventasPredetermindas));
-                return ventasPredetermindas;
-            }
-            return JSON.parse(ventasGuardadas);
+          const ventasGuardadas = localStorage.getItem("crm_ventas");
+          if (!ventasGuardadas) {
+            localStorage.setItem(
+              "crm_ventas",
+              JSON.stringify(ventasPredetermindas),
+            );
+            return ventasPredetermindas;
+          }
+          return JSON.parse(ventasGuardadas);
         }
 
         // Función para guardar en localStorage
         function guardarVentas(arrayVentas) {
-            localStorage.setItem("crm_ventas", JSON.stringify(arrayVentas));
+          localStorage.setItem("crm_ventas", JSON.stringify(arrayVentas));
         }
 
         // ==========================================
         // 2. FUNCIÓN PARA RENDERIZAR LA TABLA EN PANTALLA
         // ==========================================
         function renderizarTablaVentas() {
-            const listaVentas = obtenerVentas();
-            const tbody = document.getElementById("tablaVentasBody");
-            tbody.innerHTML = ""; // Limpiamos para evitar duplicados
+          const listaVentas = obtenerVentas();
+          const tbody = document.getElementById("tablaVentasBody");
+          tbody.innerHTML = ""; // Limpiamos para evitar duplicados
 
-            listaVentas.forEach(venta => {
-                const totalFormateado = (typeof venta.total === 'number') 
-                    ? "$" + venta.total.toLocaleString("es-CL")
-                    : venta.total;
+          listaVentas.forEach((venta) => {
+            const totalFormateado =
+              typeof venta.total === "number"
+                ? "$" + venta.total.toLocaleString("es-CL")
+                : venta.total;
 
-                // Armonía de diseño unificada para los estados
-                // Armonía de diseño unificada para los estados (SIN padding extra)
-                let claseEstado = "";
-                if (venta.estado === "Completado") claseEstado = "bg-success";
-                else if (venta.estado === "Pendiente") claseEstado = "bg-warning text-dark";
-                else claseEstado = "bg-danger"; // Usando el rojo de la primera imagen
+            // Armonía de diseño unificada para los estados
+            // Armonía de diseño unificada para los estados (SIN padding extra)
+            let claseEstado = "";
+            if (venta.estado === "Completado") claseEstado = "bg-success";
+            else if (venta.estado === "Pendiente")
+              claseEstado = "bg-warning text-dark";
+            else claseEstado = "bg-danger"; // Usando el rojo de la primera imagen
 
-                const nuevaFila = document.createElement("tr");
-                nuevaFila.innerHTML = `
+            const nuevaFila = document.createElement("tr");
+            nuevaFila.innerHTML = `
                     <td class="fw-bold">${venta.recibo}</td>
                     <td>${venta.fecha}</td>
                     <td>${venta.cliente}</td>
@@ -239,15 +356,16 @@
                         <button class="btn btn-sm btn-danger text-white btn-eliminar" data-id="${venta.id}">Eliminar</button>
                     </td>
                 `;
-                tbody.appendChild(nuevaFila);
-            });
+            tbody.appendChild(nuevaFila);
+          });
         }
 
         // ==========================================
         // 3. REGISTRAR NUEVA VENTA DESDE EL MODAL (IDs Corregidos)
         // ==========================================
-        document.getElementById("btnGuardarVenta").addEventListener("click", function() {
-            
+        document
+          .getElementById("btnGuardarVenta")
+          .addEventListener("click", function () {
             // Obtener los valores utilizando TUS IDs EXACTOS
             const cliente = document.getElementById("inputCliente").value;
             const producto = document.getElementById("inputProducto").value;
@@ -256,32 +374,34 @@
 
             // Validar que no estén vacíos
             if (!cliente || !producto || !total) {
-                alert("Por favor, completa todos los campos para registrar la venta.");
-                return;
+              alert(
+                "Por favor, completa todos los campos para registrar la venta.",
+              );
+              return;
             }
 
             const listaVentas = obtenerVentas();
 
             // Formatear la fecha actual (DD/MM/YYYY)
             const fechaActual = new Date();
-            const dia = String(fechaActual.getDate()).padStart(2, '0');
-            const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+            const dia = String(fechaActual.getDate()).padStart(2, "0");
+            const mes = String(fechaActual.getMonth() + 1).padStart(2, "0");
             const anio = fechaActual.getFullYear();
             const fechaFormateada = `${dia}/${mes}/${anio}`;
 
             // Generador dinámico de número correlativo secuencial
             const siguienteNumero = listaVentas.length + 1;
-            const numRecibo = "#V-" + String(siguienteNumero).padStart(3, '0');
+            const numRecibo = "#V-" + String(siguienteNumero).padStart(3, "0");
 
             // Crear el objeto de la nueva venta
             const nuevaVenta = {
-                id: Date.now(), // ID único interno para saber cuál editar/eliminar
-                recibo: numRecibo,
-                fecha: fechaFormateada,
-                cliente: cliente,
-                producto: producto,
-                total: parseInt(total),
-                estado: estado
+              id: Date.now(), // ID único interno para saber cuál editar/eliminar
+              recibo: numRecibo,
+              fecha: fechaFormateada,
+              cliente: cliente,
+              producto: producto,
+              total: parseInt(total),
+              estado: estado,
             };
 
             // Insertar arriba, guardar en memoria y redibujar la tabla
@@ -294,79 +414,91 @@
             const modalElement = document.getElementById("modalNuevaVenta");
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
-        });
+          });
 
         // ==========================================
         // 4. LÓGICA DE PERSISTENCIA PARA EDITAR Y ELIMINAR
         // ==========================================
-        document.getElementById("tablaVentasBody").addEventListener("click", function(e) {
+        document
+          .getElementById("tablaVentasBody")
+          .addEventListener("click", function (e) {
             const listaVentas = obtenerVentas();
-            
+
             // Acción: ELIMINAR
             if (e.target.classList.contains("btn-eliminar")) {
-                if(confirm("¿Estás seguro de que deseas eliminar esta venta permanentemente?")) {
-                    const idVenta = parseInt(e.target.getAttribute("data-id"));
-                    
-                    // Si es uno de los registros nuevos basados en timestamp
-                    let listaFiltrada = listaVentas.filter(v => v.id !== idVenta);
-                    
-                    // Si presionó eliminar en un registro predeterminado antiguo (ID 1, 2 o 3)
-                    if (listaFiltrada.length === listaVentas.length) {
-                        const fila = e.target.closest("tr");
-                        const reciboTexto = fila.querySelector("td").innerText;
-                        listaFiltrada = listaVentas.filter(v => v.recibo !== reciboTexto);
-                    }
+              if (
+                confirm(
+                  "¿Estás seguro de que deseas eliminar esta venta permanentemente?",
+                )
+              ) {
+                const idVenta = parseInt(e.target.getAttribute("data-id"));
 
-                    guardarVentas(listaFiltrada);
-                    renderizarTablaVentas();
+                // Si es uno de los registros nuevos basados en timestamp
+                let listaFiltrada = listaVentas.filter((v) => v.id !== idVenta);
+
+                // Si presionó eliminar en un registro predeterminado antiguo (ID 1, 2 o 3)
+                if (listaFiltrada.length === listaVentas.length) {
+                  const fila = e.target.closest("tr");
+                  const reciboTexto = fila.querySelector("td").innerText;
+                  listaFiltrada = listaVentas.filter(
+                    (v) => v.recibo !== reciboTexto,
+                  );
                 }
+
+                guardarVentas(listaFiltrada);
+                renderizarTablaVentas();
+              }
             }
-            
+
             // Acción: EDITAR ESTADO (Cambiando dinámicamente y guardando)
             if (e.target.classList.contains("btn-editar")) {
-                const idVenta = parseInt(e.target.getAttribute("data-id"));
-                const fila = e.target.closest("tr");
-                const reciboTexto = fila.querySelector("td").innerText;
-                
-                // Buscar la venta en el almacenamiento
-                const ventaTarget = listaVentas.find(v => v.id === idVenta || v.recibo === reciboTexto);
-                
-                if (ventaTarget) {
-                    // Rotar entre tus estados
-                    if (ventaTarget.estado === "Pendiente") {
-                        ventaTarget.estado = "Completado";
-                    } else if (ventaTarget.estado === "Completado") {
-                        ventaTarget.estado = "Cancelado";
-                    } else {
-                        ventaTarget.estado = "Pendiente";
-                    }
+              const idVenta = parseInt(e.target.getAttribute("data-id"));
+              const fila = e.target.closest("tr");
+              const reciboTexto = fila.querySelector("td").innerText;
 
-                    guardarVentas(listaVentas);
-                    renderizarTablaVentas();
+              // Buscar la venta en el almacenamiento
+              const ventaTarget = listaVentas.find(
+                (v) => v.id === idVenta || v.recibo === reciboTexto,
+              );
+
+              if (ventaTarget) {
+                // Rotar entre tus estados
+                if (ventaTarget.estado === "Pendiente") {
+                  ventaTarget.estado = "Completado";
+                } else if (ventaTarget.estado === "Completado") {
+                  ventaTarget.estado = "Cancelado";
+                } else {
+                  ventaTarget.estado = "Pendiente";
                 }
+
+                guardarVentas(listaVentas);
+                renderizarTablaVentas();
+              }
             }
-        });
+          });
 
         // ==========================================
         // 5. FILTRAR VENTAS EN TIEMPO REAL
         // ==========================================
-        document.getElementById("inputBuscarVenta").addEventListener("input", function(e) {
+        document
+          .getElementById("inputBuscarVenta")
+          .addEventListener("input", function (e) {
             const textoBusqueda = e.target.value.toLowerCase();
             const filas = document.querySelectorAll("#tablaVentasBody tr");
 
-            filas.forEach(fila => {
-                const textoFila = fila.innerText.toLowerCase();
-                if (textoFila.includes(textoBusqueda)) {
-                    fila.classList.remove("d-none");
-                } else {
-                    fila.classList.add("d-none");
-                }
+            filas.forEach((fila) => {
+              const textoFila = fila.innerText.toLowerCase();
+              if (textoFila.includes(textoBusqueda)) {
+                fila.classList.remove("d-none");
+              } else {
+                fila.classList.add("d-none");
+              }
             });
-        });
+          });
 
         // Ejecutar carga inicial de registros
         renderizarTablaVentas();
-    });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>

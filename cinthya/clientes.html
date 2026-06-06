@@ -137,7 +137,7 @@
     </div>
 
     <script src="../felipe/auth.js"></script>
-    <!--Modal para registarr un nuevo cliente-->
+    <!--Modal para registar un nuevo cliente-->
     <div class="modal fade" id="modalCliente" tabindex="-1">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -171,6 +171,7 @@
                       class="form-control"
                       placeholder="Ej: Ana María"
                     />
+                    <div class="invalid-feedback">los nombres son obligatorios.</div>
                   </div>
                   <!--Apellido paterno-->
                   <div class="col-md-4 mb-3">
@@ -181,6 +182,7 @@
                       class="form-control"
                       placeholder="Ej: Pérez"
                     />
+                    <div class="invalid-feedback">El apellido paterno es obligatorio.</div>
                   </div>
                   <!--Apellido materno-->
                   <div class="col-md-4 mb-3">
@@ -191,6 +193,7 @@
                       class="form-control"
                       placeholder="Ej: González"
                     />
+                    <div class="invalid-feedback">El apellido materno es obligatorio.</div>
                   </div>
                   <!--Rut-->
                   <div class="col-md-6 mb-3">
@@ -202,11 +205,13 @@
                       placeholder="Ej: 12345678-9"
                       maxlength="10"
                     />
+                  <div class="invalid-feedback">Por favor, ingresa un RUT válido con guión y sin puntos (Ej: 12345678-9).</div>
                   </div>
                   <!--Fecha de nacimiento-->
                   <div class="col-md-6 mb-3">
                     <label>Fecha de Nacimiento</label>
                     <input type="date" class="form-control" />
+                    <div class="invalid-feedback">La fecha de nacimiento es obligatorio.</div>
                   </div>
                 </div>
               </div>
@@ -229,6 +234,7 @@
                       class="form-control"
                       placeholder="Ej: ana.maria@gmail.com"
                     />
+                    <div class="invalid-feedback">El correo electrónico es obligatorio.</div>
                   </div>
                   <!--Telefono-->
                   <div class="col-md-6 mb-3">
@@ -239,53 +245,55 @@
                       class="form-control"
                       placeholder="+56 9 1234 5678"
                     />
+                    <div class="invalid-feedback">El número telefonico es obligatorio.</div>
                   </div>
+                  <div class="col-md-6 mb-3">
+    <label>Estado del Cliente</label>
+    <select id="inputEstado" class="form-select">
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+    </select>
+</div>
                 </div>
               </div>
             </div>
 
+          
+
             <!--Seccion de datos del domicilio-->
-            <div class="card mb-3">
-              <div class="card-header header-verde-secundario text-white">
-                <i class="bi bi-geo-alt-fill"></i> Domicilio
-              </div>
-              <!--Comienzo contenido de la seccion de datos del domicilio-->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4 mb-3">
-                    <label>Región</label>
-                    <!--Opciones para selecionar region-->
-                    <select class="form-select">
-                      <option selected>Seleccione Región</option>
-                      <option>Región Metropolitana</option>
-                      <option>Valparaíso</option>
-                      <option>Biobío</option>
-                      <option>O'Higgins</option>
-                      <option>Maule</option>
-                    </select>
-                  </div>
-                  <!--Comuna-->
-                  <div class="col-md-4 mb-3">
-                    <label>Comuna</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Ej: Puente Alto"
-                    />
-                  </div>
-                  <!--Direccion-->
-                  <div class="col-md-4 mb-3">
-                    <label>Dirección</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Ej: Av. Concha y Toro 1234"
-                    />
-                  </div>
+            <div class="card mb-3 shadow-sm border-0 overflow-hidden">
+            <div class="card-header header-verde-secundario text-white border-0" style="border-radius: 0;">
+              <i class="bi bi-geo-alt-fill"></i> Domicilio
+            </div>
+            
+            <div class="card-body">
+              <div class="row g-3">
+                
+                <div class="col-md-4">
+                  <label class="form-label">Región</label>
+                  <select id="inputRegion" class="form-select">
+                    <option value="">Seleccione Región...</option>
+                  </select>
+                  <div class="invalid-feedback">Por favor, selecciona una región.</div>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label">Comuna</label>
+                  <select id="inputComuna" class="form-select" disabled>
+                    <option value="">Seleccione primero una región...</option>
+                  </select>
+                  <div class="invalid-feedback">Por favor, selecciona una comuna.</div>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label">Dirección</label>
+                  <input type="text" id="inputDireccion" class="form-control" placeholder="Ej: Av. Concha y Toro 1234">
+                  <div class="invalid-feedback">La dirección es obligatoria.</div>
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
+
           <!--Botones de accion del formulario(cancelar y guardar cliente)-->
           <div class="modal-footer">
             <button class="btn btn-secondary" data-bs-dismiss="modal">
@@ -300,145 +308,211 @@
     </div>
     <!--JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
-      // ==========================================
-      // 1. Obtener clientes desde localstorage
-      // ==========================================
-      //Funcion para recuperar la lista de clientes almacenados
-      function obtenerClientes() {
-        const clientesGuardados = localStorage.getItem("crm_clientes");
-        //Si, no existen clientes guardados, se crean clientes de prueba
-        if (clientesGuardados) {
-          return JSON.parse(clientesGuardados);
-        } else {
-          //Los mismos clientes iniciales de prueba con sus estados reales
-          const clientesDePrueba = [
-            {
-              id: "1",
-              nombre: "Juan Pérez",
-              telefono: "+56 9 1234 5678",
-              correo: "juan@gmail.com",
-              estado: "Activo",
-            },
-            {
-              id: "2",
-              nombre: "María Soto",
-              telefono: "+56 9 9876 5432",
-              correo: "maria@gmail.com",
-              estado: "Inactivo",
-            },
-            {
-              id: "3",
-              nombre: "Carlos Reyes",
-              telefono: "+56 9 4455 7788",
-              correo: "carlos@gmail.com",
-              estado: "Activo",
-            },
-          ];
-          localStorage.setItem(
-            "crm_clientes",
-            JSON.stringify(clientesDePrueba),
-          );
-          return clientesDePrueba;
-        }
-      }
-      // ==========================================
-      // 2. Renderizar tabla de clientes(mostrar informacion en pantalla, en la tabla)
-      // ==========================================
-      function renderizarTabla() {
-        const listaClientes = obtenerClientes();
-        const tbody = document.getElementById("tablaClientesBody");
+        const chileDPA = {
+            "Arica y Parinacota": ["Arica", "Camarones", "Putre", "General Lagos"],
+            "Tarapacá": ["Iquique", "Alto Hospicio", "Pozo Almonte", "Pica", "Huara"],
+            "Antofagasta": ["Antofagasta", "Calama", "Tocopilla", "Mejillones", "Taltal", "San Pedro de Atacama"],
+            "Atacama": ["Copiapó", "Vallenar", "Caldera", "Chañaral", "Diego de Almagro", "Huasco"],
+            "Coquimbo": ["La Serena", "Coquimbo", "Ovalle", "Illapel", "Vicuña", "Salamanca", "Los Vilos"],
+            "Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio", "San Felipe", "Los Andes"],
+            "Metropolitana": ["Santiago", "Puente Alto", "Maipú", "La Florida", "San Bernardo", "Las Condes", "Providencia", "Ñuñoa", "Peñalolén", "Pudahuel", "Quilicura", "Colina", "Melipilla", "Talagante", "Buin"],
+            "O'Higgins": ["Rancagua", "San Fernando", "Pichilemu", "Rengo", "Graneros", "San Vicente", "Santa Cruz"],
+            "Maule": ["Talca", "Curicó", "Linares", "Constitución", "Cauquenes", "San Javier", "Molina"],
+            "Ñuble": ["Chillán", "San Carlos", "Coihueco", "Bulnes", "Yungay", "Quirihue"],
+            "Biobío": ["Concepción", "Talcahuano", "San Pedro de la Paz", "Los Ángeles", "Coronel", "Lota", "Chiguayante", "Penco"],
+            "Araucanía": ["Temuco", "Padre Las Casas", "Villarrica", "Pucón", "Angol", "Lautaro", "Victoria", "Nueva Imperial"],
+            "Los Ríos": ["Valdivia", "La Unión", "Río Bueno", "Panguipulli", "Paillaco", "Mariquina"],
+            "Los Lagos": ["Puerto Montt", "Osorno", "Castro", "Ancud", "Puerto Varas", "Quellón", "Frutillar"],
+            "Aysén": ["Coyhaique", "Puerto Aysén", "Chile Chico", "Cochrane"],
+            "Magallanes": ["Punta Arenas", "Puerto Natales", "Porvenir", "Cabo de Hornos"]
+        };
 
-        if (!tbody) return;
-        //Limpia la tabla actual
-        tbody.innerHTML = "";
-        //Recorre todos los clientes y crea una fila por cada uno de llos
-        listaClientes.forEach((cliente) => {
-          const nuevaFila = document.createElement("tr");
-          //SALVAVIDAS: Si el cliente no tiene estado (registro viejo), por defecto será "Activo"
-          const estadoActual = cliente.estado || "Activo";
-          //Define el color del badge según el estado que corresponde
-          const badgeClass =
-            estadoActual === "Activo" ? "bg-success" : "bg-secondary";
-          nuevaFila.innerHTML = `
-                <td>${cliente.nombre}</td>
-                <td>${cliente.telefono}</td>
-                <td>${cliente.correo}</td>
-                <td>
-                    <span class="badge ${badgeClass}">${estadoActual}</span>
-                </td>
-                <td>
-                    <button class="btn btn-warning btn-sm me-1">Editar</button>
-                    <button class="btn btn-danger btn-sm">Eliminar</button>
-                </td>
-            `;
-          tbody.appendChild(nuevaFila);
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const tablaBody = document.getElementById("tablaClientesBody");
+
+            // --- 1. CARGAR CLIENTES DESDE LA MEMORIA AL INICIAR ---
+            if (tablaBody) {
+                let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
+                
+                clientesGuardados.forEach(cliente => {
+                    const tr = document.createElement("tr");
+                    const claseBadge = cliente.estado === "Activo" ? "bg-success" : "bg-secondary";
+                    
+                    tr.innerHTML = `
+                        <td>${cliente.nombre}</td>
+                        <td>${cliente.telefono}</td>
+                        <td>${cliente.correo}</td>
+                        <td><span class="badge ${claseBadge}">${cliente.estado}</span></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </td>
+                    `;
+                    tablaBody.appendChild(tr);
+                });
+            }
+
+            // --- 2. LÓGICA DE REGIONES Y COMUNAS ---
+            const comboRegion = document.getElementById("inputRegion");
+            const comboComuna = document.getElementById("inputComuna");
+
+            if (comboRegion && comboComuna) {
+                Object.keys(chileDPA).forEach(region => {
+                    const option = document.createElement("option");
+                    option.value = region;
+                    option.textContent = region;
+                    comboRegion.appendChild(option);
+                });
+
+                comboRegion.addEventListener("change", function() {
+                    const regionSeleccionada = comboRegion.value;
+                    comboComuna.innerHTML = '<option value="">Seleccione Comuna...</option>';
+
+                    if (regionSeleccionada === "") {
+                        comboComuna.disabled = true;
+                    } else {
+                        comboComuna.disabled = false;
+                        chileDPA[regionSeleccionada].forEach(comuna => {
+                            const option = document.createElement("option");
+                            option.value = comuna;
+                            option.textContent = comuna;
+                            comboComuna.appendChild(option);
+                        });
+                    }
+                });
+            }
+
+            // --- 3. LÓGICA DEL BOTÓN GUARDAR CLIENTE ---
+            const btnGuardar = document.getElementById("btnGuardarCliente");
+            
+            if (btnGuardar) {
+                btnGuardar.addEventListener("click", function () {
+                    
+                    const inputNombres = document.getElementById("inputNombres");
+                    const inputApellidoP = document.getElementById("inputApellidoP");
+                    const inputRut = document.getElementById("inputRut");
+                    const inputCorreo = document.getElementById("inputCorreo");
+                    const inputTelefono = document.getElementById("inputTelefono");
+                    const inputEstado = document.getElementById("inputEstado");
+
+                    const campos = [inputNombres, inputRut, inputCorreo, comboRegion, comboComuna];
+                    campos.forEach(campo => {
+                        if(campo) campo.classList.remove("is-invalid", "is-valid");
+                    });
+
+                    let formularioValido = true;
+
+                    if (inputNombres && !inputNombres.value.trim()) { inputNombres.classList.add("is-invalid"); formularioValido = false; }
+                    if (inputRut && !inputRut.value.trim()) { inputRut.classList.add("is-invalid"); formularioValido = false; }
+                    if (inputCorreo && (!inputCorreo.value.trim() || !inputCorreo.value.includes("@"))) { inputCorreo.classList.add("is-invalid"); formularioValido = false; }
+                    if (comboRegion && !comboRegion.value) { comboRegion.classList.add("is-invalid"); formularioValido = false; }
+                    if (comboComuna && !comboComuna.value) { comboComuna.classList.add("is-invalid"); formularioValido = false; }
+
+                    if (!formularioValido) return; 
+
+                    const nombreCompleto = inputNombres.value.trim() + " " + (inputApellidoP ? inputApellidoP.value.trim() : "");
+                    const telefonoNuevo = inputTelefono && inputTelefono.value.trim() !== "" ? inputTelefono.value : "Sin teléfono";
+                    const correoNuevo = inputCorreo.value.trim();
+                    const estadoSeleccionado = inputEstado ? inputEstado.value : "Activo";
+
+                    const nuevoCliente = {
+                        nombre: nombreCompleto,
+                        telefono: telefonoNuevo,
+                        correo: correoNuevo,
+                        estado: estadoSeleccionado
+                    };
+
+                    let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
+                    clientesGuardados.push(nuevoCliente);
+                    localStorage.setItem("crm_clientes", JSON.stringify(clientesGuardados));
+
+                    const nuevaFila = document.createElement("tr");
+                    const claseBadge = estadoSeleccionado === "Activo" ? "bg-success" : "bg-secondary";
+                    
+                    nuevaFila.innerHTML = `
+                        <td>${nombreCompleto}</td>
+                        <td>${telefonoNuevo}</td>
+                        <td>${correoNuevo}</td>
+                        <td><span class="badge ${claseBadge}">${estadoSeleccionado}</span></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </td>
+                    `;
+                    if (tablaBody) tablaBody.appendChild(nuevaFila);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Guardado!',
+                        text: 'El cliente se registró con éxito.',
+                        showConfirmButton: false,
+                        timer: 2000 
+                    });
+
+                    const modalElement = document.getElementById('modalCliente');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) modalInstance.hide();
+                    
+                    document.querySelectorAll('#modalCliente input').forEach(input => input.value = '');
+                    if (comboRegion) comboRegion.value = "";
+                    if (comboComuna) {
+                        comboComuna.innerHTML = '<option value="">Seleccione primero una región...</option>';
+                        comboComuna.disabled = true;
+                    }
+                    if (inputEstado) inputEstado.value = "Activo";
+                });
+            }
+
+            // --- 4. LÓGICA PARA ELIMINAR CLIENTES DE LA TABLA ---
+            if (tablaBody) {
+                tablaBody.addEventListener("click", function(e) {
+                    
+                    const btnEliminar = e.target.closest(".btn-danger");
+                    
+                    if (btnEliminar) {
+                        const fila = btnEliminar.closest("tr");
+                        // Usamos .trim() por si hay espacios en el HTML de los clientes fijos
+                        const nombreCliente = fila.children[0].textContent.trim();
+                        const correoCliente = fila.children[2].textContent.trim(); 
+
+                        Swal.fire({
+                            title: '¿Eliminar a ' + nombreCliente + '?',
+                            text: "Esta acción no se puede revertir.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#6c757d',
+                            confirmButtonText: 'Sí, eliminar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // 1. Borrar visualmente de la tabla (Funciona tanto para fijos como nuevos)
+                                fila.remove();
+
+                                // 2. Borrar de LocalStorage (Solo afectará a los nuevos)
+                                let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
+                                clientesGuardados = clientesGuardados.filter(cliente => cliente.correo !== correoCliente);
+                                localStorage.setItem("crm_clientes", JSON.stringify(clientesGuardados));
+
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El cliente ha sido borrado.',
+                                    'success'
+                                );
+                            }
+                        });
+                    }
+                });
+            }
+
         });
-      }
-      // ==========================================
-      // 3. Eventos y registro de clientes
-      // ==========================================
-      //Ejecuta al cargar completamente la pagina
-      document.addEventListener("DOMContentLoaded", function () {
-        //Muestra clientes existentes en la tabla(clientes almacenados)
-        renderizarTabla();
-        //Obtiene boton guardar cliente
-        const btnGuardar = document.getElementById("btnGuardarCliente");
-        if (btnGuardar) {
-          //Escucha el clic de boton guardar
-          btnGuardar.addEventListener("click", function () {
-            //Obtiene y validar el formato del RUT ingresado
-            const rut = document.getElementById("inputRut").value.trim();
-            const formatoRut = /^[0-9]{7,8}-[0-9Kk]{1}$/;
-            if (!formatoRut.test(rut)) {
-              alert(
-                "Por favor, ingresa un RUT válido con el formato 12345678-9 (sin puntos y con guión).",
-              );
-              return;
-            }
-            //Obtiene datos del formulario
-            const nombres = document
-              .getElementById("inputNombres")
-              .value.trim();
-            const apellidoP = document
-              .getElementById("inputApellidoP")
-              .value.trim();
-            const correo = document.getElementById("inputCorreo").value.trim();
-            const telefono = document
-              .getElementById("inputTelefono")
-              .value.trim();
-            const estado = document.getElementById("inputEstado").value;
-            if (nombres === "" || apellidoP === "") {
-              alert("Por favor, ingresa el nombre y el apellido paterno.");
-              return;
-            }
-            //Construye nombre completo del cliente
-            const nombreCompleto = nombres + " " + apellidoP;
-            //Recupera clientes almacenados
-            let clientes =
-              JSON.parse(localStorage.getItem("crm_clientes")) || [];
-            //Crea nuevo objeto cliente
-            const nuevoCliente = {
-              id: Date.now().toString(),
-              nombre: nombreCompleto,
-              telefono: telefono,
-              correo: correo,
-              estado: estado,
-            };
-            //Agrega cliente a la lista
-            clientes.push(nuevoCliente);
-            //Guarda cambios en localstorage
-            localStorage.setItem("crm_clientes", JSON.stringify(clientes));
-            const modalAbierto = document.querySelector(".modal.show");
-            if (modalAbierto) {
-              const modalInstance = bootstrap.Modal.getInstance(modalAbierto);
-              modalInstance.hide();
-            }
-            //Recarga la pagina para actualizar la tabla
-            location.reload();
-          });
-        }
-      });
     </script>
   </body>
 </html>
+  </body>
+</html>
+

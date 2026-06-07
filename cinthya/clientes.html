@@ -210,7 +210,7 @@
                   <!--Fecha de nacimiento-->
                   <div class="col-md-6 mb-3">
                     <label>Fecha de Nacimiento</label>
-                    <input type="date" class="form-control" />
+                    <input type="date" class="form-control" id="inputFechaNac" />
                     <div class="invalid-feedback">La fecha de nacimiento es obligatorio.</div>
                   </div>
                 </div>
@@ -257,8 +257,6 @@
                 </div>
               </div>
             </div>
-
-          
 
             <!--Seccion de datos del domicilio-->
             <div class="card mb-3 shadow-sm border-0 overflow-hidden">
@@ -333,17 +331,23 @@
         document.addEventListener("DOMContentLoaded", function() {
             
             const tablaBody = document.getElementById("tablaClientesBody");
+            let clienteEnEdicion = null; 
 
-            // --- 1. CARGAR CLIENTES DESDE LA MEMORIA AL INICIAR ---
-            if (tablaBody) {
+            // --- 1. DIBUJAR TABLA ---
+            function renderClientesGuardados() {
+                if (!tablaBody) return;
+                document.querySelectorAll(".fila-dinamica").forEach(fila => fila.remove());
+
                 let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
                 
                 clientesGuardados.forEach(cliente => {
                     const tr = document.createElement("tr");
+                    tr.classList.add("fila-dinamica"); 
                     const claseBadge = cliente.estado === "Activo" ? "bg-success" : "bg-secondary";
                     
+                    // Usamos el nombre unificado solo visualmente para la tabla
                     tr.innerHTML = `
-                        <td>${cliente.nombre}</td>
+                        <td>${cliente.nombreCompleto}</td>
                         <td>${cliente.telefono}</td>
                         <td>${cliente.correo}</td>
                         <td><span class="badge ${claseBadge}">${cliente.estado}</span></td>
@@ -356,7 +360,9 @@
                 });
             }
 
-            // --- 2. LÓGICA DE REGIONES Y COMUNAS ---
+            renderClientesGuardados();
+
+            // --- 2. REGIONES Y COMUNAS ---
             const comboRegion = document.getElementById("inputRegion");
             const comboComuna = document.getElementById("inputComuna");
 
@@ -386,26 +392,56 @@
                 });
             }
 
-            // --- 3. LÓGICA DEL BOTÓN GUARDAR CLIENTE ---
+            // --- 3. LIMPIAR MODAL ---
+            const modalElement = document.getElementById('modalCliente');
+            if (modalElement) {
+                modalElement.addEventListener('hidden.bs.modal', function () {
+                    clienteEnEdicion = null; 
+                    document.querySelector('#modalCliente .modal-title').innerHTML = '<i class="bi bi-person-plus-fill"></i> Nuevo Cliente';
+                    document.getElementById('btnGuardarCliente').textContent = 'Guardar Cliente';
+                    
+                    const inputCorreo = document.getElementById("inputCorreo");
+                    if(inputCorreo) inputCorreo.disabled = false; 
+
+                    document.querySelectorAll('#modalCliente input').forEach(input => {
+                        input.value = '';
+                        input.classList.remove('is-valid', 'is-invalid');
+                    });
+                    
+                    if (comboRegion) { comboRegion.value = ""; comboRegion.classList.remove('is-invalid'); }
+                    if (comboComuna) { 
+                        comboComuna.innerHTML = '<option value="">Seleccione primero una región...</option>';
+                        comboComuna.disabled = true; 
+                        comboComuna.classList.remove('is-invalid');
+                    }
+                    const inputEstado = document.getElementById("inputEstado");
+                    if (inputEstado) inputEstado.value = "Activo";
+                });
+            }
+
+            // --- 4. GUARDAR / EDITAR CLIENTE ---
             const btnGuardar = document.getElementById("btnGuardarCliente");
-            
             if (btnGuardar) {
                 btnGuardar.addEventListener("click", function () {
                     
+                    // Capturamos TODOS los campos (Asegúrate de que estas IDs coincidan con tu HTML)
                     const inputNombres = document.getElementById("inputNombres");
                     const inputApellidoP = document.getElementById("inputApellidoP");
+                    const inputApellidoM = document.getElementById("inputApellidoM"); // NUEVO
                     const inputRut = document.getElementById("inputRut");
+                    const inputFechaNac = document.getElementById("inputFechaNac"); // NUEVO
                     const inputCorreo = document.getElementById("inputCorreo");
                     const inputTelefono = document.getElementById("inputTelefono");
+                    const inputDireccion = document.getElementById("inputDireccion"); // NUEVO
                     const inputEstado = document.getElementById("inputEstado");
 
+                    // Validaciones básicas
                     const campos = [inputNombres, inputRut, inputCorreo, comboRegion, comboComuna];
                     campos.forEach(campo => {
                         if(campo) campo.classList.remove("is-invalid", "is-valid");
                     });
 
                     let formularioValido = true;
-
                     if (inputNombres && !inputNombres.value.trim()) { inputNombres.classList.add("is-invalid"); formularioValido = false; }
                     if (inputRut && !inputRut.value.trim()) { inputRut.classList.add("is-invalid"); formularioValido = false; }
                     if (inputCorreo && (!inputCorreo.value.trim() || !inputCorreo.value.includes("@"))) { inputCorreo.classList.add("is-invalid"); formularioValido = false; }
@@ -414,71 +450,62 @@
 
                     if (!formularioValido) return; 
 
-                    const nombreCompleto = inputNombres.value.trim() + " " + (inputApellidoP ? inputApellidoP.value.trim() : "");
-                    const telefonoNuevo = inputTelefono && inputTelefono.value.trim() !== "" ? inputTelefono.value : "Sin teléfono";
-                    const correoNuevo = inputCorreo.value.trim();
-                    const estadoSeleccionado = inputEstado ? inputEstado.value : "Activo";
+                    // Construimos el objeto con TODA la información desglosada
+                    const nombreTabla = inputNombres.value.trim() + " " + (inputApellidoP ? inputApellidoP.value.trim() : "");
 
-                    const nuevoCliente = {
-                        nombre: nombreCompleto,
-                        telefono: telefonoNuevo,
-                        correo: correoNuevo,
-                        estado: estadoSeleccionado
+                    const clienteData = {
+                        nombres: inputNombres.value.trim(),
+                        apellidoP: inputApellidoP ? inputApellidoP.value.trim() : "",
+                        apellidoM: inputApellidoM ? inputApellidoM.value.trim() : "",
+                        rut: inputRut.value.trim(),
+                        fechaNac: inputFechaNac ? inputFechaNac.value : "",
+                        nombreCompleto: nombreTabla, // Para mostrar en la tabla
+                        telefono: inputTelefono && inputTelefono.value.trim() !== "" ? inputTelefono.value : "Sin teléfono",
+                        correo: inputCorreo.value.trim(),
+                        direccion: inputDireccion ? inputDireccion.value.trim() : "",
+                        estado: inputEstado ? inputEstado.value : "Activo",
+                        region: comboRegion.value,
+                        comuna: comboComuna.value
                     };
 
                     let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
-                    clientesGuardados.push(nuevoCliente);
-                    localStorage.setItem("crm_clientes", JSON.stringify(clientesGuardados));
 
-                    const nuevaFila = document.createElement("tr");
-                    const claseBadge = estadoSeleccionado === "Activo" ? "bg-success" : "bg-secondary";
-                    
-                    nuevaFila.innerHTML = `
-                        <td>${nombreCompleto}</td>
-                        <td>${telefonoNuevo}</td>
-                        <td>${correoNuevo}</td>
-                        <td><span class="badge ${claseBadge}">${estadoSeleccionado}</span></td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
-                        </td>
-                    `;
-                    if (tablaBody) tablaBody.appendChild(nuevaFila);
+                    if (clienteEnEdicion) {
+                        const index = clientesGuardados.findIndex(c => c.correo === clienteEnEdicion);
+                        if (index !== -1) {
+                            clientesGuardados[index] = clienteData;
+                        }
+                    } else {
+                        clientesGuardados.push(clienteData);
+                    }
+
+                    localStorage.setItem("crm_clientes", JSON.stringify(clientesGuardados));
+                    renderClientesGuardados();
 
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Guardado!',
-                        text: 'El cliente se registró con éxito.',
+                        title: clienteEnEdicion ? '¡Actualizado!' : '¡Guardado!',
+                        text: clienteEnEdicion ? 'Datos del cliente actualizados.' : 'El cliente se registró con éxito.',
                         showConfirmButton: false,
                         timer: 2000 
                     });
 
-                    const modalElement = document.getElementById('modalCliente');
                     const modalInstance = bootstrap.Modal.getInstance(modalElement);
                     if (modalInstance) modalInstance.hide();
-                    
-                    document.querySelectorAll('#modalCliente input').forEach(input => input.value = '');
-                    if (comboRegion) comboRegion.value = "";
-                    if (comboComuna) {
-                        comboComuna.innerHTML = '<option value="">Seleccione primero una región...</option>';
-                        comboComuna.disabled = true;
-                    }
-                    if (inputEstado) inputEstado.value = "Activo";
                 });
             }
 
-            // --- 4. LÓGICA PARA ELIMINAR CLIENTES DE LA TABLA ---
+            // --- 5. ACCIONES DE LA TABLA (Eliminar y Editar) ---
             if (tablaBody) {
                 tablaBody.addEventListener("click", function(e) {
-                    
-                    const btnEliminar = e.target.closest(".btn-danger");
-                    
-                    if (btnEliminar) {
-                        const fila = btnEliminar.closest("tr");
-                        // Usamos .trim() por si hay espacios en el HTML de los clientes fijos
-                        const nombreCliente = fila.children[0].textContent.trim();
-                        const correoCliente = fila.children[2].textContent.trim(); 
+                    const fila = e.target.closest("tr");
+                    if (!fila) return;
 
+                    const correoCliente = fila.children[2].textContent.trim(); 
+
+                    // ELIMINAR
+                    if (e.target.closest(".btn-danger")) {
+                        const nombreCliente = fila.children[0].textContent.trim();
                         Swal.fire({
                             title: '¿Eliminar a ' + nombreCliente + '?',
                             text: "Esta acción no se puede revertir.",
@@ -490,29 +517,60 @@
                             cancelButtonText: 'Cancelar'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // 1. Borrar visualmente de la tabla (Funciona tanto para fijos como nuevos)
                                 fila.remove();
-
-                                // 2. Borrar de LocalStorage (Solo afectará a los nuevos)
                                 let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
-                                clientesGuardados = clientesGuardados.filter(cliente => cliente.correo !== correoCliente);
+                                clientesGuardados = clientesGuardados.filter(c => c.correo !== correoCliente);
                                 localStorage.setItem("crm_clientes", JSON.stringify(clientesGuardados));
-
-                                Swal.fire(
-                                    '¡Eliminado!',
-                                    'El cliente ha sido borrado.',
-                                    'success'
-                                );
+                                Swal.fire('¡Eliminado!', 'El cliente ha sido borrado.', 'success');
                             }
                         });
                     }
+
+                    // EDITAR
+                    if (e.target.closest(".btn-warning")) {
+                        let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
+                        const cliente = clientesGuardados.find(c => c.correo === correoCliente);
+
+                        if (cliente) {
+                            clienteEnEdicion = cliente.correo;
+                            document.querySelector('#modalCliente .modal-title').innerHTML = '<i class="bi bi-pencil-square"></i> Editar Cliente';
+                            document.getElementById('btnGuardarCliente').textContent = 'Actualizar Cliente';
+
+                            // Rellenamos EXACTAMENTE cada caja
+                            if (document.getElementById("inputNombres")) document.getElementById("inputNombres").value = cliente.nombres || "";
+                            if (document.getElementById("inputApellidoP")) document.getElementById("inputApellidoP").value = cliente.apellidoP || "";
+                            if (document.getElementById("inputApellidoM")) document.getElementById("inputApellidoM").value = cliente.apellidoM || "";
+                            if (document.getElementById("inputRut")) document.getElementById("inputRut").value = cliente.rut || "";
+                            if (document.getElementById("inputFechaNac")) document.getElementById("inputFechaNac").value = cliente.fechaNac || "";
+                            if (document.getElementById("inputDireccion")) document.getElementById("inputDireccion").value = cliente.direccion || "";
+                            
+                            const inputCorreo = document.getElementById("inputCorreo");
+                            if (inputCorreo) {
+                                inputCorreo.value = cliente.correo;
+                                inputCorreo.disabled = true; 
+                            }
+
+                            if (document.getElementById("inputTelefono")) document.getElementById("inputTelefono").value = cliente.telefono !== "Sin teléfono" ? cliente.telefono : "";
+                            if (document.getElementById("inputEstado")) document.getElementById("inputEstado").value = cliente.estado || "Activo";
+
+                            if (comboRegion && cliente.region) {
+                                comboRegion.value = cliente.region;
+                                comboRegion.dispatchEvent(new Event('change')); 
+                                if (comboComuna && cliente.comuna) {
+                                    comboComuna.value = cliente.comuna;
+                                }
+                            }
+
+                            const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                            modalInstance.show();
+                        } else {
+                            Swal.fire({ icon: 'info', title: 'Cliente de Prueba', text: 'Solo puedes editar los clientes que tú mismo has agregado.' });
+                        }
+                    }
                 });
             }
-
         });
     </script>
-  </body>
-</html>
   </body>
 </html>
 

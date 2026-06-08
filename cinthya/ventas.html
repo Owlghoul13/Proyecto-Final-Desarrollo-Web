@@ -16,11 +16,14 @@
     />
   </head>
   <body>
+    <!--Contenedor principal-->
     <div class="d-flex">
+      <!--Barra lateral-->
       <div class="sidebar text-white p-3 d-flex flex-column">
         <div>
           <h1 class="mb-4">CRM</h1>
           <h1 class="mb-4">Ventas</h1>
+          <!--Menu de navegacion-->
           <ul class="nav flex-column">
             <li class="nav-item">
               <a href="dashboard.html" class="nav-link text-white">Dashboard</a>
@@ -38,7 +41,7 @@
             </li>
           </ul>
         </div>
-
+        <!--Boton cerrar sesion + logo de la funeraria-->
         <div class="mt-auto text-center pt-4">
           <button
             onclick="cerrarSesion()"
@@ -50,8 +53,9 @@
           <img src="logo.jpeg" alt="Logo CRM" class="logo" />
         </div>
       </div>
-
+      <!--Contendor principal-->
       <div class="container-fluid p-4">
+        <!--Titulo y boton para registrar ventas-->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2>Gestión de Ventas</h2>
           <button
@@ -62,7 +66,7 @@
             + Nueva Venta
           </button>
         </div>
-
+        <!--Buscador de ventas-->
         <div class="mb-4">
           <input
             type="text"
@@ -71,14 +75,15 @@
             placeholder="Buscar venta por número de recibo o cliente..."
           />
         </div>
-
+        <!--Tabla de historial de ventas-->
         <div class="card tabla-card shadow border-0 overflow-hidden">
           <div class="card-body p-0">
-            <div class="tabla-header border-0" style="border-radius: 0;">
+            <div class="tabla-header border-0" style="border-radius: 0">
               <h3>Historial de Transacciones</h3>
             </div>
             <div class="table-responsive p-3">
               <table class="table table-hover mb-0 align-middle">
+                <!--Encabezados de la tabla-->
                 <thead class="encabezado-tabla">
                   <tr>
                     <th>N° Recibo</th>
@@ -90,6 +95,7 @@
                     <th>Acciones</th>
                   </tr>
                 </thead>
+                <!--Ventas de ejemplo-->
                 <tbody id="tablaVentasBody">
                   <tr>
                     <td class="fw-bold">#V-003</td>
@@ -154,7 +160,7 @@
         </div>
       </div>
     </div>
-    <!--Modal-->
+    <!--Modal para registrar una nueva venta-->
     <div
       class="modal fade"
       id="modalNuevaVenta"
@@ -175,13 +181,13 @@
               aria-label="Close"
             ></button>
           </div>
-
           <div class="modal-body px-4 pt-2 pb-4 bg-light">
             <h6 class="text-secondary border-bottom pb-2 mb-4">
               Información de la Transacción
             </h6>
-
+            <!--Formulario de registro-->
             <form id="formVenta">
+              <!--Informacion del cliente y servicio-->
               <div class="card mb-3 shadow-sm border-0">
                 <div class="card-header header-verde-secundario text-white">
                   <i class="bi bi-person-fill"></i> Información del Cliente y
@@ -190,6 +196,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-12 mb-3">
+                      <!--Cliente-->
                       <label class="form-label">Cliente</label>
                       <input
                         type="text"
@@ -199,6 +206,7 @@
                       />
                     </div>
                     <div class="col-md-12 mb-3">
+                      <!--Producto o servicio-->
                       <label class="form-label">Producto / Servicio</label>
                       <select id="inputProducto" class="form-select">
                         <option value="">Seleccione una opción...</option>
@@ -227,6 +235,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6 mb-3">
+                      <!--Monto total de la venta-->
                       <label class="form-label">Total a cobrar ($)</label>
                       <input
                         type="number"
@@ -236,6 +245,7 @@
                       />
                     </div>
                     <div class="col-md-6 mb-3">
+                      <!--Estado actual de la venta-->
                       <label class="form-label">Estado de la Venta</label>
                       <select id="inputEstado" class="form-select">
                         <option value="Pendiente">Pendiente</option>
@@ -248,7 +258,7 @@
               </div>
             </form>
           </div>
-
+          <!--Botones de accion-->
           <div class="modal-footer bg-light border-top-0">
             <button
               type="button"
@@ -272,7 +282,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // 1. HISTORIAL DE EJEMPLOS DE BASE DE DATOS (Tus 3 registros originales)
+        // ==========================================
+        // 1. Historial de ejemplos de base de datos(los 3 registros originales)
+        // ==========================================
         const ventasPredetermindas = [
           {
             id: 1,
@@ -303,7 +315,7 @@
           },
         ];
 
-        // Función para leer de localStorage
+        //Funcion para leer de localstorage
         function obtenerVentas() {
           const ventasGuardadas = localStorage.getItem("crm_ventas");
           if (!ventasGuardadas) {
@@ -316,18 +328,19 @@
           return JSON.parse(ventasGuardadas);
         }
 
-        // Función para guardar en localStorage
+        //Funcion para guardar en localstorage
         function guardarVentas(arrayVentas) {
           localStorage.setItem("crm_ventas", JSON.stringify(arrayVentas));
         }
 
         // ==========================================
-        // 2. FUNCIÓN PARA RENDERIZAR LA TABLA EN PANTALLA
+        // 2. Funcion para renderizar la tabla en pantalla
         // ==========================================
         function renderizarTablaVentas() {
           const listaVentas = obtenerVentas();
           const tbody = document.getElementById("tablaVentasBody");
-          tbody.innerHTML = ""; // Limpiamos para evitar duplicados
+          //Se limpi para evitar duplicados
+          tbody.innerHTML = "";
 
           listaVentas.forEach((venta) => {
             const totalFormateado =
@@ -335,13 +348,13 @@
                 ? "$" + venta.total.toLocaleString("es-CL")
                 : venta.total;
 
-            // Armonía de diseño unificada para los estados
-            // Armonía de diseño unificada para los estados (SIN padding extra)
+            //Armonia de diseño unificada para los estados
             let claseEstado = "";
             if (venta.estado === "Completado") claseEstado = "bg-success";
             else if (venta.estado === "Pendiente")
               claseEstado = "bg-warning text-dark";
-            else claseEstado = "bg-danger"; // Usando el rojo de la primera imagen
+            //Se usa el rojo de la primera imagen
+            else claseEstado = "bg-danger";
 
             const nuevaFila = document.createElement("tr");
             nuevaFila.innerHTML = `
@@ -359,43 +372,38 @@
             tbody.appendChild(nuevaFila);
           });
         }
-
         // ==========================================
-        // 3. REGISTRAR NUEVA VENTA DESDE EL MODAL (IDs Corregidos)
+        // 3. Registrar nueva venta desde el modal (IDs Corregidos)
         // ==========================================
         document
           .getElementById("btnGuardarVenta")
           .addEventListener("click", function () {
-            // Obtener los valores utilizando TUS IDs EXACTOS
+            //Obtiene los valores utilizando los IDs exactos
             const cliente = document.getElementById("inputCliente").value;
             const producto = document.getElementById("inputProducto").value;
             const total = document.getElementById("inputTotal").value;
             const estado = document.getElementById("inputEstado").value;
-
-            // Validar que no estén vacíos
+            //Valida que no estén vacíos
             if (!cliente || !producto || !total) {
               alert(
                 "Por favor, completa todos los campos para registrar la venta.",
               );
               return;
             }
-
             const listaVentas = obtenerVentas();
-
-            // Formatear la fecha actual (DD/MM/YYYY)
+            //Formatea la fecha actual (DD/MM/YYYY)
             const fechaActual = new Date();
             const dia = String(fechaActual.getDate()).padStart(2, "0");
             const mes = String(fechaActual.getMonth() + 1).padStart(2, "0");
             const anio = fechaActual.getFullYear();
             const fechaFormateada = `${dia}/${mes}/${anio}`;
-
-            // Generador dinámico de número correlativo secuencial
+            //Un generador dinámico de número correlativo secuencial
             const siguienteNumero = listaVentas.length + 1;
             const numRecibo = "#V-" + String(siguienteNumero).padStart(3, "0");
-
-            // Crear el objeto de la nueva venta
+            //Crea el objeto de la nueva venta
             const nuevaVenta = {
-              id: Date.now(), // ID único interno para saber cuál editar/eliminar
+              //ID unico para saber cual editar/eliminar
+              id: Date.now(),
               recibo: numRecibo,
               fecha: fechaFormateada,
               cliente: cliente,
@@ -403,13 +411,11 @@
               total: parseInt(total),
               estado: estado,
             };
-
-            // Insertar arriba, guardar en memoria y redibujar la tabla
+            //Inserta arriba, guardar en memoria y redibujar la tabla
             listaVentas.unshift(nuevaVenta);
             guardarVentas(listaVentas);
             renderizarTablaVentas();
-
-            // Cerrar el Modal y limpiar el formulario
+            //Cierra el modal y limpia el formulario
             document.getElementById("formVenta").reset();
             const modalElement = document.getElementById("modalNuevaVenta");
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -417,14 +423,13 @@
           });
 
         // ==========================================
-        // 4. LÓGICA DE PERSISTENCIA PARA EDITAR Y ELIMINAR
+        // 4. Logica de persistencia para editar y eliminar
         // ==========================================
         document
           .getElementById("tablaVentasBody")
           .addEventListener("click", function (e) {
             const listaVentas = obtenerVentas();
-
-            // Acción: ELIMINAR
+            //Accion: ELIMINAR
             if (e.target.classList.contains("btn-eliminar")) {
               if (
                 confirm(
@@ -432,11 +437,9 @@
                 )
               ) {
                 const idVenta = parseInt(e.target.getAttribute("data-id"));
-
-                // Si es uno de los registros nuevos basados en timestamp
+                //Si es uno de los registros nuevos basados en timestamp
                 let listaFiltrada = listaVentas.filter((v) => v.id !== idVenta);
-
-                // Si presionó eliminar en un registro predeterminado antiguo (ID 1, 2 o 3)
+                //Si se presiona eliminar en un registro predeterminado antiguo (ID 1, 2 o 3)
                 if (listaFiltrada.length === listaVentas.length) {
                   const fila = e.target.closest("tr");
                   const reciboTexto = fila.querySelector("td").innerText;
@@ -444,25 +447,21 @@
                     (v) => v.recibo !== reciboTexto,
                   );
                 }
-
                 guardarVentas(listaFiltrada);
                 renderizarTablaVentas();
               }
             }
-
-            // Acción: EDITAR ESTADO (Cambiando dinámicamente y guardando)
+            //Accion: EDITAR ESTADO (Cambia dinámicamente y guarda)
             if (e.target.classList.contains("btn-editar")) {
               const idVenta = parseInt(e.target.getAttribute("data-id"));
               const fila = e.target.closest("tr");
               const reciboTexto = fila.querySelector("td").innerText;
-
-              // Buscar la venta en el almacenamiento
+              //Busca la venta en el almacenamiento
               const ventaTarget = listaVentas.find(
                 (v) => v.id === idVenta || v.recibo === reciboTexto,
               );
-
               if (ventaTarget) {
-                // Rotar entre tus estados
+                //Rota entre los estados
                 if (ventaTarget.estado === "Pendiente") {
                   ventaTarget.estado = "Completado";
                 } else if (ventaTarget.estado === "Completado") {
@@ -470,7 +469,6 @@
                 } else {
                   ventaTarget.estado = "Pendiente";
                 }
-
                 guardarVentas(listaVentas);
                 renderizarTablaVentas();
               }
@@ -478,14 +476,13 @@
           });
 
         // ==========================================
-        // 5. FILTRAR VENTAS EN TIEMPO REAL
+        // 5. Filtrar entas en tiempo real
         // ==========================================
         document
           .getElementById("inputBuscarVenta")
           .addEventListener("input", function (e) {
             const textoBusqueda = e.target.value.toLowerCase();
             const filas = document.querySelectorAll("#tablaVentasBody tr");
-
             filas.forEach((fila) => {
               const textoFila = fila.innerText.toLowerCase();
               if (textoFila.includes(textoBusqueda)) {
@@ -495,8 +492,7 @@
               }
             });
           });
-
-        // Ejecutar carga inicial de registros
+        //Ejecuta la carga inicial de registros
         renderizarTablaVentas();
       });
     </script>

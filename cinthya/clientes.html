@@ -345,7 +345,7 @@
                     tr.classList.add("fila-dinamica"); 
                     const claseBadge = cliente.estado === "Activo" ? "bg-success" : "bg-secondary";
                     
-                    // Usamos el nombre unificado solo visualmente para la tabla
+                    //Usamos el nombre unificado solo visualmente para la tabla
                     tr.innerHTML = `
                         <td>${cliente.nombreCompleto}</td>
                         <td>${cliente.telefono}</td>
@@ -424,7 +424,7 @@
             if (btnGuardar) {
                 btnGuardar.addEventListener("click", function () {
                     
-                    // Capturamos TODOS los campos (Asegúrate de que estas IDs coincidan con tu HTML)
+                    //Capturamos TODOS los campos (Asegurarse de que estas IDs coincidan con tu HTML)
                     const inputNombres = document.getElementById("inputNombres");
                     const inputApellidoP = document.getElementById("inputApellidoP");
                     const inputApellidoM = document.getElementById("inputApellidoM"); // NUEVO
@@ -435,7 +435,7 @@
                     const inputDireccion = document.getElementById("inputDireccion"); // NUEVO
                     const inputEstado = document.getElementById("inputEstado");
 
-                    // Validaciones básicas
+                    //Validaciones basicas
                     const campos = [inputNombres, inputRut, inputCorreo, comboRegion, comboComuna];
                     campos.forEach(campo => {
                         if(campo) campo.classList.remove("is-invalid", "is-valid");
@@ -450,7 +450,7 @@
 
                     if (!formularioValido) return; 
 
-                    // Construimos el objeto con TODA la información desglosada
+                    //Se construye el objeto con TODA la información desglosada
                     const nombreTabla = inputNombres.value.trim() + " " + (inputApellidoP ? inputApellidoP.value.trim() : "");
 
                     const clienteData = {
@@ -459,7 +459,8 @@
                         apellidoM: inputApellidoM ? inputApellidoM.value.trim() : "",
                         rut: inputRut.value.trim(),
                         fechaNac: inputFechaNac ? inputFechaNac.value : "",
-                        nombreCompleto: nombreTabla, // Para mostrar en la tabla
+                        //Para mostrar en la tabla
+                        nombreCompleto: nombreTabla,
                         telefono: inputTelefono && inputTelefono.value.trim() !== "" ? inputTelefono.value : "Sin teléfono",
                         correo: inputCorreo.value.trim(),
                         direccion: inputDireccion ? inputDireccion.value.trim() : "",
@@ -467,7 +468,6 @@
                         region: comboRegion.value,
                         comuna: comboComuna.value
                     };
-
                     let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
 
                     if (clienteEnEdicion) {
@@ -478,10 +478,8 @@
                     } else {
                         clientesGuardados.push(clienteData);
                     }
-
                     localStorage.setItem("crm_clientes", JSON.stringify(clientesGuardados));
                     renderClientesGuardados();
-
                     Swal.fire({
                         icon: 'success',
                         title: clienteEnEdicion ? '¡Actualizado!' : '¡Guardado!',
@@ -489,20 +487,16 @@
                         showConfirmButton: false,
                         timer: 2000 
                     });
-
                     const modalInstance = bootstrap.Modal.getInstance(modalElement);
                     if (modalInstance) modalInstance.hide();
                 });
             }
-
             // --- 5. ACCIONES DE LA TABLA (Eliminar y Editar) ---
             if (tablaBody) {
                 tablaBody.addEventListener("click", function(e) {
                     const fila = e.target.closest("tr");
                     if (!fila) return;
-
                     const correoCliente = fila.children[2].textContent.trim(); 
-
                     // ELIMINAR
                     if (e.target.closest(".btn-danger")) {
                         const nombreCliente = fila.children[0].textContent.trim();
@@ -525,34 +519,28 @@
                             }
                         });
                     }
-
                     // EDITAR
                     if (e.target.closest(".btn-warning")) {
                         let clientesGuardados = JSON.parse(localStorage.getItem("crm_clientes")) || [];
                         const cliente = clientesGuardados.find(c => c.correo === correoCliente);
-
                         if (cliente) {
                             clienteEnEdicion = cliente.correo;
                             document.querySelector('#modalCliente .modal-title').innerHTML = '<i class="bi bi-pencil-square"></i> Editar Cliente';
                             document.getElementById('btnGuardarCliente').textContent = 'Actualizar Cliente';
-
-                            // Rellenamos EXACTAMENTE cada caja
+                            //Se rellena EXACTAMENTE cada caja
                             if (document.getElementById("inputNombres")) document.getElementById("inputNombres").value = cliente.nombres || "";
                             if (document.getElementById("inputApellidoP")) document.getElementById("inputApellidoP").value = cliente.apellidoP || "";
                             if (document.getElementById("inputApellidoM")) document.getElementById("inputApellidoM").value = cliente.apellidoM || "";
                             if (document.getElementById("inputRut")) document.getElementById("inputRut").value = cliente.rut || "";
                             if (document.getElementById("inputFechaNac")) document.getElementById("inputFechaNac").value = cliente.fechaNac || "";
                             if (document.getElementById("inputDireccion")) document.getElementById("inputDireccion").value = cliente.direccion || "";
-                            
                             const inputCorreo = document.getElementById("inputCorreo");
                             if (inputCorreo) {
                                 inputCorreo.value = cliente.correo;
                                 inputCorreo.disabled = true; 
                             }
-
                             if (document.getElementById("inputTelefono")) document.getElementById("inputTelefono").value = cliente.telefono !== "Sin teléfono" ? cliente.telefono : "";
                             if (document.getElementById("inputEstado")) document.getElementById("inputEstado").value = cliente.estado || "Activo";
-
                             if (comboRegion && cliente.region) {
                                 comboRegion.value = cliente.region;
                                 comboRegion.dispatchEvent(new Event('change')); 
@@ -560,7 +548,6 @@
                                     comboComuna.value = cliente.comuna;
                                 }
                             }
-
                             const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
                             modalInstance.show();
                         } else {

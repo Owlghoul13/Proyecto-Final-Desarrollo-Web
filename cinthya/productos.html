@@ -334,18 +334,20 @@
     <script src="../felipe/auth.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // ==========================================
         // 1. Datos iniciales
         // ==========================================
-        //Productos de ejemplo
         const productosPredeterminados = [
           {
             id: 1,
             nombre: "Plan Funerario Básico",
             categoria: "Servicio",
+            descCorta: "Servicio esencial completo",
+            descLarga: "Incluye velatorio, traslado y gestión de documentación.",
             precio: 850000,
             estado: "Activo",
           },
@@ -353,6 +355,8 @@
             id: 2,
             nombre: "Urna de Roble Presidencial",
             categoria: "Producto",
+            descCorta: "Urna de madera noble",
+            descLarga: "Madera de roble tallada a mano con acabados de lujo.",
             precio: 2100000,
             estado: "Activo",
           },
@@ -360,177 +364,204 @@
             id: 3,
             nombre: "Urna Metálica Standard",
             categoria: "Producto",
+            descCorta: "Opción metálica económica",
+            descLarga: "Urna de acero con sellado hermético.",
             precio: 350000,
             estado: "Inactivo",
           },
         ];
-        //Función para obtener los productos de localStorage(guardados)
+
+        let productoEnEdicionId = null; // Variable para saber si estamos creando o editando
+
         function obtenerProductos() {
           const productosGuardados = localStorage.getItem("crm_productos");
           if (!productosGuardados) {
-            //Si no hay nada, se guarda los por primera vez
-            localStorage.setItem(
-              "crm_productos",
-              JSON.stringify(productosPredeterminados),
-            );
+            localStorage.setItem("crm_productos", JSON.stringify(productosPredeterminados));
             return productosPredeterminados;
           }
           return JSON.parse(productosGuardados);
         }
-        //Función para guardar el array actualizado en localStorage
+
         function guardarProductos(arrayProductos) {
           localStorage.setItem("crm_productos", JSON.stringify(arrayProductos));
         }
-        //Mostrar alerta temporal (flotante)
+
         function mostrarAlerta(mensaje, colorFondo) {
           const alerta = document.getElementById("alertaAccion");
           alerta.innerText = mensaje;
           alerta.className = `alert shadow-sm fw-bold ${colorFondo}`;
           alerta.style.color = "white";
           alerta.classList.remove("d-none");
-
-          setTimeout(() => {
-            alerta.classList.add("d-none");
-          }, 3000);
+          setTimeout(() => alerta.classList.add("d-none"), 3000);
         }
+
         // ==========================================
         // 2. Mostrar productos en la tabla
         // ==========================================
         function renderizarTabla() {
-          //Obtiene productos almacenados
           const productos = obtenerProductos();
           const tbody = document.getElementById("tablaProductosBody");
-          //Se limpia la tabla antes de actualizarla
           tbody.innerHTML = "";
-          //Recorre todos los productos
+
           productos.forEach((prod) => {
-            //Formato de preecio chileno (clp)
             const precioFormateado = "$" + prod.precio.toLocaleString("es-CL");
-            //Define colores segun el estado
-            const badgeClase =
-              prod.estado === "Activo" ? "bg-success" : "bg-secondary";
-            //Botones limpios: sin fw-bold y sin iconos, identicos a los otros modulos
-            const botonAccion =
-              prod.estado === "Activo"
+            const badgeClase = prod.estado === "Activo" ? "bg-success" : "bg-secondary";
+            
+            // Botones de acción limpios (estilo estándar de tu web, sin iconos ni fw-bold)
+            const botonAccion = prod.estado === "Activo"
                 ? `<button class="btn btn-sm btn-danger btn-toggle-estado" data-id="${prod.id}">Desactivar</button>`
                 : `<button class="btn btn-sm btn-success btn-toggle-estado" data-id="${prod.id}">Activar</button>`;
-            //Crea una fila para la tabla
+
             const nuevaFila = document.createElement("tr");
-            //Quita el "py-3" del primer td para igualar el alto de la fila
             nuevaFila.innerHTML = `
-                    <td>${prod.nombre}</td>
+                    <td>
+                        <div class="fw-bold">${prod.nombre}</div>
+                        <div class="text-muted" style="font-size: 0.8em;">${prod.descCorta || "Sin descripción"}</div>
+                    </td>
                     <td class="text-center"><span class="badge bg-light text-dark border border-secondary-subtle">${prod.categoria}</span></td>
                     <td class="text-secondary fw-semibold">${precioFormateado}</td>
                     <td class="text-center"><span class="badge ${badgeClase}">${prod.estado}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-warning text-dark me-1">Editar</button>
+                        <button class="btn btn-sm btn-warning text-dark me-1 btn-editar" data-id="${prod.id}">Editar</button>
                         ${botonAccion}
                     </td>
                 `;
-            //Agrega la fila a la tabla
             tbody.appendChild(nuevaFila);
           });
         }
+
         // ==========================================
-        // 3. Registro de nuevos productos
+        // 3. Limpiar Modal al cerrar
         // ==========================================
-        //Obtiene datos del formulario
-        document
-          //Detecta clic en los botones activar/desactivar
-          .getElementById("btnGuardarProducto")
-          .addEventListener("click", function () {
-            const nombre = document.getElementById("inputNombreProd").value;
+        const modalElement = document.getElementById("modalNuevoItem");
+        if (modalElement) {
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                productoEnEdicionId = null; // Reiniciamos el estado
+                document.querySelector('#modalNuevoItem .modal-title').innerHTML = '<i class="bi bi-box-seam-fill"></i> Nuevo Producto o Servicio';
+                document.getElementById('btnGuardarProducto').textContent = 'Guardar Producto';
+                document.getElementById("formProducto").reset();
+            });
+        }
+
+        // ==========================================
+        // 4. Guardar / Editar Producto
+        // ==========================================
+        document.getElementById("btnGuardarProducto").addEventListener("click", function () {
+            const nombre = document.getElementById("inputNombreProd").value.trim();
             const categoria = document.getElementById("inputCategoria").value;
+            const descCorta = document.getElementById("inputDescCorta").value.trim();
+            const descLarga = document.getElementById("inputDescLarga").value.trim();
             const precio = document.getElementById("inputPrecioProd").value;
+
             if (!nombre || !categoria || !precio) {
-              alert("Por favor, completa los campos obligatorios.");
-              return;
+                Swal.fire({ icon: 'warning', title: 'Faltan datos', text: 'Nombre, Categoría y Valor son obligatorios.'});
+                return;
             }
-            const listaProductos = obtenerProductos();
-            //Se crea el nuevo objeto producto con un ID unico basado en tiempo
-            const nuevoProducto = {
-              id: Date.now(),
-              nombre: nombre,
-              categoria: categoria,
-              precio: parseInt(precio),
-              estado: "Activo",
-            };
-            //Se agrega al inicio de la lista
-            listaProductos.unshift(nuevoProducto);
-            //Se envia a la memoria persistente
+
+            let listaProductos = obtenerProductos();
+
+            if (productoEnEdicionId) {
+                // Modo EDICIÓN
+                const index = listaProductos.findIndex(p => p.id === productoEnEdicionId);
+                if (index !== -1) {
+                    listaProductos[index].nombre = nombre;
+                    listaProductos[index].categoria = categoria;
+                    listaProductos[index].descCorta = descCorta;
+                    listaProductos[index].descLarga = descLarga;
+                    listaProductos[index].precio = parseInt(precio);
+                }
+                Swal.fire({ icon: 'success', title: 'Actualizado', text: 'El producto ha sido modificado.', showConfirmButton: false, timer: 1500 });
+            } else {
+                // Modo CREACIÓN
+                const nuevoProducto = {
+                    id: Date.now(),
+                    nombre: nombre,
+                    categoria: categoria,
+                    descCorta: descCorta,
+                    descLarga: descLarga,
+                    precio: parseInt(precio),
+                    estado: "Activo"
+                };
+                listaProductos.unshift(nuevoProducto);
+                Swal.fire({ icon: 'success', title: 'Guardado', text: 'Nuevo producto agregado.', showConfirmButton: false, timer: 1500 });
+            }
+
             guardarProductos(listaProductos);
-            //Redibuja la tabla automáticamente
             renderizarTabla();
-            mostrarAlerta(
-              "Ítem agregado exitosamente al catálogo.",
-              "bg-success",
-            );
-            //Limpieza del formulario y cierre de modal
-            document.getElementById("formProducto").reset();
-            const modalElement = document.getElementById("modalNuevoItem");
+            
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
-          });
+        });
 
         // ==========================================
-        // 4. Intercambio de estados interactivos
+        // 5. Acciones de la Tabla (Activar/Desactivar y Editar)
         // ==========================================
-        document
-          .getElementById("tablaProductosBody")
-          .addEventListener("click", function (e) {
-            const boton = e.target.closest(".btn-toggle-estado");
-            if (!boton) return;
-            //Obtiene el ID del producto seleccionado
-            const idProducto = parseInt(boton.getAttribute("data-id"));
-            //Obtiene la lista actual de productos
+        document.getElementById("tablaProductosBody").addEventListener("click", function (e) {
             const listaProductos = obtenerProductos();
-            //Busca el producto en nuestra base de datos local
-            const productoTarget = listaProductos.find(
-              (p) => p.id === idProducto,
-            );
-            //Cambia el estado del producto
-            if (productoTarget) {
-              if (productoTarget.estado === "Activo") {
-                //Cambia a inactivo
-                productoTarget.estado = "Inactivo";
-                mostrarAlerta("Ítem desactivado del catálogo.", "bg-primary");
-              } else {
-                //Cambia a activo
-                productoTarget.estado = "Activo";
-                mostrarAlerta("Ítem activado en el catálogo.", "bg-success");
-              }
-              //Se guarda el cambio de estado en memoria
-              guardarProductos(listaProductos);
-              //Se redibuja para aplicar el cambio estatico inmediato
-              renderizarTabla();
+
+            // Lógica para CAMBIAR ESTADO
+            const btnToggle = e.target.closest(".btn-toggle-estado");
+            if (btnToggle) {
+                const idProducto = parseInt(btnToggle.getAttribute("data-id"));
+                const productoTarget = listaProductos.find((p) => p.id === idProducto);
+
+                if (productoTarget) {
+                    if (productoTarget.estado === "Activo") {
+                        productoTarget.estado = "Inactivo";
+                        mostrarAlerta("Ítem desactivado del catálogo.", "bg-primary");
+                    } else {
+                        productoTarget.estado = "Activo";
+                        mostrarAlerta("Ítem activado en el catálogo.", "bg-success");
+                    }
+                    guardarProductos(listaProductos);
+                    renderizarTabla();
+                }
             }
-          });
+
+            // Lógica para EDITAR
+            const btnEditar = e.target.closest(".btn-editar");
+            if (btnEditar) {
+                const idProducto = parseInt(btnEditar.getAttribute("data-id"));
+                const productoTarget = listaProductos.find((p) => p.id === idProducto);
+
+                if (productoTarget) {
+                    productoEnEdicionId = productoTarget.id;
+                    
+                    // Cambiamos textos del modal
+                    document.querySelector('#modalNuevoItem .modal-title').innerHTML = '<i class="bi bi-pencil-square"></i> Editar Producto';
+                    document.getElementById('btnGuardarProducto').textContent = 'Actualizar Producto';
+
+                    // Rellenamos las cajas
+                    document.getElementById("inputNombreProd").value = productoTarget.nombre || "";
+                    document.getElementById("inputCategoria").value = productoTarget.categoria || "";
+                    document.getElementById("inputDescCorta").value = productoTarget.descCorta || "";
+                    document.getElementById("inputDescLarga").value = productoTarget.descLarga || "";
+                    document.getElementById("inputPrecioProd").value = productoTarget.precio || "";
+
+                    const modalInstance = new bootstrap.Modal(modalElement);
+                    modalInstance.show();
+                }
+            }
+        });
 
         // ==========================================
-        // 5. Logica reutilizable para el buscador
+        // 6. Buscador
         // ==========================================
-        //Detecta texto ingresado en el buscador
-        document
-          .getElementById("inputBuscarProducto")
-          .addEventListener("input", function (e) {
-            //Obtiene texto escrito por el usuario
+        document.getElementById("inputBuscarProducto").addEventListener("input", function (e) {
             const textoBusqueda = e.target.value.toLowerCase();
-            //Obtiene todas las filas de la tabla
             const filas = document.querySelectorAll("#tablaProductosBody tr");
-            //Recorre cada fila para buscar coincidencias
+
             filas.forEach((fila) => {
-              //Obtiene texto de la fila actual
-              const textoFila = fila.innerText.toLowerCase();
-              //Muestra la fila si coincide con la busqueda
-              if (textoFila.includes(textoBusqueda)) {
-                fila.classList.remove("d-none");
-              } else {
-                //Oculta la fila sin no coincide
-                fila.classList.add("d-none");
-              }
+                const textoFila = fila.innerText.toLowerCase();
+                if (textoFila.includes(textoBusqueda)) {
+                    fila.classList.remove("d-none");
+                } else {
+                    fila.classList.add("d-none");
+                }
             });
-          });
-        //Carga inicial de la tabla al abrir la pagina
+        });
+
+        // Arranque
         renderizarTabla();
       });
     </script>

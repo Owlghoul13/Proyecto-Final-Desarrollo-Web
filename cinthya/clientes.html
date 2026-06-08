@@ -66,6 +66,7 @@
         <div class="mb-4">
           <input
             type="text"
+            id="inputBuscarCliente"
             class="form-control"
             placeholder="Buscar cliente..."
           />
@@ -554,6 +555,27 @@
                             Swal.fire({ icon: 'info', title: 'Cliente de Prueba', text: 'Solo puedes editar los clientes que tú mismo has agregado.' });
                         }
                     }
+                });
+            }
+            // --- 6. LÓGICA DEL BUSCADOR (FILTRO) ---
+            const inputBuscar = document.getElementById("inputBuscarCliente");
+            
+            if (inputBuscar) {
+                inputBuscar.addEventListener("keyup", function() {
+                    const textoBusqueda = this.value.toLowerCase(); // Lo que escribes, en minúsculas
+                    const filas = document.querySelectorAll("#tablaClientesBody tr"); // Todas las filas de la tabla
+
+                    filas.forEach(fila => {
+                        // Capturamos todo el texto de la fila (nombre, correo, teléfono, etc.)
+                        const contenidoFila = fila.textContent.toLowerCase();
+                        
+                        // Si el texto de la fila incluye lo que buscamos, se muestra, si no, se oculta
+                        if (contenidoFila.includes(textoBusqueda)) {
+                            fila.style.display = "";
+                        } else {
+                            fila.style.display = "none";
+                        }
+                    });
                 });
             }
         });

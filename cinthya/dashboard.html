@@ -17,6 +17,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
+    <!--Inicio xtra para moviles-->
+    <button
+      class="menu-movil"
+      id="btnMenu"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <!--Termino de extra para celulares-->
     <div class="d-flex">
       <!--Barra lateral de navegacion-->
       <div class="sidebar text-white p-3 d-flex flex-column">
@@ -83,7 +94,7 @@
           <!--Tabla con ultimas ventas registradas-->
           <div class="col-lg-8 mb-4">
             <div class="card tabla-card shadow h-100 overflow-hidden">
-              <div class="tabla-header" style="border-radius: 0;">
+              <div class="tabla-header" style="border-radius: 0">
                 <!--Encabezado principal de la tabla-->
                 <h3 class="mb-3">Últimas ventas</h3>
               </div>
@@ -190,6 +201,34 @@
               },
             },
           },
+        });
+      });
+    </script>
+    <!--Inicio de javascript para celulares-->
+    <script>
+      const btnMenu = document.getElementById("btnMenu");
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.getElementById("menuOverlay");
+
+      function cambiarMenu() {
+        const abierto = sidebar.classList.toggle("menu-abierto");
+
+        overlay.classList.toggle("visible", abierto);
+        btnMenu.setAttribute("aria-expanded", abierto);
+        btnMenu.classList.toggle("menu-abierto", abierto);
+        btnMenu.innerHTML = abierto
+          ? '<i class="bi bi-x-lg"></i>'
+          : '<i class="bi bi-list"></i>';
+      }
+
+      btnMenu.addEventListener("click", cambiarMenu);
+      overlay.addEventListener("click", cambiarMenu);
+
+      sidebar.querySelectorAll(".nav-link").forEach((enlace) => {
+        enlace.addEventListener("click", () => {
+          if (sidebar.classList.contains("menu-abierto")) {
+            cambiarMenu();
+          }
         });
       });
     </script>

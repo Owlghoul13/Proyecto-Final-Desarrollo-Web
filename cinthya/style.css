@@ -477,4 +477,213 @@ th{
     transform: translateY(-5px);
     transition: transform 0.5s ease;
 }
+/* ===================================== */
+/*Diseño para celulares*/
+/* ===================================== */
+@media (max-width: 768px) {
+    body {
+        display: block;
+        overflow-x: hidden;
+    }
 
+    /* Contenedor general */
+    body > .d-flex {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Oculto en computadoras */
+.menu-movil,
+.menu-overlay {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        display: block;
+        overflow-x: hidden;
+    }
+
+    /* Botón sándwich */
+    .menu-movil {
+        display: flex;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        width: 48px;
+        height: 48px;
+        align-items: center;
+        justify-content: center;
+        background-color: #3A7307;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 30px;
+        z-index: 1200;
+        cursor: pointer;
+    }
+
+    /* Menú lateral cerrado */
+    .sidebar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 250px !important;
+        height: 100vh !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1100;
+        overflow-y: auto;
+    }
+
+    /* Menú abierto */
+    .sidebar.menu-abierto {
+        transform: translateX(0);
+    }
+
+    /* Fondo oscuro */
+    .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.45);
+        z-index: 1050;
+    }
+
+    .menu-overlay.visible {
+        display: block;
+    }
+
+    /* Enlaces verticales dentro del menú */
+    .sidebar .nav {
+        flex-direction: column;
+    }
+
+    .sidebar .nav-link {
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Contenido ocupa toda la pantalla */
+    .container-fluid,
+    .container {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 75px 15px 15px !important;
+    }
+}
+
+    /* Menú horizontal */
+    .sidebar .nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .sidebar .nav-link {
+        flex: 1 1 45%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* Logo más pequeño */
+    .logo {
+        max-width: 100px;
+        margin-top: 15px;
+    }
+
+    /* Contenido principal */
+    .container-fluid,
+    .container {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 15px !important;
+    }
+
+    /* Encabezado y botón uno debajo del otro */
+    .container-fluid > .d-flex {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 12px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    /* Tarjetas del dashboard */
+    .row.g-4 {
+        flex-direction: column;
+    }
+
+    .clientes-card,
+    .productos-card,
+    .ventas-card {
+        min-height: 140px;
+        padding: 18px;
+    }
+
+    .clientes-card h1,
+    .productos-card h1,
+    .ventas-card h1 {
+        font-size: 2.5rem;
+    }
+
+    /* Tablas */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    th,
+    .table-catalog th,
+    .table-catalog td {
+        font-size: 14px !important;
+        white-space: nowrap;
+    }
+
+    /* Ventanas de formularios */
+    .modal-dialog {
+        margin: 10px;
+    }
+
+    .modal-title {
+        font-size: 1.3rem;
+    }
+
+    /* Alertas flotantes */
+    .toast-notification {
+        left: 15px;
+        right: 15px;
+        top: 15px;
+    }
+    @media (max-width: 768px) {
+    /* Evita que el botón cubra los títulos */
+    .container-fluid,
+    .container {
+        padding-top: 90px !important;
+    }
+
+    /* Al abrir el menú, mueve el botón a la derecha */
+    .menu-movil.menu-abierto {
+        left: auto;
+        right: 15px;
+    }
+
+    /* Deja espacio para CRM y el botón */
+    .sidebar {
+        padding-top: 25px !important;
+        padding-right: 75px !important;
+    }
+
+    /* Corrige el tamaño de los títulos */
+    .sidebar h1 {
+        font-size: 30px;
+        margin-left: 0;
+    }
+
+    /* El título principal ya no queda debajo del botón */
+    .container-fluid h2,
+    .container h2 {
+        margin-top: 0;
+    }
+}
+}

@@ -16,6 +16,17 @@
     />
   </head>
   <body>
+    <!--Boton de menu para celulares-->
+    <button
+      class="menu-movil"
+      id="btnMenu"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
     <!--Contenedor principal-->
     <div class="d-flex">
       <!--Barra lateral-->
@@ -494,6 +505,34 @@
           });
         //Ejecuta la carga inicial de registros
         renderizarTablaVentas();
+      });
+    </script>
+    <!--Menu lateral para celulares-->
+    <script>
+      const btnMenu = document.getElementById("btnMenu");
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.getElementById("menuOverlay");
+
+      function cambiarMenu() {
+        const abierto = sidebar.classList.toggle("menu-abierto");
+
+        overlay.classList.toggle("visible", abierto);
+        btnMenu.setAttribute("aria-expanded", abierto);
+        btnMenu.classList.toggle("menu-abierto", abierto);
+        btnMenu.innerHTML = abierto
+          ? '<i class="bi bi-x-lg"></i>'
+          : '<i class="bi bi-list"></i>';
+      }
+
+      btnMenu.addEventListener("click", cambiarMenu);
+      overlay.addEventListener("click", cambiarMenu);
+
+      sidebar.querySelectorAll(".nav-link").forEach((enlace) => {
+        enlace.addEventListener("click", () => {
+          if (sidebar.classList.contains("menu-abierto")) {
+            cambiarMenu();
+          }
+        });
       });
     </script>
   </body>
